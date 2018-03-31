@@ -1,0 +1,33 @@
+.btn-action{
+    margin: 0px 5px 0px 5px !important;
+}
+
+.margin-up-down{
+    margin:20px 0px;
+}
+
+.right-align{
+    text-align: right;
+}
+
+.page-title{
+    font-size:18pt;
+    font-weight:bold;
+}
+
+.margin-up-lg{
+    margin-top:60px;
+}
+
+.margin-up-md{
+    margin-top:40px;
+}
+
+.margin-up-sm{
+    margin-top:20px;
+}
+
+input:focus {
+    outline:none;
+    border-bottom: 1px solid darkgray;
+}
