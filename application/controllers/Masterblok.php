@@ -152,18 +152,10 @@ class Masterblok extends CI_Controller {
 
 
     public function page(){
-        $page = $this->uri->segment(3);
+        $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');
+        echo json_encode([$this->Blok->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Blok->get_count_all()]);
 
-        print $page; print $data_per_page;
-
-        $this->data["arr"] = json_encode($this->Blok->show_all($data_per_page, $page, $search_word));
-        $this->data["max_data"] = $this->Blok->get_count_all();
-        $this->data["data_per_page"] = $data_per_page;
-        $this->data["page_count"] = 5;
-
-        return $this->data["arr"];
-        //echo "a";
     }
 }

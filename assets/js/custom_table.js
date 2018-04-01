@@ -1,12 +1,20 @@
-$(".pagination .page-item a").click(function($this){
-    alert("a");
+$(".pagination .page-item").click(function($this){
     var select_data_per_page = $("#select_data_count").val();
-    var temp = $(this).find("a").html();
+    var temp = $(this).find("span").html();
+    if($(this).find("span").hasClass("fa-angle-right")){
+        temp = "chevron_right";
+    } else if($(this).find("span").hasClass("fa-angle-double-right")){
+        temp = "last_page";
+    } else if($(this).find("span").hasClass("fa-angle-left")){
+        temp = "chevron_left";
+    } else if($(this).find("span").hasClass("fa-angle-double-left")){
+        temp = "first_page";
+    }
     var index = $(".pagination .page-item.active").attr("index");
     var search_word = $("#search").val();
     if (temp == "chevron_right" || temp == "chevron_left" || temp == "first_page" || temp == "last_page"){
         var data_per_page = $("#select_data_count").val();
-        var active_page = parseInt($(".pagination .page-item.active a").html());
+        var active_page = parseInt($(".pagination .page-item.active span").html());
         var max_page = Math.ceil($("#max_data").val()/data_per_page);
         var page_count = parseInt($("#page_count").val());
         var add = 1;
@@ -51,7 +59,6 @@ $(".pagination .page-item a").click(function($this){
             }
             upper_page = max_page + 1;
         }
-
         if(active_page + add > 0 && active_page + add <= max_page){
             var element_index = 0;
             $(".pagination .page-item .page").each(function(index){
@@ -103,12 +110,11 @@ function getData(param1, param2, param3, param4) {
     var deferredData = new jQuery.Deferred();
     $.ajax({
         type: "POST",
-        url: "/"+ $("#route").val() +"/page",
+        url: $("#route").val() +"/page",
         dataType: "json",
-        data: {page: param1, data_per_page: param2, search_word: param3},
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', page: param1, data_per_page: param2, search_word: param3},
         success: function(data) {
-            alert(data);
-            // $('#table').bootstrapTable("load", data[0]);
+            $('#table').bootstrapTable("load", data[0]);
             $("#max_data").val(data[1]);
             if(param4 == 1){
                 var data_per_page = $("#select_data_count").val();
