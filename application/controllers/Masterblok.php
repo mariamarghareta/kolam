@@ -55,6 +55,7 @@ class Masterblok extends CI_Controller {
 
 
     public function create(){
+        $this->check_role();
         $this->initialization();
         $this->data["state"] = "create";
         $this->load->view('masterblok_form', $this->data);
@@ -62,6 +63,7 @@ class Masterblok extends CI_Controller {
 
 
     public function update(){
+        $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
 
@@ -73,6 +75,7 @@ class Masterblok extends CI_Controller {
     }
 
     public function delete(){
+        $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
 
@@ -96,7 +99,7 @@ class Masterblok extends CI_Controller {
             if($this->Blok->cek_kembar($this->data['name'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama blok kembar</div>";
             } else {
-                $result = $this->Blok->insert($this->data['name']);
+                $result = $this->Blok->insert($this->data['name'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterblok');
                 }else{
@@ -104,6 +107,7 @@ class Masterblok extends CI_Controller {
                 }
             }
         }
+        $this->data["state"] = "create";
         $this->load->view('masterblok_form', $this->data);
     }
 
@@ -121,7 +125,7 @@ class Masterblok extends CI_Controller {
             if($this->Blok->cek_kembar($this->data['name'], $this->data['id']) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama blok kembar</div>";
             } else {
-                $result = $this->Blok->update($this->data['name'], $this->data['id']);
+                $result = $this->Blok->update($this->data['name'], $this->data['id'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterblok');
                 }else{
@@ -137,21 +141,20 @@ class Masterblok extends CI_Controller {
     public function delete_data(){
         $this->check_role();
         $this->initialization();
-        $this->data["state"] = "delete";
         $this->data['id'] = $this->input->post('tid');
-        print $this->data['id'];
-        print "aaa";
-        $result = $this->Blok->delete($this->data['id']);
+        $result = $this->Blok->delete($this->data['id'], $_SESSION['id']);
         if($result == 1){
             redirect('Masterblok');
         }else{
             $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
         }
+        $this->data["state"] = "delete";
         $this->load->view('masterblok_form', $this->data);
     }
 
 
     public function page(){
+        $this->check_role();
         $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');

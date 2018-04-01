@@ -7,6 +7,13 @@ class Blok extends CI_Model
         // Call the CI_Model constructor
         parent::__construct();
         $this->load->database();
+        $this->load->helper('date');
+    }
+
+    public function get_now(){
+        $dt = new DateTime();
+        $dt->setTimezone(new DateTimeZone('GMT+7'));
+        return $dt->format("Y-m-d H:i:s");
     }
 
 
@@ -47,10 +54,12 @@ class Blok extends CI_Model
     }
 
 
-    public function insert($nama){
+    public function insert($nama, $create_uid){
         $nama = strtoupper($nama);
         $data = array(
-            'name' =>$nama
+            'name' => $nama,
+            'create_uid' => $create_uid,
+            'create_time' => $this->get_now()
         );
         $query = $this->db->insert('blok', $data);
         return $query;
@@ -67,10 +76,12 @@ class Blok extends CI_Model
     }
 
 
-    public function update($name, $id){
+    public function update($name, $id, $write_uid){
         $name = strtoupper($name);
         $data = array(
-            'name' => $name
+            'name' => $name,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
         );
 
         $this->db->where('id', $id);
@@ -78,9 +89,11 @@ class Blok extends CI_Model
     }
 
 
-    public function delete($id){
+    public function delete($id, $write_uid){
         $data = array(
-            'deleted' => 1
+            'deleted' => 1,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
         );
 
         $this->db->where('id', $id);
