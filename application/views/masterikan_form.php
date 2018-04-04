@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Master Blok</title>
+    <title>Master Jenis Ikan</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,17 +37,17 @@
         <section class="wrapper site-min-height">
             <div class="col-md-8 col-md-offset-2 margin-up-md">
                 <div class="w3-container w3-green page-title w3-center w3-padding-16">
-                    Master Blok
+                    Master Jenis Ikan
                 </div>
 
                 <?php
-                $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
+                $attributes = array('class' => 'form-horizontal', 'id' => 'form_ikan');
                 if ($state == "update"){
-                    echo form_open('Masterblok/update_data', $attributes);
+                    echo form_open('Masterikan/update_data', $attributes);
                 } else if ($state == "create"){
-                    echo form_open('Masterblok/add_new_data', $attributes);
+                    echo form_open('Masterikan/add_new_data', $attributes);
                 } else if ($state == "delete"){
-                    echo form_open('Masterblok/delete_data', $attributes);
+                    echo form_open('Masterikan/delete_data', $attributes);
                 }
                 ?>
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
@@ -56,7 +56,7 @@
                         <?php if ($state == "delete"){?>
                             <div style="margin-bottom: 20px; font-weight:bold;">Apakah Anda yakin menghapus data ini?</div>
                         <?php } ?>
-                        <label>Nama</label>
+                        <label>Nama jenis ikan</label>
                         <?php echo form_input(array('name'=>'tname', 'id'=>'tname', 'class'=>'w3-input'), $name);?>
                         <?php echo form_error('tname'); ?>
                     </div>
@@ -71,7 +71,7 @@
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
                             <button name="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterblok">Batal</a></button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterikan">Batal</a></button>
                         </div>
                     <?php }?>
                     <div class="margin-up-sm">
@@ -94,7 +94,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#menu_blok").addClass('active');
+        $("#menu_ikan").addClass('active');
         $("#sub_menu_master_data").css("display", "block");
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");

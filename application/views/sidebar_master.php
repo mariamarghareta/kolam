@@ -19,6 +19,7 @@
                 <ul class="sub" id="sub_menu_master_data">
                     <li class="" id="menu_blok"><a  href="<?= base_url();?><?= index_page();?>/Masterblok" >Master Blok</a></li>
                     <li id="menu_kolam"><a  href="<?= base_url();?><?= index_page();?>/Masterkolam" >Master Kolam</a></li>
+                    <li id="menu_ikan"><a  href="<?= base_url();?><?= index_page();?>/Masterikan" >Master Ikan</a></li>
                 </ul>
             </li>
             <li class="sub-menu">

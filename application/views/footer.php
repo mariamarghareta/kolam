@@ -6,6 +6,7 @@
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap-datetimepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap-datetimepicker.id.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/jquery.maskMoney.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/bootstrap-select.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.ui.touch-punch.min.js"></script>
 <script class="include" type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dcjqaccordion.2.7.js"></script>

@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Master Blok</title>
+    <title>Master Kolam</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,17 +37,17 @@
         <section class="wrapper site-min-height">
             <div class="col-md-8 col-md-offset-2 margin-up-md">
                 <div class="w3-container w3-green page-title w3-center w3-padding-16">
-                    Master Blok
+                    Master Kolam
                 </div>
 
                 <?php
                 $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
                 if ($state == "update"){
-                    echo form_open('Masterblok/update_data', $attributes);
+                    echo form_open('Masterkolam/update_data', $attributes);
                 } else if ($state == "create"){
-                    echo form_open('Masterblok/add_new_data', $attributes);
+                    echo form_open('Masterkolam/add_new_data', $attributes);
                 } else if ($state == "delete"){
-                    echo form_open('Masterblok/delete_data', $attributes);
+                    echo form_open('Masterkolam/delete_data', $attributes);
                 }
                 ?>
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
@@ -56,13 +56,28 @@
                         <?php if ($state == "delete"){?>
                             <div style="margin-bottom: 20px; font-weight:bold;">Apakah Anda yakin menghapus data ini?</div>
                         <?php } ?>
-                        <label>Nama</label>
+                        <label>Blok</label>
+                        <br>
+                        <div id="div_blok" class="">
+                            <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" <?php } ?> data-live-search="true">
+                                <?php foreach($arr_blok as $row){
+                                    if($row['id'] == $selected_blok){ ?>
+                                        <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
+                                    <?php } else { ?>
+                                        <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                                    <?php }} ?>
+                            </select>
+                        </div>
+                        <?php echo form_error('tname'); ?>
+                        <br>
+                        <label class="margin-up-sm">Nama</label>
                         <?php echo form_input(array('name'=>'tname', 'id'=>'tname', 'class'=>'w3-input'), $name);?>
                         <?php echo form_error('tname'); ?>
                     </div>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
                             <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterkolam">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
                         <div class="text-center">
@@ -71,7 +86,7 @@
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
                             <button name="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterblok">Batal</a></button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterkolam">Batal</a></button>
                         </div>
                     <?php }?>
                     <div class="margin-up-sm">
@@ -94,7 +109,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#menu_blok").addClass('active');
+        $("#menu_kolam").addClass('active');
         $("#sub_menu_master_data").css("display", "block");
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");
@@ -106,7 +121,13 @@
 
     if( "<?php echo $state ?>" == "delete"){
         $("input[type=text]").prop('disabled', true);
+        $("#tblok").prop('disabled', true);
+        $("#tblok").css('width', '220px');
     }
+    $('.selectpicker').selectpicker({
+        size: 4
+    });
+
 </script>
 
 </body>

@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Master Blok</title>
+    <title>Master Kolam</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,8 +37,8 @@
         <section class="wrapper site-min-height">
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
-                    <div class="col-sm-8 page-title">Master Blok</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Masterblok/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-8 page-title">Master Kolam</div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Masterkolam/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -46,13 +46,14 @@
                     </div>
                 </div>
                 <table
-                        id="table"
-                        data-toggle="true"
-                        data-show-columns="false"
-                        data-height="500">
+                    id="table"
+                    data-toggle="true"
+                    data-show-columns="false"
+                    data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="name">Nama</th>
+                        <th data-field="blok_name">Nama Blok</th>
+                        <th data-field="name">Nama Kolam</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -65,16 +66,16 @@
                             <li class="page-item"><span class="page-link nav material-icons md-11 fa fa-angle-double-left" href="#"></span></li>
                             <li class="page-item"><span class="page-link nav material-icons md-11 fa fa-angle-left" href="#"></span></li>
                             <?php
-                                for ($i=0; $i<= $page_count; $i++){
-                                    if($i < $max_data/$data_per_page){
-                                        $page_num = $i + 1;
-                                        if($i == 0){
-                                            echo "<li class='page-item page active' index=$i><span class='page-link page' href=''#'>$page_num</span></li>";
-                                        }else{
-                                            echo "<li class='page-item page' index=$i><span class='page-link page' href=''#'>$page_num</span></li>";
-                                        }
+                            for ($i=0; $i<= $page_count; $i++){
+                                if($i < $max_data/$data_per_page){
+                                    $page_num = $i + 1;
+                                    if($i == 0){
+                                        echo "<li class='page-item page active' index=$i><span class='page-link page' href=''#'>$page_num</span></li>";
+                                    }else{
+                                        echo "<li class='page-item page' index=$i><span class='page-link page' href=''#'>$page_num</span></li>";
                                     }
                                 }
+                            }
                             ?>
                             <li class="page-item"><span class="page-link nav material-icons md-11 fa fa-angle-right" href="#"></span></li>
                             <li class="page-item"><span class="page-link nav material-icons md-11 fa fa-angle-double-right" href="#"></span></li>
@@ -82,7 +83,7 @@
                     </div>
                     <div class="col-sm-4 form-horizontal margin-up-down">
                         <div class="form-group">
-                            <label for="select_data_count" class="control-label col-sm-8">Data per halaaman:</label>
+                            <label for="select_data_count" class="control-label col-sm-8">Data per halaman:</label>
                             <div class="col-sm-4">
                                 <select id="select_data_count" class="form-control" name="select_data_count">
                                     <option value="10">10</option>
@@ -96,7 +97,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Masterblok" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Masterkolam" name="route" id="route"/>
 
             </div>
         </section>
@@ -119,7 +120,7 @@
     });
 
     $(document).ready(function(){
-        $("#menu_blok").addClass('active');
+        $("#menu_kolam").addClass('active');
         $("#sub_menu_master_data").css("display", "block");
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");
@@ -131,8 +132,8 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Masterblok/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/Masterblok/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Masterkolam/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Masterkolam/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }
 </script>
