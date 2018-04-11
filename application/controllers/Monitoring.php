@@ -33,4 +33,10 @@ class Monitoring extends CI_Controller {
         $this->check_role();
         $this->load->view('monitoring');
     }
+
+
+    public function logout(){
+        session_destroy();
+        redirect('Login');
+    }
 }

@@ -24,7 +24,7 @@
                     <li id="menu_obat"><a  href="<?= base_url();?><?= index_page();?>/Masterobat" >Master Obat</a></li>
                     <li id="menu_tabel_pakan"><a  href="<?= base_url();?><?= index_page();?>/Mastertabelpakan" >Master Tabel Pakan</a></li>
                     <li id="menu_mitra"><a  href="<?= base_url();?><?= index_page();?>/Mastermitra" >Master Mitra Bisnis</a></li>
-                    <li id="menu_user"><a  href="<?= base_url();?><?= index_page();?>/Masteruser" >Master User</a></li>
+                    <li id="menu_karyawan"><a  href="<?= base_url();?><?= index_page();?>/Masterkaryawan" >Master Karyawan</a></li>
                 </ul>
             </li>
             <li class="sub-menu">
@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/Changepass" id="menu_pass" >
+                <a href="<?= base_url();?><?= index_page();?>/Masterpass" id="menu_pass" >
                     <i class="fa fa-key"></i>
                     <span>Ubah Password</span>
                 </a>
