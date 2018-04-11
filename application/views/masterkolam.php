@@ -52,8 +52,8 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="blok_name">Nama Blok</th>
-                        <th data-field="name">Nama Kolam</th>
+                        <th data-field="blok_name" data-sortable="true">Nama Blok</th>
+                        <th data-field="name" data-sortable="true">Nama Kolam</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

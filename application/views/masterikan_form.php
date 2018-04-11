@@ -63,6 +63,7 @@
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
                             <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterikan">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
                         <div class="text-center">

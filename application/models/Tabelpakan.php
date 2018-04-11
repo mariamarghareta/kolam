@@ -1,5 +1,5 @@
 <?php
-class TabelPakan extends CI_Model
+class Tabelpakan extends CI_Model
 {
 
     public function __construct()

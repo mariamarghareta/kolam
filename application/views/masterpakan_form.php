@@ -59,10 +59,15 @@
                         <label>Nama</label>
                         <?php echo form_input(array('name'=>'tname', 'id'=>'tname', 'class'=>'w3-input'), $name);?>
                         <?php echo form_error('tname'); ?>
+                        <br>
+                        <label>Batas minimum stok (kg)</label>
+                        <?php echo form_input(array('name'=>'min', 'id'=>'min', 'class'=>'w3-input'), $min);?>
+                        <?php echo form_error('min'); ?>
                     </div>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
                             <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterpakan">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
                         <div class="text-center">

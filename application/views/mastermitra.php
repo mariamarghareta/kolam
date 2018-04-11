@@ -52,10 +52,10 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="name">Nama</th)>
-                        <th data-field="phone1">Telepon 1</th>
-                        <th data-field="tipe_mitra" data-formatter = "jenisMitraFormatter">Jenis Mitra Bisnis</th>
-                        <th data-field="alamat">Alamat</th>
+                        <th data-field="name" data-sortable="true">Nama</th)>
+                        <th data-field="phone1" data-sortable="true">Telepon 1</th>
+                        <th data-field="tipe_mitra" data-formatter = "jenisMitraFormatter" data-sortable="true">Jenis Mitra Bisnis</th>
+                        <th data-field="alamat" data-sortable="true">Alamat</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

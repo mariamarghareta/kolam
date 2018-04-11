@@ -52,10 +52,10 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="age">Umur</th)>
-                        <th data-field="weight">Berat</th>
-                        <th data-field="fr">FR (%)</th>
-                        <th data-field="sr">SR (%)</th>
+                        <th data-field="age" data-sortable="true">Umur</th)>
+                        <th data-field="weight" data-sortable="true">Berat</th>
+                        <th data-field="fr" data-sortable="true">FR (%)</th>
+                        <th data-field="sr" data-sortable="true">SR (%)</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

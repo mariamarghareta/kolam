@@ -10,6 +10,8 @@ class Monitoring extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model('Timeout');
+        $this->load->model('Pakan');
+        $this->load->model('Obat');
     }
     private $data;
 
@@ -20,7 +22,7 @@ class Monitoring extends CI_Controller {
                 'uname'     => $_SESSION['uname'],
                 'id' => $_SESSION['id']
             );
-            $this->session->set_tempdata($newdata, NULL, $this->Timeout->get_time()->minute);
+            $this->session->set_tempdata($newdata, NULL, $this->Timeout->get_time()->minute * 60);
         } else {
             session_destroy();
             redirect('Login');
@@ -31,12 +33,22 @@ class Monitoring extends CI_Controller {
     public function index()
     {
         $this->check_role();
-        $this->load->view('monitoring');
+        $this->initialization();
+        $this->load->view('monitoring', $this->data);
     }
 
 
     public function logout(){
         session_destroy();
         redirect('Login');
+    }
+
+
+    public function initialization(){
+        $data_count = 10;
+        $offset = 1;
+        $this->data["search_word"] = "";
+        $this->data["arr_pakan"] = json_encode($this->Pakan->show_all($data_count, $offset, $this->data["search_word"]));
+        $this->data["arr_obat"] = json_encode($this->Obat->show_all($data_count, $offset, $this->data["search_word"]));
     }
 }

@@ -52,7 +52,7 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="name">Nama jenis ikan</th>
+                        <th data-field="name" data-sortable="true">Nama jenis ikan</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

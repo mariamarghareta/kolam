@@ -19,11 +19,12 @@ class Pakan extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, name')
+        $query = $this->db->select('id, name, stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
             ->from('pakan')
             ->where('deleted', 0)
             ->like('name ', $searchword)
             ->limit($data_count, ($offset-1) * $data_count)
+            ->order_by('status asc')
             ->get();
         return $query->result_array();
     }
@@ -54,10 +55,11 @@ class Pakan extends CI_Model
     }
 
 
-    public function insert($nama, $create_uid){
+    public function insert($nama, $min, $create_uid){
         $nama = strtoupper($nama);
         $data = array(
             'name' => $nama,
+            'min' => $min,
             'create_uid' => $create_uid,
             'create_time' => $this->get_now()
         );
@@ -67,7 +69,7 @@ class Pakan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name')
+        $query = $this->db->select('id, name, min')
             ->from('pakan')
             ->where('id', $id)
             ->where('deleted',0)
@@ -76,10 +78,11 @@ class Pakan extends CI_Model
     }
 
 
-    public function update($name, $id, $write_uid){
+    public function update($name, $min, $id, $write_uid){
         $name = strtoupper($name);
         $data = array(
             'name' => $name,
+            'min' => $min,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );

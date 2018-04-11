@@ -52,8 +52,10 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="name">Nama</th)>
-                        <th data-field="stok">Stok (kg)</th>
+                        <th data-field="name" data-sortable="true">Nama</th)>
+                        <th data-field="stok" data-sortable="true">Stok (kg)</th>
+                        <th data-field="min" data-sortable="true">Batas Minimal Stok (kg)</th>
+                        <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -135,6 +137,16 @@
             '<a href="<?php echo base_url() . index_page(); ?>/Masterpakan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
             '<a href="<?php echo base_url() . index_page(); ?>/Masterpakan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
+    }
+
+    function statusFormatter(value, row) {
+        if(value == -1){
+            return '<div class="btn btn-danger">Stok Dibawah Batas Minimal</div>';
+        } else if(value == 0){
+            return '<div class="btn btn-warning">Stok Menipis</div>';
+        } else {
+            return '<div class="btn btn-success">Stok Aman</div>';
+        }
     }
 </script>
 

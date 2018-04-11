@@ -52,10 +52,11 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="name">Nama</th)>
-                        <th data-field="telp">Telepon 1</th>
-                        <th data-field="alamat">Alamat</th>
-                        <th data-field="role_name">Role</th>
+                        <th data-field="uname" data-sortable="true">Username</th)>
+                        <th data-field="name" data-sortable="true">Nama</th)>
+                        <th data-field="telp" data-sortable="true">Telepon 1</th>
+                        <th data-field="alamat" data-sortable="true">Alamat</th>
+                        <th data-field="role_name data-sortable="true"">Role</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

@@ -10,7 +10,7 @@ class Mastertabelpakan extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model('Timeout');
-        $this->load->model('TabelPakan');
+        $this->load->model('Tabelpakan');
     }
     private $data;
 
@@ -27,8 +27,8 @@ class Mastertabelpakan extends CI_Controller {
         $this->data["search_word"] = "";
         $data_count = 10;
         $offset = 1;
-        $this->data["arr"] = json_encode($this->TabelPakan->show_all($data_count, $offset, $this->data["search_word"]));
-        $this->data["max_data"] = $this->TabelPakan->get_count_all();
+        $this->data["arr"] = json_encode($this->Tabelpakan->show_all($data_count, $offset, $this->data["search_word"]));
+        $this->data["max_data"] = $this->Tabelpakan->get_count_all();
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
     }
@@ -71,7 +71,7 @@ class Mastertabelpakan extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "update";
-        $datum = $this->TabelPakan->get($this->data['id'])[0];
+        $datum = $this->Tabelpakan->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["age"] = $datum->age;
         $this->data["weight"] = $datum->weight;
@@ -86,7 +86,7 @@ class Mastertabelpakan extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $datum = $this->TabelPakan->get($this->data['id'])[0];
+        $datum = $this->Tabelpakan->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["age"] = $datum->age;
         $this->data["weight"] = $datum->weight;
@@ -111,10 +111,10 @@ class Mastertabelpakan extends CI_Controller {
         $this->data['sr'] = $this->input->post('sr');
         if ($this->form_validation->run() != FALSE)
         {
-            if($this->TabelPakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
+            if($this->Tabelpakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data tabel pakan kembar</div>";
             } else {
-                $result = $this->TabelPakan->insert($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $_SESSION['id']);
+                $result = $this->Tabelpakan->insert($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Mastertabelpakan');
                 }else{
@@ -143,10 +143,10 @@ class Mastertabelpakan extends CI_Controller {
         $this->data['sr'] = $this->input->post('sr');
         if ($this->form_validation->run() != FALSE)
         {
-            if($this->TabelPakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
+            if($this->Tabelpakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data tabel pakan kembar</div>";
             } else {
-                $result = $this->TabelPakan->update($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $this->data['tid'], $_SESSION['id']);
+                $result = $this->Tabelpakan->update($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $this->data['tid'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Mastertabelpakan');
                 }else{
@@ -163,7 +163,7 @@ class Mastertabelpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->TabelPakan->delete($this->data['id'], $_SESSION['id']);
+        $result = $this->Tabelpakan->delete($this->data['id'], $_SESSION['id']);
         if($result == 1){
             redirect('Mastertabelpakan');
         }else{
@@ -179,7 +179,7 @@ class Mastertabelpakan extends CI_Controller {
         $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');
-        echo json_encode([$this->TabelPakan->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->TabelPakan->get_count_all()]);
+        echo json_encode([$this->Tabelpakan->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Tabelpakan->get_count_all()]);
 
     }
 }

@@ -19,6 +19,7 @@ class Masterpakan extends CI_Controller {
     {
         $this->data["state"] = "";
         $this->data["name"] = "";
+        $this->data["min"] = "";
         $this->data["msg"] = "";
         $this->data["id"] = "";
         $this->data["search_word"] = "";
@@ -71,6 +72,7 @@ class Masterpakan extends CI_Controller {
         $datum = $this->Pakan->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
+        $this->data["min"] = $datum->min;
         $this->load->view('masterpakan_form', $this->data);
     }
 
@@ -83,6 +85,7 @@ class Masterpakan extends CI_Controller {
         $datum = $this->Pakan->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
+        $this->data["min"] = $datum->min;
         $this->load->view('masterpakan_form', $this->data);
     }
 
@@ -91,15 +94,17 @@ class Masterpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->form_validation->set_rules('tname', 'Nama Pakan', 'required', array('required' => '%s harus diisi'));
+        $this->form_validation->set_rules('min', 'Batas minimal', 'numeric', array('numeric' => '%s harus berupa angka'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         $this->data['name'] = $this->input->post('tname');
+        $this->data['min'] = $this->input->post('min');
         if ($this->form_validation->run() != FALSE)
         {
             if($this->Pakan->cek_kembar($this->data['name'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama jenis pakan kembar</div>";
             } else {
-                $result = $this->Pakan->insert($this->data['name'], $_SESSION['id']);
+                $result = $this->Pakan->insert($this->data['name'], $this->data['min'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterpakan');
                 }else{
@@ -116,16 +121,18 @@ class Masterpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->form_validation->set_rules('tname', 'Nama jenis ikan', 'required', array('required' => '%s harus diisi'));
+        $this->form_validation->set_rules('min', 'Batas minimal', 'numeric', array('numeric' => '%s harus berupa angka'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         $this->data['id'] = $this->input->post('tid');
         $this->data['name'] = $this->input->post('tname');
+        $this->data['min'] = $this->input->post('min');
         if ($this->form_validation->run() != FALSE)
         {
             if($this->Pakan->cek_kembar($this->data['name'], $this->data['id']) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama pakan kembar</div>";
             } else {
-                $result = $this->Pakan->update($this->data['name'], $this->data['id'], $_SESSION['id']);
+                $result = $this->Pakan->update($this->data['name'], $this->data['min'], $this->data['id'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterpakan');
                 }else{
