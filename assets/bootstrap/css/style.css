@@ -1,0 +1,396 @@
+@font-face {
+    font-family: montserrat;
+    src: url(font/Montserrat-Regular.ttf);
+}
+@font-face {
+    font-family: raleway;
+    src: url(font/Raleway-Regular.ttf);
+}
+@font-face {
+    font-family: alegreya;
+    src: url(font/Alegreya-Bold.ttf);
+}
+@font-face {
+    font-family: alegreyablack;
+    src: url("font/ALEGREYA REGULAR.TTF");
+}
+@font-face {
+    font-family: opensans;
+    src: url(font/OpenSans-Bold.ttf);
+}
+@font-face {
+    font-family: oswald;
+    src: url(font/Oswald-Regular.ttf);
+}
+@font-face {
+    font-family: anton;
+    src: url(font/ANTON.TTF);
+}
+@font-face {
+    font-family: alegreyabolditalic;
+    src: url("font/ALEGREYA 700ITALIC.TTF");
+}
+@font-face {
+    font-family: latobold;
+    src: url("font/LATO-BOLD.TTF");
+}
+@font-face {
+    font-family: rudareg;
+    src: url("font/Ruda-Regular.ttf");
+}
+@media only screen and (max-device-width: 480px) and (orientation: portrait) {
+    .mt-mob{
+        margin-top: 25px;
+    }
+    .control-label{
+        text-align: right;
+    }
+}
+html{
+    
+}
+body{
+    background-color: #EFEFEF;
+    font-family: 'Ruda' !important;
+}
+.body-wrapper{
+    min-height: 75vh;
+}
+.detail{
+    margin-top: 30px;
+    background-color: white;
+    border: 1px solid #c7c7c7;
+    box-shadow: 1px 3px 10px rgba(128, 128, 128, 0.65);
+    margin-bottom: 50px;
+}
+.detail h2{
+    color: white;
+    text-align: center;
+    font-family: montserrat;
+}
+.detail-login{
+    padding: 20px;
+}
+.header-menu{
+    background-color: #404040;
+    color: white;
+    padding: 10px 20px 15px 20px;
+    border-bottom: 5px solid #56ce56;
+}
+.header-menu .user-name{
+    text-align: right;
+    font-family: montserrat;
+    padding-top: 3px;
+    font-size: 8pt;
+    line-height: 23px;
+}
+.header-menu .menu-navbar li a{
+    font-family: montserrat;
+    color: white;
+}
+.header-menu .menu-navbar li ul li a{
+    font-family: montserrat;
+    color: black;
+}
+.header-menu .menu-navbar li a:hover{
+    color: #56ce56;
+    background: transparent;
+    transition: color 0.3s ease;
+}
+.header-menu .nav .open>a{
+    background-color: transparent;
+}
+.menu-logo{
+    background-image: url(source/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 48px;
+    background-position: right center;
+}
+.menu-company{
+    line-height: 48px;
+    font-family: montserrat;
+    font-size: 16pt;
+}
+.btn-logout{
+    font-size: 9pt;
+    margin-left: 20px;
+}
+.no-padding{
+    padding: 0px;
+}
+.no-padding-left{
+    padding-left: 0px;
+}
+.row-one{
+   
+}
+.footer{
+    line-height: 50px;
+    border-top: 5px solid #56ce56;
+    background-color: #404040;
+    color: white;
+    font-family: montserrat;
+    text-align: center;
+    font-size: 8pt;
+}
+.header-tabel{
+    color: #56ce56;
+    text-align: center;
+    font-family: montserrat;
+    margin-bottom: 30px;
+}
+.detail-tabel{
+    background-color: white;
+    padding: 50px 0px;  
+}
+.div-master-name{
+    background-color: #4cbf4c;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.text-center{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
+.text-left{
+    text-align: left !important;
+}
+.error{
+    color:#A94442;
+}
+.success, .ok{
+    color:#398439;
+}
+.btn-custom{
+    margin-top: 20px;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #5BC0DE !important;
+    border-color: #5BC0DE !important;
+}
+.Aligner {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    height: 100vh;
+}
+.Aligner-item {
+    margin: auto;
+    width: 30%;
+}
+
+.separator{
+    margin-top: 20px;
+}
+.inner-container{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+.line-btn{
+    line-height: 34px;
+}
+
+.white-bg{
+    background-color: white;
+    padding: 20px 20px;
+    
+}
+.bb{
+    border-bottom: 1px solid #c1c1c1;
+}
+.line{
+    margin-bottom: 15px;
+}
+.mt-big{
+    margin-top: 50px;
+}
+.mb{
+    margin-bottom: 25px;
+}
+.mb-big{
+    margin-bottom: 50px;
+}
+.mr{
+    margin-right: 25px;
+}
+.ml{
+    margin-left: 25px;
+}
+.mt{
+    margin-top: 25px;
+}
+.header-div, .header-div-plain{
+    text-align: center;
+    color: white;
+    background-color: #5BC0DE;
+    margin-bottom: 0px;
+    padding: 20px 0px;
+    font-size: large;
+    font-family: montserrat;
+}
+.header-div:hover{
+    background-color: #58b1cc;
+    cursor: pointer;
+}
+.header-div-green{
+    background-color: #5CB85C !important;
+}
+.header-div-red{
+    background-color: #D9534F !important;
+    
+}
+.header-div span{
+    padding: 0px 10px;
+}
+span.fa{
+    padding-right: 10px;
+}
+.blank{
+    margin-top: 10px;
+}
+.pl{
+    padding-left: 25px;
+}
+.pr{
+    padding-right: 25px;
+}
+.borderless td {
+    border: none !important;
+}
+#logo{
+    width: 3.5cm;
+    margin: 0 auto;
+}
+.nota-header{
+    font-size: 8.6pt;
+}
+.nota-header div{
+    font-family: latobold;
+}
+.sub-header{
+    padding-top: 9px;
+    font-size: 8.8pt;
+}
+.f-montserrat{
+    font-family: "montserrat";
+}
+.f-arial{
+    font-family: "arial";
+}
+.nota-nama{
+    color: #2E367C !important;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    font-family: anton;
+    
+}
+.blue-color.bold, .blue-color{
+    color: #2E367C;
+    font-family: rudareg;
+    font-size: 11pt;
+    text-transform: uppercase;
+}
+.bt{
+    border-top: 1px solid  #2E367C !important;
+}
+.npl{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.bold{
+    font-weight: bold;
+}
+.blue-color.bold .eng, .eng{
+    font-size: 10pt;
+    font-family: alegreyabolditalic;
+    font-weight: normal !important;
+    color: #575756 !important;
+}
+/*
+#body-nota:before{
+    
+    position:absolute;
+    content: url(../img/logo.png);
+    transform: scale(0.5);
+    transform: translate(30%, 0%)
+}  
+*/
+#bg-logo{
+    /*display: none;*/
+    position: absolute;
+    width: auto;
+    height: 50%;
+    transform: translate(150%, 20%);
+    opacity: 0.1;
+}
+.blue{
+    color: #2E367C !important;
+}
+.table-laporan{
+    page-break-inside: auto;
+}
+.table-laporan tr    { page-break-inside:avoid;}
+
+@media print{
+    @page {
+        height: 11.5cm;
+        margin: 5mm 0mm 5mm 0mm;  
+    }
+    html
+    {
+        background-color: #FFFFFF; 
+        margin: 0px;  /* this affects the margin on the html before sending to printer */
+        
+    }
+
+    body
+    {
+        
+        height: 11.5cm;
+        margin: 5mm 5mm 5mm 5mm; /* margin you want for the content */
+        
+    }
+    body.laporan{
+        
+    }
+    .nota-nama{
+        color: #2E367C !important;
+        margin-bottom: 0px;
+    }
+    .error{
+        color:#A94442 !important;
+    }
+    .success, .ok{
+        color:#398439 !important;
+    }
+    
+    #body-nota{
+        position:relative;
+        /*width:19.5cm; */
+        height:11.5cm;
+    }
+    #body-nota:before{
+       visibility:visible;
+       
+    }  
+    
+    #bg-logo{
+        display: inline;
+    }   
+    .blue-color.bold, .blue-color{
+        color: #2E367C !important;
+        font-family: rudareg;
+
+    }
+    .blue{
+        color: #2E367C !important;
+    }
+    
+    table.table-laporan tr td,
+    table.table-laporan tr th {
+        page-break-inside: avoid;
+    }
+}
