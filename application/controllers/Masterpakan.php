@@ -20,6 +20,7 @@ class Masterpakan extends CI_Controller {
     {
         $this->data["state"] = "";
         $this->data["name"] = "";
+        $this->data["satuan"] = "kg";
         $this->data["min"] = "";
         $this->data["msg"] = "";
         $this->data["id"] = "";
@@ -79,6 +80,7 @@ class Masterpakan extends CI_Controller {
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
         $this->data["min"] = $datum->min;
+        $this->data["satuan"] = $datum->satuan;
         $this->load->view('masterpakan_form', $this->data);
     }
 
@@ -92,6 +94,7 @@ class Masterpakan extends CI_Controller {
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
         $this->data["min"] = $datum->min;
+        $this->data["satuan"] = $datum->satuan;
         $this->load->view('masterpakan_form', $this->data);
     }
 
@@ -105,12 +108,13 @@ class Masterpakan extends CI_Controller {
 
         $this->data['name'] = $this->input->post('tname');
         $this->data['min'] = $this->input->post('min');
+        $this->data['satuan'] = $this->input->post('satuan');
         if ($this->form_validation->run() != FALSE)
         {
             if($this->Pakan->cek_kembar($this->data['name'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama jenis pakan kembar</div>";
             } else {
-                $result = $this->Pakan->insert($this->data['name'], $this->data['min'], $_SESSION['id']);
+                $result = $this->Pakan->insert($this->data['name'], $this->data['min'], $this->data['satuan'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterpakan');
                 }else{
@@ -133,21 +137,27 @@ class Masterpakan extends CI_Controller {
         $this->data['id'] = $this->input->post('tid');
         $this->data['name'] = $this->input->post('tname');
         $this->data['min'] = $this->input->post('min');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Pakan->cek_kembar($this->data['name'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama pakan kembar</div>";
-            } else {
-                $result = $this->Pakan->update($this->data['name'], $this->data['min'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('Masterpakan');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        $this->data['satuan'] = $this->input->post('satuan');
+
+        if($this->input->post('write') == "write"){
+            if ($this->form_validation->run() != FALSE)
+            {
+                if($this->Pakan->cek_kembar($this->data['name'], $this->data['id']) == false){
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama pakan kembar</div>";
+                } else {
+                    $result = $this->Pakan->update($this->data['name'], $this->data['min'], $this->data['satuan'], $this->data['id'], $_SESSION['id']);
+                    if($result == 1){
+                        redirect('Masterpakan');
+                    }else{
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('masterpakan_form', $this->data);
+        } else {
+            redirect('Masterpakan');
         }
-        $this->data["state"] = "update";
-        $this->load->view('masterpakan_form', $this->data);
     }
 
 
@@ -155,14 +165,18 @@ class Masterpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Pakan->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Pakan->delete($this->data['id'], $_SESSION['id']);
+            if ($result == 1) {
+                redirect('Masterpakan');
+            } else {
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('masterpakan_form', $this->data);
+        } else {
             redirect('Masterpakan');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
         }
-        $this->data["state"] = "delete";
-        $this->load->view('masterpakan_form', $this->data);
     }
 
 

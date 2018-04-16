@@ -60,13 +60,20 @@
                         <?php echo form_input(array('name'=>'tname', 'id'=>'tname', 'class'=>'w3-input'), $name);?>
                         <?php echo form_error('tname'); ?>
                         <br>
-                        <label>Batas minimum stok (kg)</label>
+                        <label>Batas minimum stok</label>
                         <?php echo form_input(array('name'=>'min', 'id'=>'min', 'class'=>'w3-input'), $min);?>
                         <?php echo form_error('min'); ?>
+                        <br>
+                        <label>Satuan</label>
+                        <select id="satuan" name="satuan" class="form-control" style="width:220px">
+                            <option value="kg" <?php if ($satuan == "kg"){echo "selected";} ?> >kg</option>
+                            <option value="ml" <?php if ($satuan == "ml"){echo "selected";} ?> >ml</option>
+                            <option value="gr" <?php if ($satuan == "gr"){echo "selected";} ?> >gr</option>
+                        </select>
                     </div>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
-                            <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="write" value="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
                             <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterpakan">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
@@ -75,7 +82,7 @@
                         </div>
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
-                            <button name="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
+                            <button name="delete" value="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
                             <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterpakan">Batal</a></button>
                         </div>
                     <?php }?>
@@ -111,6 +118,7 @@
 
     if( "<?php echo $state ?>" == "delete"){
         $("input[type=text]").prop('disabled', true);
+        $("#satuan").prop('disabled', true);
     }
 </script>
 

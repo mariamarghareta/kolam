@@ -97,7 +97,7 @@ class Karyawan extends CI_Model {
             'name' => $name,
             'alamat' => $alamat,
             'telp' => $telp,
-            'pass' => $pass,
+            'pass' => md5($pass),
             'role_id' => $kd_role,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()

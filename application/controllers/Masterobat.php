@@ -77,6 +77,8 @@ class Masterobat extends CI_Controller {
         $datum = $this->Obat->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
+        $this->data["min"] = $datum->min;
+        $this->data["satuan"] = $datum->satuan;
         $this->load->view('masterobat_form', $this->data);
     }
 
@@ -89,6 +91,8 @@ class Masterobat extends CI_Controller {
         $datum = $this->Obat->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
+        $this->data["min"] = $datum->min;
+        $this->data["satuan"] = $datum->satuan;
         $this->load->view('masterobat_form', $this->data);
     }
 
@@ -100,12 +104,14 @@ class Masterobat extends CI_Controller {
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         $this->data['name'] = $this->input->post('tname');
+        $this->data['min'] = $this->input->post('min');
+        $this->data['satuan'] = $this->input->post('satuan');
         if ($this->form_validation->run() != FALSE)
         {
             if($this->Obat->cek_kembar($this->data['name'], -1) == false){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama obat kembar</div>";
             } else {
-                $result = $this->Obat->insert($this->data['name'], $_SESSION['id']);
+                $result = $this->Obat->insert($this->data['name'], $this->data['min'], $this->data['satuan'], $_SESSION['id']);
                 if($result == 1){
                     redirect('Masterobat');
                 }else{
@@ -126,21 +132,27 @@ class Masterobat extends CI_Controller {
 
         $this->data['id'] = $this->input->post('tid');
         $this->data['name'] = $this->input->post('tname');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Obat->cek_kembar($this->data['name'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama obat kembar</div>";
-            } else {
-                $result = $this->Obat->update($this->data['name'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('Masterobat');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        $this->data['min'] = $this->input->post('min');
+        $this->data['satuan'] = $this->input->post('satuan');
+
+        if($this->input->post('write') == "write") {
+            if ($this->form_validation->run() != FALSE) {
+                if ($this->Obat->cek_kembar($this->data['name'], $this->data['id']) == false) {
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama obat kembar</div>";
+                } else {
+                    $result = $this->Obat->update($this->data['name'], $this->data['min'], $this->data['satuan'], $this->data['id'], $_SESSION['id']);
+                    if ($result == 1) {
+                        redirect('Masterobat');
+                    } else {
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('masterobat_form', $this->data);
+        }else {
+            redirect('Masterobat');
         }
-        $this->data["state"] = "update";
-        $this->load->view('masterobat_form', $this->data);
     }
 
 
@@ -148,14 +160,18 @@ class Masterobat extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Obat->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Obat->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('Masterobat');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('masterobat_form', $this->data);
+        } else {
             redirect('Masterobat');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
         }
-        $this->data["state"] = "delete";
-        $this->load->view('masterobat_form', $this->data);
     }
 
 

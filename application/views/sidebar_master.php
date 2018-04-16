@@ -11,6 +11,7 @@
                     <span>Monitoring</span>
                 </a>
             </li>
+            <?php if ($_SESSION['role_id'] == 1) {?>
             <li class="sub-menu">
                 <a class="" href="#" id="menu_bt">
                     <i class="fa fa-pencil"></i>
@@ -27,18 +28,21 @@
                     <li id="menu_karyawan"><a  href="<?= base_url();?><?= index_page();?>/Masterkaryawan" >Master Karyawan</a></li>
                 </ul>
             </li>
-            <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/Mastertebar" id="menu_tebar" >
-                    <i class="fa fa-plus"></i>
-                    <span>Tebar Bibit</span>
-                </a>
-            </li>
+            <?php } ?>
+<!--            <li class="sub-menu">-->
+<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastertebar" id="menu_tebar" >-->
+<!--                    <i class="fa fa-plus"></i>-->
+<!--                    <span>Tebar Bibit</span>-->
+<!--                </a>-->
+<!--            </li>-->
+            <?php if ($_SESSION['role_id'] == 1) {?>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Mastertime" id="menu_time" >
                     <i class="fa fa-clock-o"></i>
                     <span>Ubah Timeout Session</span>
                 </a>
             </li>
+            <?php } ?>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Masterpass" id="menu_pass" >
                     <i class="fa fa-key"></i>

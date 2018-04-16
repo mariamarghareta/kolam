@@ -135,21 +135,25 @@ class Masterkolam extends CI_Controller {
         $this->data['id'] = $this->input->post('tid');
         $this->data['name'] = $this->input->post('tname');
         $this->data['blok_id'] = $this->input->post('tblok');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Kolam->cek_kembar($this->data['name'], $this->data['blok_id'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama kolam kembar</div>";
-            } else {
-                $result = $this->Kolam->update($this->data['name'], $this->data['blok_id'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('Masterkolam');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        if($this->input->post('write') == "write"){
+            if ($this->form_validation->run() != FALSE)
+            {
+                if($this->Kolam->cek_kembar($this->data['name'], $this->data['blok_id'], $this->data['id']) == false){
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama kolam kembar</div>";
+                } else {
+                    $result = $this->Kolam->update($this->data['name'], $this->data['blok_id'], $this->data['id'], $_SESSION['id']);
+                    if($result == 1){
+                        redirect('Masterkolam');
+                    }else{
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('masterkolam_form', $this->data);
+        } else {
+            redirect('Masterkolam');
         }
-        $this->data["state"] = "update";
-        $this->load->view('masterkolam_form', $this->data);
     }
 
 
@@ -157,14 +161,18 @@ class Masterkolam extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Kolam->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Kolam->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('Masterkolam');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('masterkolam_form', $this->data);
+        } else {
             redirect('Masterkolam');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
         }
-        $this->data["state"] = "delete";
-        $this->load->view('masterkolam_form', $this->data);
     }
 
 

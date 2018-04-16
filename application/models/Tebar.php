@@ -17,6 +17,21 @@ class Tebar extends CI_Model
     }
 
 
+    public function get_kode(){
+        $dt = new DateTime();
+        $dt->setTimezone(new DateTimeZone('GMT+7'));
+        $prefix = $dt->format("Ymd");
+        return "$prefix" + "$this->get_sequence($prefix)";
+    }
+
+
+    public function get_sequence($prefix){
+        $this->db->like('substr(kode,0,8)', $prefix);
+        $this->db->from('tebar');
+        return $this->db->count_all_results() + 1;
+    }
+
+
     public function show_all($data_count, $offset, $searchword)
     {
         $query = $this->db->select('id, tgl_tebar, sampling, size, biomass, total_ikan')
@@ -52,6 +67,7 @@ class Tebar extends CI_Model
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
             'tgl_tebar' => $this->get_now(),
+            'kode' => $this->get_kode()
         );
         $query = $this->db->insert('tebar', $data);
         return $this->db->insert_id();

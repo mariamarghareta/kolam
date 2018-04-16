@@ -147,21 +147,25 @@ class Mastertabelpakan extends CI_Controller {
         $this->data['weight'] = $this->input->post('weight');
         $this->data['fr'] = $this->input->post('fr');
         $this->data['sr'] = $this->input->post('sr');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Tabelpakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data tabel pakan kembar</div>";
-            } else {
-                $result = $this->Tabelpakan->update($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $this->data['tid'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('Mastertabelpakan');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        if($this->input->post('write') == "write"){
+            if ($this->form_validation->run() != FALSE)
+            {
+                if($this->Tabelpakan->cek_kembar($this->data['weight'], $this->data['fr'], $this->data['sr'], -1) == false){
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data tabel pakan kembar</div>";
+                } else {
+                    $result = $this->Tabelpakan->update($this->data['age'], $this->data['weight'], $this->data['fr'], $this->data['sr'], $this->data['tid'], $_SESSION['id']);
+                    if($result == 1){
+                        redirect('Mastertabelpakan');
+                    }else{
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('mastertabelpakan_form', $this->data);
+        } else {
+            redirect('Mastertabelpakan');
         }
-        $this->data["state"] = "update";
-        $this->load->view('mastertabelpakan_form', $this->data);
     }
 
 
@@ -169,14 +173,18 @@ class Mastertabelpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Tabelpakan->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Tabelpakan->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('Mastertabelpakan');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('mastertabelpakan_form', $this->data);
+        } else {
             redirect('Mastertabelpakan');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
         }
-        $this->data["state"] = "delete";
-        $this->load->view('mastertabelpakan_form', $this->data);
     }
 
 

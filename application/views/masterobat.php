@@ -53,8 +53,9 @@
                     <thead>
                     <tr>
                         <th data-field="name" data-sortable="true">Nama</th)>
-                        <th data-field="stok" data-sortable="true">Stok (ml)</th>
-                        <th data-field="min" data-sortable="true">Batas Stok Minimal (ml)</th>
+                        <th data-field="stok" data-sortable="true">Stok</th>
+                        <th data-field="min" data-sortable="true">Batas Stok Minimal</th>
+                        <th data-field="satuan" data-sortable="true">Satuan</th>
                         <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                         <th data-field="action"
                             data-align="center"

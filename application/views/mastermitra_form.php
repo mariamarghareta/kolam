@@ -82,7 +82,7 @@
                                 }
 
                                 echo "<span style='margin-right:20px;'>".form_radio($c). "Customer </span>";
-                                echo "<span>".form_radio($s). "Penjual Bibit </span>";
+                                echo "<span>".form_radio($s). "Supplier </span>";
                                 ?>
                             </div>
                             <br>
@@ -97,7 +97,7 @@
                     </div>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
-                            <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="write" value="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
                             <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Mastermitra">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
@@ -106,7 +106,7 @@
                         </div>
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
-                            <button name="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
+                            <button name="delete" value="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
                             <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Mastermitra">Batal</a></button>
                         </div>
                     <?php }?>
@@ -153,6 +153,7 @@
 
     if( "<?php echo $state ?>" == "delete"){
         $("input[type=text]").prop('disabled', true);
+        $("input[type=radio]").prop('disabled', true);
     }
 </script>
 

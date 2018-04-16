@@ -143,7 +143,7 @@
         if (value == 'C'){
             return "Customer";
         } else {
-            return "Penjual Bibit"
+            return "Supplier"
         }
     }
 </script>

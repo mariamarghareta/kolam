@@ -56,7 +56,7 @@
                         <th data-field="name" data-sortable="true">Nama</th)>
                         <th data-field="telp" data-sortable="true">Telepon 1</th>
                         <th data-field="alamat" data-sortable="true">Alamat</th>
-                        <th data-field="role_name data-sortable="true"">Role</th>
+                        <th data-field="role_name" data-sortable="true"">Role</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

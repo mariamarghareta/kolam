@@ -155,21 +155,25 @@ class Mastermitra extends CI_Controller {
         $this->data['tipe_mitra'] = $this->input->post('tipe_mitra');
         $this->data['keterangan'] = $this->input->post('keterangan');
         $this->data['alamat'] = $this->input->post('alamat');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Mitra->cek_kembar($this->data['name'], $this->data['phone1'], $this->data['alamat'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data Mitra kembar</div>";
-            } else {
-                $result = $this->Mitra->update($this->data['name'], $this->data['phone1'], $this->data['phone2'], $this->data['tipe_mitra'], $this->data['alamat'], $this->data['keterangan'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('mastermitra');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        if($this->input->post('write') == "write"){
+            if ($this->form_validation->run() != FALSE)
+            {
+                if($this->Mitra->cek_kembar($this->data['name'], $this->data['phone1'], $this->data['alamat'], $this->data['id']) == false){
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data Mitra kembar</div>";
+                } else {
+                    $result = $this->Mitra->update($this->data['name'], $this->data['phone1'], $this->data['phone2'], $this->data['tipe_mitra'], $this->data['alamat'], $this->data['keterangan'], $this->data['id'], $_SESSION['id']);
+                    if($result == 1){
+                        redirect('mastermitra');
+                    }else{
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('mastermitra_form', $this->data);
+        } else {
+            redirect('Mastermitra');
         }
-        $this->data["state"] = "update";
-        $this->load->view('mastermitra_form', $this->data);
     }
 
 
@@ -177,14 +181,18 @@ class Mastermitra extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Mitra->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
-            redirect('mastermitra');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Mitra->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('mastermitra');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('mastermitra_form', $this->data);
+        } else {
+            redirect('Mastermitra');
         }
-        $this->data["state"] = "delete";
-        $this->load->view('mastermitra_form', $this->data);
     }
 
 

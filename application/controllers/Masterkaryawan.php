@@ -166,21 +166,25 @@ class Masterkaryawan extends CI_Controller {
         $this->data['pass'] = $this->input->post('pass');
         $this->data['repass'] = $this->input->post('repass');
         $this->data['role'] = $this->input->post('role');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Karyawan->cek_kembar($this->data['uname'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Username kembar</div>";
-            } else {
-                $result = $this->Karyawan->update($this->data['uname'], $this->data['name'], $this->data['telp'], $this->data['alamat'], $this->data['pass'], $this->data['role'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
-                    redirect('Masterkaryawan');
-                }else{
-                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+        if($this->input->post('write') == "write"){
+            if ($this->form_validation->run() != FALSE)
+            {
+                if($this->Karyawan->cek_kembar($this->data['uname'], $this->data['id']) == false){
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Username kembar</div>";
+                } else {
+                    $result = $this->Karyawan->update($this->data['uname'], $this->data['name'], $this->data['telp'], $this->data['alamat'], $this->data['pass'], $this->data['role'], $this->data['id'], $_SESSION['id']);
+                    if($result == 1){
+                        redirect('Masterkaryawan');
+                    }else{
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
+                    }
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('masterkaryawan_form', $this->data);
+        } else {
+            redirect('Masterkaryawan');
         }
-        $this->data["state"] = "update";
-        $this->load->view('masterkaryawan_form', $this->data);
     }
 
 
@@ -188,14 +192,18 @@ class Masterkaryawan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Karyawan->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
-            redirect('MasterKaryawan');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Karyawan->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('MasterKaryawan');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('masterkaryawan_form', $this->data);
+        } else {
+            redirect('Masterkaryawan');
         }
-        $this->data["state"] = "delete";
-        $this->load->view('masterkaryawan_form', $this->data);
     }
 
 
