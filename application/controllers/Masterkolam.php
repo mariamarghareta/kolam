@@ -12,6 +12,7 @@ class Masterkolam extends CI_Controller {
         $this->load->model('Timeout');
         $this->load->model('Kolam');
         $this->load->model('Blok');
+        $this->load->model('Karyawan');
     }
     private $data;
 
@@ -36,12 +37,17 @@ class Masterkolam extends CI_Controller {
 
     public function check_role(){
         if(isset($_SESSION['role_id'])){
+            $double_login = $this->Karyawan->check_double_login($_SESSION['id'], $_SESSION['hash']);
             $newdata = array(
                 'role_id'  => $_SESSION['role_id'],
                 'uname'     => $_SESSION['uname'],
                 'id' => $_SESSION['id']
             );
             $this->session->set_tempdata($newdata, NULL, $this->Timeout->get_time()->minute * 60);
+            if($double_login){
+                session_destroy();
+                redirect('Login');
+            }
         } else {
             session_destroy();
             redirect('Login');
@@ -167,7 +173,14 @@ class Masterkolam extends CI_Controller {
         $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');
-        echo json_encode([$this->Kolam->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Ikan->get_count_all()]);
+        echo json_encode([$this->Kolam->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Kolam->get_count_all()]);
 
+    }
+
+
+    public function getkolam(){
+        $this->check_role();
+        $blok_id = $this->input->post('blok_id');
+        echo json_encode($this->Kolam->get_kolam_by_blok($blok_id));
     }
 }

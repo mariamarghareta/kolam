@@ -120,7 +120,7 @@ class Karyawan extends CI_Model {
 
 
     public function grab_data_login($username, $pass){
-        $query = $this->db->select('role_id, uname, id')
+        $query = $this->db->select('role_id, uname, id, hash')
             ->from('karyawan')
             ->where('uname', $username)
             ->where('pass',md5($pass))
@@ -174,6 +174,28 @@ class Karyawan extends CI_Model {
         $this->db->where('pass', md5($old))
             ->where('id',$kd_kar);
         return $this->db->update('karyawan', $data);
+    }
+
+
+    public function set_hash($kd_kar, $hash){
+        $data = array(
+            'hash' => $hash
+        );
+
+        $this->db->where('id', $kd_kar);
+        return $this->db->update('karyawan', $data);
+    }
+
+
+    public function check_double_login($kd_kar, $hash){
+        $this->db->like('id', $kd_kar);
+        $this->db->like('hash', $hash);
+        $this->db->from('karyawan');
+        if($this->db->count_all_results() > 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 ?>

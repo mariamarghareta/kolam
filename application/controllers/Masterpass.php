@@ -22,12 +22,17 @@ class Masterpass extends CI_Controller {
     }
     public function check_role(){
         if(isset($_SESSION['role_id'])){
+            $double_login = $this->Karyawan->check_double_login($_SESSION['id'], $_SESSION['hash']);
             $newdata = array(
                 'role_id'  => $_SESSION['role_id'],
                 'uname'     => $_SESSION['uname'],
                 'id' => $_SESSION['id']
             );
             $this->session->set_tempdata($newdata, NULL, $this->Timeout->get_time()->minute * 60);
+            if($double_login){
+                session_destroy();
+                redirect('Login');
+            }
         } else {
             session_destroy();
             redirect('Login');

@@ -42,11 +42,16 @@ class Login extends CI_Controller {
                         Username atau password salah
                         </div>";
                 } else {
+                    $t=time();
+                    $hash = md5($t + $temp['id']);
                     $newdata = array(
                         'role_id'  => $temp['role_id'],
                         'uname'     => $temp['uname'],
-                        'id' => $temp['id']
+                        'id' => $temp['id'],
+                        'hash' => $hash
                     );
+                    $this->Karyawan->set_hash($temp['id'], $hash);
+                    $temp=$this->Karyawan->grab_data_login($data['uname'], $data['pass']);
                     $this->session->set_tempdata($temp, NULL, $this->Timeout->get_time()->minute * 60);
                     redirect('Monitoring');
                 }

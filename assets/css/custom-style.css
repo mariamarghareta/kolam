@@ -45,3 +45,7 @@ input:focus {
     border: 1px solid #ddd;
     cursor: pointer !important;
 }
+
+.req{
+    color: #68dff0;
+}

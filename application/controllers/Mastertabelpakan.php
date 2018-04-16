@@ -11,6 +11,7 @@ class Mastertabelpakan extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Timeout');
         $this->load->model('Tabelpakan');
+        $this->load->model('Karyawan');
     }
     private $data;
 
@@ -36,12 +37,17 @@ class Mastertabelpakan extends CI_Controller {
 
     public function check_role(){
         if(isset($_SESSION['role_id'])){
+            $double_login = $this->Karyawan->check_double_login($_SESSION['id'], $_SESSION['hash']);
             $newdata = array(
                 'role_id'  => $_SESSION['role_id'],
                 'uname'     => $_SESSION['uname'],
                 'id' => $_SESSION['id']
             );
             $this->session->set_tempdata($newdata, NULL, $this->Timeout->get_time()->minute * 60);
+            if($double_login){
+                session_destroy();
+                redirect('Login');
+            }
         } else {
             session_destroy();
             redirect('Login');
@@ -181,5 +187,12 @@ class Mastertabelpakan extends CI_Controller {
         $search_word = $this->input->post('search_word');
         echo json_encode([$this->Tabelpakan->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Tabelpakan->get_count_all()]);
 
+    }
+
+
+    public function getpakan(){
+        $this->check_role();
+        $size = $this->input->post('size');
+        echo json_encode($this->Tabelpakan->get_pakan($size));
     }
 }

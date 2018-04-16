@@ -28,6 +28,12 @@
                 </ul>
             </li>
             <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Mastertebar" id="menu_tebar" >
+                    <i class="fa fa-plus"></i>
+                    <span>Tebar Bibit</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Mastertime" id="menu_time" >
                     <i class="fa fa-clock-o"></i>
                     <span>Ubah Timeout Session</span>
