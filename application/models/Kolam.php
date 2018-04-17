@@ -121,6 +121,21 @@ class Kolam extends CI_Model
     }
 
 
+    public function get_kolam_for_tebar($blok_id, $tebar_id){
+        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name')
+            ->from('kolam')
+            ->join('blok', 'blok.id = kolam.blok_id')
+            ->where('kolam.deleted', 0)
+            ->where('blok.id', $blok_id)
+            ->group_start()
+            ->where('kolam.tebar_id', 0)
+            ->or_where('kolam.tebar_id',$tebar_id)
+            ->group_end()
+            ->get();
+        return $query->result_array();
+    }
+
+
     public function update_pemberian_pakan($pemberian_pakan_id, $tebar_id, $id, $write_uid){
         $data = array(
             'pemberian_pakan_id' => $pemberian_pakan_id,

@@ -63,16 +63,22 @@ class Pemberian_pakan extends CI_Model
     }
 
 
-    public function update($name, $id, $write_uid){
-        $name = strtoupper($name);
+    public function update_from_tebar($fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $kolam_id, $id, $write_uid){
         $data = array(
-            'name' => $name,
+            'fr' => $fr,
+            'sr' => $sr,
+            'dosis_pakan' => $dosis_pakan,
+            'total_pakan' => $total_pakan,
+            'pagi' => $pagi,
+            'sore' => $sore,
+            'malam' => $malam,
+            'kolam_id' => $kolam_id,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('pemberian_pakan', $data);
     }
 
 
@@ -84,6 +90,6 @@ class Pemberian_pakan extends CI_Model
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('pemberian_pakan', $data);
     }
 }

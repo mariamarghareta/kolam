@@ -38,6 +38,8 @@ class Mastertebar extends CI_Controller {
         $this->data["selected_kolam"] = 0;
         $this->data["msg"] = "";
         $this->data["id"] = "";
+        $this->data["his_id"] = "";
+        $this->data["pakan_id"] = "";
         $this->data["search_word"] = "";
         $data_count = 10;
         $offset = 1;
@@ -95,11 +97,10 @@ class Mastertebar extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "update";
-        $datum = $this->Blok->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
+        $this->load_get_data();
         $this->load->view('mastertebar_form', $this->data);
     }
+
 
     public function delete(){
         $this->check_role();
@@ -107,12 +108,23 @@ class Mastertebar extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $datum = $this->Blok->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
+        $this->load_get_data();
         $this->load->view('mastertebar_form', $this->data);
     }
 
+
+    public function load_get_data(){
+        $datum = $this->Tebar->get($this->data['id'])[0];
+        $this->data["id"] = $datum->id;
+        $this->data["his_id"] = $datum->his_id;
+        $this->data["pakan_id"] = $datum->pakan_id;
+        $this->data['selected_kolam'] = $datum->kolam_id;
+        $this->data['selected_blok'] = $datum->blok_id;
+        $this->data["arr_kolam"] = $this->Kolam->get_kolam_for_tebar($this->data['selected_blok'], $this->data["id"]);
+        $this->data['sampling'] = $datum->sampling;
+        $this->data['biomass'] = $datum->biomass;
+        $this->data['size'] = $datum->sampling * 10;
+    }
 
     public function add_new_data(){
         $this->check_role();
@@ -172,26 +184,54 @@ class Mastertebar extends CI_Controller {
     public function update_data(){
         $this->check_role();
         $this->initialization();
-        $this->form_validation->set_rules('tname', 'Nama blok', 'required', array('required' => '%s harus diisi'));
+        $this->form_validation->set_rules('tblok', 'Blok', 'required', array('required' => '%s harus diisi'));
+        $this->form_validation->set_rules('tkolam', 'Kolam', 'required', array('required' => '%s harus diisi'));
+        $this->form_validation->set_rules('sampling', 'Sampling', 'required|numeric', array('required' => '%s harus diisi', 'numeric' => '%s berupa angka'));
+        $this->form_validation->set_rules('biomass', 'Biomass', 'required|numeric', array('required' => '%s harus diisi', 'numeric' => '%s berupa angka'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         $this->data['id'] = $this->input->post('tid');
-        $this->data['name'] = $this->input->post('tname');
-        if ($this->form_validation->run() != FALSE)
-        {
-            if($this->Blok->cek_kembar($this->data['name'], $this->data['id']) == false){
-                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Nama blok kembar</div>";
-            } else {
-                $result = $this->Blok->update($this->data['name'], $this->data['id'], $_SESSION['id']);
+        $this->data['his_id'] = $this->input->post('his_id');
+        $this->data['pakan_id'] = $this->input->post('pakan_id');
+        $this->data['selected_kolam'] = $this->input->post('tkolam');
+        $this->data['selected_blok'] = $this->input->post('tblok');
+        $this->data["arr_kolam"] = $this->Kolam->get_kolam_by_blok($this->data['selected_blok']);
+        $this->data['sampling'] = $this->input->post('sampling');
+        $this->data['biomass'] = $this->input->post('biomass');
+        $this->data['size'] = $this->input->post('size');
+        $this->data['total_pakan'] = $this->input->post('total_pakan');
+        $this->data['dosis_pakan'] = $this->input->post('dosis_pakan');
+        $this->data['total_ikan'] = $this->input->post('total_ikan');
+        $this->data['pagi'] = $this->input->post('pagi');
+        $this->data['sore'] = $this->input->post('sore');
+        $this->data['malam'] = $this->input->post('malam');
+        $this->data['fr'] = $this->input->post('fr');
+        $this->data['sr'] = $this->input->post('sr');
+        if($this->input->post('write') == "write") {
+            if ($this->form_validation->run() != FALSE)
+            {
+                #update data tebar
+                $result = $this->Tebar->update($this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'], $this->data['id'], $_SESSION['id']);
                 if($result == 1){
-                    redirect('Masterblok');
+                    #update pemberian pakan
+                    $pemberian_pakan_id = $this->Pemberian_pakan->update_from_tebar($this->data['fr'], $this->data['sr'], $this->data['dosis_pakan'], $this->data['total_pakan'], $this->data['pagi'],
+                        $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $this->data['pakan_id'], $_SESSION['id']);
+                    if ($pemberian_pakan_id) {
+                        #update tebar history
+                        $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['his_id'], $_SESSION['id']);
+                        if ($tebar_history) {
+                            redirect('Mastertebar');
+                        }
+                    }
                 }else{
                     $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
                 }
             }
+            $this->data["state"] = "update";
+            $this->load->view('mastertebar_form', $this->data);
+        }else {
+            redirect('Mastertebar');
         }
-        $this->data["state"] = "update";
-        $this->load->view('mastertebar_form', $this->data);
     }
 
 
@@ -199,14 +239,18 @@ class Mastertebar extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
-        $result = $this->Blok->delete($this->data['id'], $_SESSION['id']);
-        if($result == 1){
-            redirect('Masterblok');
-        }else{
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+        if($this->input->post('delete') == "delete") {
+            $result = $this->Tebar->delete($this->data['id'], $_SESSION['id']);
+            if($result == 1){
+                redirect('Mastertebar');
+            }else{
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+            }
+            $this->data["state"] = "delete";
+            $this->load->view('mastertebar_form', $this->data);
+        } else {
+            redirect('Mastertebar');
         }
-        $this->data["state"] = "delete";
-        $this->load->view('mastertebar_form', $this->data);
     }
 
 

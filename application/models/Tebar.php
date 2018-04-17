@@ -21,20 +21,24 @@ class Tebar extends CI_Model
         $dt = new DateTime();
         $dt->setTimezone(new DateTimeZone('GMT+7'));
         $prefix = $dt->format("Ymd");
-        return "$prefix" + "$this->get_sequence($prefix)";
+        return (string)$prefix . str_pad($this->get_sequence($prefix),3,"0",STR_PAD_LEFT );
     }
 
 
     public function get_sequence($prefix){
-        $this->db->like('substr(kode,0,8)', $prefix);
-        $this->db->from('tebar');
-        return $this->db->count_all_results() + 1;
+        $query = $this->db->select('count(*) as jumlah')
+            ->from('tebar')
+            ->like('substr(kode,1,8)', $prefix)
+            ->get();
+        $result = $query->result();
+
+        return $result[0]->jumlah + 1;
     }
 
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, tgl_tebar, sampling, size, biomass, total_ikan')
+        $query = $this->db->select('id, tgl_tebar, sampling, size, biomass, total_ikan, kode')
             ->from('tebar')
             ->where('deleted', 0)
             ->group_start()
@@ -75,25 +79,32 @@ class Tebar extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name')
-            ->from('obat')
-            ->where('id', $id)
-            ->where('deleted',0)
+        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id')
+            ->from('tebar')
+            ->join('tebar_history his', 'his.tebar_id = tebar.id', 'left')
+            ->join('kolam', 'kolam.id = his.tujuan_kolam_id', 'left')
+            ->join('blok', 'blok.id = kolam.blok_id', 'left')
+            ->join('pemberian_pakan pakan', 'pakan.sampling_id = his.sampling_id', 'left')
+            ->where('tebar.id', $id)
+            ->where('his.sequence', 1)
+            ->where('tebar.deleted',0)
             ->get();
         return $query->result();
     }
 
 
-    public function update($name, $id, $write_uid){
-        $name = strtoupper($name);
+    public function update($sampling, $size, $biomass, $total_ikan, $id, $write_uid){
         $data = array(
-            'name' => $name,
+            'sampling' => $sampling,
+            'size' => $size,
+            'biomass' => $biomass,
+            'total_ikan' => $total_ikan,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('tebar', $data);
     }
 
 
@@ -105,6 +116,6 @@ class Tebar extends CI_Model
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('tebar', $data);
     }
 }

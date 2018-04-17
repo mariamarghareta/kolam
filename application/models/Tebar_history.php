@@ -29,6 +29,17 @@ class Tebar_history extends CI_Model
     }
 
 
+    public function get_sequence($tebar_id){
+        $query = $this->db->select('count(*) as jumlah')
+            ->from('tebar_history')
+            ->where('tebar_id', $tebar_id)
+            ->get();
+        $result = $query->result();
+
+        return $result[0]->jumlah + 1;
+    }
+
+
     public function insert($tebar_id, $sampling_id, $grading_id, $keterangan, $asal_kolam, $tujuan_kolam, $create_uid){
         $data = array(
             'tebar_id' => $tebar_id,
@@ -39,7 +50,8 @@ class Tebar_history extends CI_Model
             'asal_kolam_id' => $asal_kolam,
             'tujuan_kolam_id' => $tujuan_kolam,
             'create_uid' => $create_uid,
-            'create_time' => $this->get_now()
+            'create_time' => $this->get_now(),
+            'sequence' => $this->get_sequence($tebar_id)
         );
         $query = $this->db->insert('tebar_history', $data);
         return $this->db->insert_id();
@@ -56,16 +68,15 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function update($name, $id, $write_uid){
-        $name = strtoupper($name);
+    public function update_by_tebar($tujuan_kolam, $id, $write_uid){
         $data = array(
-            'name' => $name,
+            'tujuan_kolam_id' => $tujuan_kolam,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('tebar_history', $data);
     }
 
 
@@ -77,6 +88,6 @@ class Tebar_history extends CI_Model
         );
 
         $this->db->where('id', $id);
-        return $this->db->update('obat', $data);
+        return $this->db->update('tebar_history', $data);
     }
 }

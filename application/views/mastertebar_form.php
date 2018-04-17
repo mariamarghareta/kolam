@@ -51,6 +51,8 @@
                 }
                 ?>
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
+                <input type="hidden" name="his_id" id="his_id" value="<?php echo $his_id; ?>">
+                <input type="hidden" name="pakan_id" id="pakan_id" value="<?php echo $pakan_id; ?>">
                 <div class="w3-container w3-white w3-padding-32">
                     <div style="margin:10px 20px;">
                         <?php if ($state == "delete"){?>
@@ -60,7 +62,7 @@
                             <label style="font-weight: bold">Blok</label>
                             <br>
                             <div id="div_blok" class="">
-                                <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" <?php } ?> data-live-search="true">
+                                <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                     <?php foreach($arr_blok as $row){
                                         if($row['id'] == $selected_blok){ ?>
                                             <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -131,8 +133,8 @@
                     </div>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
-                            <button name="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterpakan">Batal</a></button>
+                            <button name="write" value="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Mastertebar">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
                         <div class="text-center">
@@ -140,8 +142,8 @@
                         </div>
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
-                            <button name="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Masterpakan">Batal</a></button>
+                            <button name="delete" value="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Mastertebar">Batal</a></button>
                         </div>
                     <?php }?>
                     <div class="margin-up-sm">
@@ -171,20 +173,31 @@
         $(".slfadein").fadeIn("slow");
         $(".slhide").hide();
         $(".slshow").show();
+        calculate_sampling();
+        calculate();
     });
 
     if( "<?php echo $state ?>" == "delete"){
         $("input[type=text]").prop('disabled', true);
+        $("select").prop('disabled', true);
     }
 
     $("#sampling").keyup(function(){
+        calculate_sampling();
+    });
+
+    $("#biomass").keyup(function(){
+        calculate();
+    });
+
+    function calculate_sampling(){
         sampling = $("#sampling").val();
         size = sampling*10;
         $("#size").val(size);
         getData(size);
-    });
+    }
 
-    $("#biomass").keyup(function(){
+    function calculate(){
         biomass = $("#biomass").val();
         size = $("#size").val();
         fr = $("#fr").val()/100;
@@ -197,7 +210,7 @@
         $("#pagi").val((dosis_pakan*0.3).toFixed(3));
         $("#sore").val((dosis_pakan*0.3).toFixed(3));
         $("#malam").val((dosis_pakan*0.4).toFixed(3));
-    });
+    }
 
     $("#tblok").change(function(){
         changeKolam($(this).val());
@@ -219,6 +232,7 @@
                     $("#fr").val(data["fr"]);
                     $("#sr").val(data["sr"]);
                 }
+                calculate();
             }
         });
         return deferredData; // contains the passed data

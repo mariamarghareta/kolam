@@ -52,7 +52,8 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="tgl_tebar" data-sortable="true">Nama</th>
+                        <th data-field="tgl_tebar" data-sortable="true">Tanggal Tebar</th>
+                        <th data-field="kode" data-sortable="true">Kode</th>
                         <th data-field="sampling" data-sortable="true">Sampling 1 ons (ekor)</th>
                         <th data-field="size" data-sortable="true">Size (ekor/kg)</th>
                         <th data-field="biomass" data-sortable="true">Biomass</th>

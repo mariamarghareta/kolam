@@ -29,12 +29,12 @@
                 </ul>
             </li>
             <?php } ?>
-<!--            <li class="sub-menu">-->
-<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastertebar" id="menu_tebar" >-->
-<!--                    <i class="fa fa-plus"></i>-->
-<!--                    <span>Tebar Bibit</span>-->
-<!--                </a>-->
-<!--            </li>-->
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Mastertebar" id="menu_tebar" >
+                    <i class="fa fa-plus"></i>
+                    <span>Tebar Bibit</span>
+                </a>
+            </li>
             <?php if ($_SESSION['role_id'] == 1) {?>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Mastertime" id="menu_time" >
