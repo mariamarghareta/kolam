@@ -40,6 +40,7 @@ class Mastertebar extends CI_Controller {
         $this->data["id"] = "";
         $this->data["his_id"] = "";
         $this->data["pakan_id"] = "";
+        $this->data["kolam_id"] = "";
         $this->data["search_word"] = "";
         $data_count = 10;
         $offset = 1;
@@ -119,6 +120,7 @@ class Mastertebar extends CI_Controller {
         $this->data["his_id"] = $datum->his_id;
         $this->data["pakan_id"] = $datum->pakan_id;
         $this->data['selected_kolam'] = $datum->kolam_id;
+        $this->data['kolam_id'] = $datum->kolam_id;
         $this->data['selected_blok'] = $datum->blok_id;
         $this->data["arr_kolam"] = $this->Kolam->get_kolam_for_tebar($this->data['selected_blok'], $this->data["id"]);
         $this->data['sampling'] = $datum->sampling;
@@ -193,6 +195,7 @@ class Mastertebar extends CI_Controller {
         $this->data['id'] = $this->input->post('tid');
         $this->data['his_id'] = $this->input->post('his_id');
         $this->data['pakan_id'] = $this->input->post('pakan_id');
+        $this->data['kolam_id'] = $this->input->post('kolam_id');
         $this->data['selected_kolam'] = $this->input->post('tkolam');
         $this->data['selected_blok'] = $this->input->post('tblok');
         $this->data["arr_kolam"] = $this->Kolam->get_kolam_by_blok($this->data['selected_blok']);
@@ -217,10 +220,14 @@ class Mastertebar extends CI_Controller {
                     $pemberian_pakan_id = $this->Pemberian_pakan->update_from_tebar($this->data['fr'], $this->data['sr'], $this->data['dosis_pakan'], $this->data['total_pakan'], $this->data['pagi'],
                         $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $this->data['pakan_id'], $_SESSION['id']);
                     if ($pemberian_pakan_id) {
-                        #update tebar history
-                        $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['his_id'], $_SESSION['id']);
-                        if ($tebar_history) {
-                            redirect('Mastertebar');
+                        #update kolam pemberian pakan id
+                        $kolam_id = $this->Kolam->update_tebar_id($this->data['kolam_id'], $this->data['selected_kolam'], $this->data['pakan_id'], $this->data['id'], $_SESSION['id']);
+                        if ($kolam_id) {
+                            #update tebar history
+                            $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['his_id'], $_SESSION['id']);
+                            if ($tebar_history) {
+                                redirect('Mastertebar');
+                            }
                         }
                     }
                 }else{

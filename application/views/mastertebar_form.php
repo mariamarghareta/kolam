@@ -53,6 +53,7 @@
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
                 <input type="hidden" name="his_id" id="his_id" value="<?php echo $his_id; ?>">
                 <input type="hidden" name="pakan_id" id="pakan_id" value="<?php echo $pakan_id; ?>">
+                <input type="hidden" name="kolam_id" id="kolam_id" value="<?php echo $kolam_id; ?>">
                 <div class="w3-container w3-white w3-padding-32">
                     <div style="margin:10px 20px;">
                         <?php if ($state == "delete"){?>

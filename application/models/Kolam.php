@@ -73,7 +73,7 @@ class Kolam extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name')
+        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name, kolam.tebar_id, kolam.pemberian_pakan_id')
             ->from('kolam')
             ->join('blok', 'blok.id = kolam.blok_id')
             ->where('kolam.id', $id)
@@ -94,6 +94,57 @@ class Kolam extends CI_Model
 
         $this->db->where('id', $id);
         return $this->db->update('kolam', $data);
+    }
+
+
+    public function update_tebar_id($kolam_lama_id, $kolam_baru_id, $pakan_id, $tebar_id, $write_uid){
+        if ($kolam_baru_id != $kolam_lama_id){
+            $flag = True;
+            #ubah tebar id kolam lama
+            $data = array(
+                'tebar_id' => 0,
+                'write_uid' => $write_uid,
+                'write_time' => $this->get_now()
+            );
+            $this->db->where('id', $kolam_lama_id);
+            if(!$this->db->update('kolam', $data)){$flag=False;}
+
+            #ubah tebar id kolam lama
+            $data = array(
+                'tebar_id' => $tebar_id,
+                'write_uid' => $write_uid,
+                'write_time' => $this->get_now()
+            );
+            $this->db->where('id', $kolam_baru_id);
+            if(!$this->db->update('kolam', $data)){$flag=False;}
+
+            #update pakan id dari kolam lama
+            $kolam_lama = $this->get($kolam_lama_id);
+            if ($kolam_lama[0]->pemberian_pakan_id == $pakan_id){
+                $data = array(
+                    'pemberian_pakan_id' => 0,
+                    'write_uid' => $write_uid,
+                    'write_time' => $this->get_now()
+                );
+                $this->db->where('id', $kolam_lama_id);
+                if(!$this->db->update('kolam', $data)){$flag=False;}
+            }
+
+            #update pemberian pakan id kolam baru
+            $kolam_baru = $this->get($kolam_baru_id);
+            if ($kolam_baru[0]->pemberian_pakan_id == 0){
+                $data = array(
+                    'pemberian_pakan_id' => $pakan_id,
+                    'write_uid' => $write_uid,
+                    'write_time' => $this->get_now()
+                );
+                $this->db->where('id', $kolam_baru_id);
+                if(!$this->db->update('kolam', $data)){$flag=False;}
+            }
+            return $flag;
+        } else {
+            return True;
+        }
     }
 
 
