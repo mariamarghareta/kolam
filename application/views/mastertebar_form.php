@@ -119,17 +119,57 @@
                             <?php echo form_input(array('name'=>'total_pakan', 'id'=>'total_pakan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_pakan);?>
                             <?php echo form_error('total_pakan'); ?>
                             <br>
-                            <label>Pagi (kg)</label>
-                            <?php echo form_input(array('name'=>'pagi', 'id'=>'pagi', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
-                            <?php echo form_error('pagi'); ?>
+                            <label>Pagi</label>
+                            <div class="row">
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'pagi', 'id'=>'pagi', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
+                                    <?php echo form_error('pagi'); ?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    kg
+                                </div>
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'pagi_gr', 'id'=>'pagi_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    gr
+                                </div>
+                            </div>
+
                             <br>
                             <label>Sore (kg)</label>
-                            <?php echo form_input(array('name'=>'sore', 'id'=>'sore', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
-                            <?php echo form_error('sore'); ?>
+                            <div class="row">
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'sore', 'id'=>'sore', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
+                                    <?php echo form_error('sore'); ?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    kg
+                                </div>
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'sore_gr', 'id'=>'sore_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    gr
+                                </div>
+                            </div>
                             <br>
                             <label>Malam (kg)</label>
-                            <?php echo form_input(array('name'=>'malam', 'id'=>'malam', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
-                            <?php echo form_error('malam'); ?>
+                            <div class="row">
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'malam', 'id'=>'malam', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
+                                    <?php echo form_error('malam'); ?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    kg
+                                </div>
+                                <div class="col-xs-10 col-md-5 col-sm-10">
+                                    <?php echo form_input(array('name'=>'malam_gr', 'id'=>'malam_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
+                                </div>
+                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                    gr
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <?php if ($state == "update") { ?>
@@ -209,8 +249,11 @@
         $("#dosis_pakan").val((dosis_pakan).toFixed(4));
         $("#total_pakan").val((dosis_pakan*7).toFixed(4));
         $("#pagi").val((dosis_pakan*0.3).toFixed(3));
+        $("#pagi_gr").val($("#pagi").val() * 1000);
         $("#sore").val((dosis_pakan*0.3).toFixed(3));
+        $("#sore_gr").val($("#sore").val() * 1000);
         $("#malam").val((dosis_pakan*0.4).toFixed(3));
+        $("#malam_gr").val($("#malam").val() * 1000);
     }
 
     $("#tblok").change(function(){
