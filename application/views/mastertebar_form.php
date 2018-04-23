@@ -54,6 +54,7 @@
                 <input type="hidden" name="his_id" id="his_id" value="<?php echo $his_id; ?>">
                 <input type="hidden" name="pakan_id" id="pakan_id" value="<?php echo $pakan_id; ?>">
                 <input type="hidden" name="kolam_id" id="kolam_id" value="<?php echo $kolam_id; ?>">
+                <input type="hidden" name="sampling_id" id="sampling_id" value="<?php echo $sampling_id; ?>">
                 <div class="w3-container w3-white w3-padding-32">
                     <div style="margin:10px 20px;">
                         <?php if ($state == "delete"){?>
@@ -86,9 +87,25 @@
                                 </select>
                             </div>
                             <br>
-                            <label style="font-weight: bold">Sampling 1 ons (ekor)</label>
-                            <?php echo form_input(array('name'=>'sampling', 'id'=>'sampling', 'class'=>'w3-input'), $sampling);?>
-                            <?php echo form_error('sampling'); ?>
+                            <label style="font-weight: bold">Sampling</label>
+                            <div class="row">
+                                <div class="col-xs-7 col-md-4 col-sm-11">
+                                    <?php echo form_input(array('name'=>'sampling', 'id'=>'sampling', 'class'=>'w3-input'), $sampling);?>
+                                    <?php echo form_error('sampling'); ?>
+                                </div>
+                                <div class="col-xs-5 col-md-2 col-sm-1" style="padding-top:8px;">
+                                    ekor tiap
+                                </div>
+                                <div class="col-xs-6 col-md-3 col-sm-10">
+                                    <?php echo form_input(array('name'=>'tangka', 'id'=>'tangka', 'class'=>'w3-input'), $tangka);?>
+                                </div>
+                                <div class="col-xs-6 col-md-3 col-sm-2" style="padding-top:8px;">
+                                    <select class="form-control" id="tsatuan" name="tsatuan">
+                                        <option value="ons">Ons</option>
+                                        <option value="kg">Kg</option>
+                                    </select>
+                                </div>
+                            </div>
                             <br>
                             <label style="font-weight: bold">Biomass (kg)</label>
                             <?php echo form_input(array('name'=>'biomass', 'id'=>'biomass', 'class'=>'w3-input'), $biomass);?>
@@ -223,8 +240,17 @@
         $("select").prop('disabled', true);
     }
 
+    $("#tangka").keyup(function(){
+        calculate_sampling();
+    });
+
+    $("#tsatuan").change(function(){
+        calculate_sampling();
+    });
+
     $("#sampling").keyup(function(){
         calculate_sampling();
+        calculate();
     });
 
     $("#biomass").keyup(function(){
@@ -232,8 +258,14 @@
     });
 
     function calculate_sampling(){
+        $angka = $("#tangka").val();
+        $satuan = $("#tsatuan").val();
         sampling = $("#sampling").val();
-        size = sampling*10;
+        $var = 1;
+        if($satuan == "ons"){
+            $var = 10;
+        }
+        size = (sampling/$angka*$var).toFixed(0);
         $("#size").val(size);
         getData(size);
     }
@@ -243,7 +275,7 @@
         size = $("#size").val();
         fr = $("#fr").val()/100;
         sr = $("#sr").val()/100;
-        total_ikan = biomass*size;
+        total_ikan = (biomass*size).toFixed(0);
         dosis_pakan = biomass * fr * sr;
         $("#total_ikan").val(total_ikan);
         $("#dosis_pakan").val((dosis_pakan).toFixed(4));

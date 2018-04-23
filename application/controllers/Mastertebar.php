@@ -36,11 +36,13 @@ class Mastertebar extends CI_Controller {
         $this->data["sore"] = 0;
         $this->data["malam"] = 0;
         $this->data["selected_kolam"] = 0;
+        $this->data["tangka"] = 1;
         $this->data["msg"] = "";
         $this->data["id"] = "";
         $this->data["his_id"] = "";
         $this->data["pakan_id"] = "";
         $this->data["kolam_id"] = "";
+        $this->data["sampling_id"] = "";
         $this->data["search_word"] = "";
         $data_count = 10;
         $offset = 1;
@@ -119,13 +121,16 @@ class Mastertebar extends CI_Controller {
         $this->data["id"] = $datum->id;
         $this->data["his_id"] = $datum->his_id;
         $this->data["pakan_id"] = $datum->pakan_id;
+        $this->data["sampling_id"] = $datum->sampling_id;
         $this->data['selected_kolam'] = $datum->kolam_id;
         $this->data['kolam_id'] = $datum->kolam_id;
         $this->data['selected_blok'] = $datum->blok_id;
         $this->data["arr_kolam"] = $this->Kolam->get_kolam_for_tebar($this->data['selected_blok'], $this->data["id"]);
         $this->data['sampling'] = $datum->sampling;
         $this->data['biomass'] = $datum->biomass;
-        $this->data['size'] = $datum->sampling * 10;
+        $this->data['size'] = $datum->size;
+        $this->data['tangka'] = $datum->angka;
+        $this->data['tsatuan'] = $datum->satuan;
     }
 
     public function add_new_data(){
@@ -151,17 +156,20 @@ class Mastertebar extends CI_Controller {
         $this->data['malam'] = $this->input->post('malam');
         $this->data['fr'] = $this->input->post('fr');
         $this->data['sr'] = $this->input->post('sr');
+        $this->data['tangka'] = $this->input->post('tangka');
+        $this->data['tsatuan'] = $this->input->post('tsatuan');
         if ($this->form_validation->run() != FALSE)
         {
             #insert tabel tebar
-            $result = $this->Tebar->insert($this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'], $_SESSION['id']);
+            $result = $this->Tebar->insert($this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'], $this->data['tangka'], $this->data['tsatuan'], $_SESSION['id']);
             if($result) {
                 #insert sampling
                 $sampling_id = $this->Sampling->insert($result, $this->data['selected_kolam'], 0, 0, 0, $_SESSION['id']);
                 if ($sampling_id) {
                     #insert pemberian pakan
                     $pemberian_pakan_id = $this->Pemberian_pakan->insert("", $this->data['fr'], $this->data['sr'], $this->data['dosis_pakan'], $this->data['total_pakan'], $this->data['pagi'],
-                        $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $sampling_id, 0, $_SESSION['id']);
+                        $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $sampling_id, 0, $this->data['sampling'], $this->data['size'], $this->data['biomass'],
+                        $this->data['total_ikan'], $this->data['tangka'], $this->data['tsatuan'], $_SESSION['id']);
                     if ($pemberian_pakan_id) {
                         #update kolam pemberian pakan id
                         $kolam_id = $this->Kolam->update_pemberian_pakan($pemberian_pakan_id, $result, $this->data['selected_kolam'], $_SESSION['id']);
@@ -196,6 +204,7 @@ class Mastertebar extends CI_Controller {
         $this->data['his_id'] = $this->input->post('his_id');
         $this->data['pakan_id'] = $this->input->post('pakan_id');
         $this->data['kolam_id'] = $this->input->post('kolam_id');
+        $this->data['sampling_id'] = $this->input->post('sampling_id');
         $this->data['selected_kolam'] = $this->input->post('tkolam');
         $this->data['selected_blok'] = $this->input->post('tblok');
         $this->data["arr_kolam"] = $this->Kolam->get_kolam_by_blok($this->data['selected_blok']);
@@ -210,26 +219,30 @@ class Mastertebar extends CI_Controller {
         $this->data['malam'] = $this->input->post('malam');
         $this->data['fr'] = $this->input->post('fr');
         $this->data['sr'] = $this->input->post('sr');
+        $this->data['tangka'] = $this->input->post('tangka');
+        $this->data['tsatuan'] = $this->input->post('tsatuan');
         if($this->input->post('write') == "write") {
             if ($this->form_validation->run() != FALSE)
             {
                 #update data tebar
-                $result = $this->Tebar->update($this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'], $this->data['id'], $_SESSION['id']);
-                if($result == 1){
+                $result = $this->Tebar->update($this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'], $this->data['tangka'], $this->data['tsatuan'], $this->data['id'], $_SESSION['id']);
+                if($result){
                     #update pemberian pakan
                     $pemberian_pakan_id = $this->Pemberian_pakan->update_from_tebar($this->data['fr'], $this->data['sr'], $this->data['dosis_pakan'], $this->data['total_pakan'], $this->data['pagi'],
-                        $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $this->data['pakan_id'], $_SESSION['id']);
+                        $this->data['sore'], $this->data['malam'], $result, $this->data['selected_kolam'], $this->data['sampling'], $this->data['size'], $this->data['biomass'], $this->data['total_ikan'],
+                        $this->data['tangka'], $this->data['tsatuan'], $this->data['pakan_id'], $_SESSION['id']);
                     if ($pemberian_pakan_id) {
                         #update kolam pemberian pakan id
                         $kolam_id = $this->Kolam->update_tebar_id($this->data['kolam_id'], $this->data['selected_kolam'], $this->data['pakan_id'], $this->data['id'], $_SESSION['id']);
                         if ($kolam_id) {
                             #update tebar history
-                            $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['his_id'], $_SESSION['id']);
+                            $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['id'], $this->data['his_id'], $_SESSION['id']);
                             if ($tebar_history) {
                                 redirect('Mastertebar');
                             }
                         }
                     }
+
                 }else{
                     $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Update Gagal</div>";
                 }

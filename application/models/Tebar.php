@@ -38,7 +38,7 @@ class Tebar extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, tgl_tebar, sampling, size, biomass, total_ikan, kode')
+        $query = $this->db->select('id, tgl_tebar, sampling, size, biomass, total_ikan, kode, angka, satuan')
             ->from('tebar')
             ->where('deleted', 0)
             ->group_start()
@@ -62,7 +62,7 @@ class Tebar extends CI_Model
     }
 
 
-    public function insert($sampling, $size, $biomass, $total_ikan, $create_uid){
+    public function insert($sampling, $size, $biomass, $total_ikan, $angka, $satuan, $create_uid){
         $data = array(
             'sampling' => $sampling,
             'size' => $size,
@@ -71,7 +71,9 @@ class Tebar extends CI_Model
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
             'tgl_tebar' => $this->get_now(),
-            'kode' => $this->get_kode()
+            'kode' => $this->get_kode(),
+            'angka' => $angka,
+            'satuan' => $satuan
         );
         $query = $this->db->insert('tebar', $data);
         return $this->db->insert_id();
@@ -79,7 +81,7 @@ class Tebar extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id')
+        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id, his.sampling_id, tebar.angka, tebar.satuan')
             ->from('tebar')
             ->join('tebar_history his', 'his.tebar_id = tebar.id', 'left')
             ->join('kolam', 'kolam.id = his.tujuan_kolam_id', 'left')
@@ -93,12 +95,14 @@ class Tebar extends CI_Model
     }
 
 
-    public function update($sampling, $size, $biomass, $total_ikan, $id, $write_uid){
+    public function update($sampling, $size, $biomass, $total_ikan, $angka, $satuan, $id, $write_uid){
         $data = array(
             'sampling' => $sampling,
             'size' => $size,
             'biomass' => $biomass,
             'total_ikan' => $total_ikan,
+            'angka' => $angka,
+            'satuan' => $satuan,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );

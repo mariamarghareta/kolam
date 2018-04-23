@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Tebar Bibit</title>
+    <title>Sampling</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,8 +37,8 @@
         <section class="wrapper site-min-height">
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
-                    <div class="col-sm-8 page-title">Tebar Bibit</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Mastertebar/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-8 page-title">Sampling</div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Mastersampling/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -52,14 +52,13 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="tgl_tebar" data-sortable="true">Tanggal Tebar</th>
-                        <th data-field="kode" data-sortable="true">Kode</th>
-                        <th data-field="sampling" data-sortable="true">Sampling (ekor)</th>
-                        <th data-field="angka" data-sortable="true">Tiap</th>
-                        <th data-field="satuan" data-sortable="true">Satuan</th>
-                        <th data-field="size" data-sortable="true">Size (ekor/kg)</th>
-                        <th data-field="biomass" data-sortable="true">Biomass</th>
-                        <th data-field="total_ikan" data-sortable="true">Total Ikan</th>
+                        <th data-field="kode" data-sortable="true">Kode Tebar</th)>
+                        <th data-field="dt" data-sortable="true">Tgl. Sampling</th)>
+                        <th data-field="blok_name" data-sortable="true">Blok</th>
+                        <th data-field="kolam_name" data-sortable="true">Kolam</th>
+                        <th data-field="kenaikan_daging" data-sortable="true">Kenaikan Daging</th>
+                        <th data-field="fcr" data-sortable="true">FCR</th>
+                        <th data-field="adg" data-sortable="true">ADG</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -103,7 +102,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Mastertebar" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Mastersampling" name="route" id="route"/>
 
             </div>
         </section>
@@ -126,7 +125,7 @@
     });
 
     $(document).ready(function(){
-        $("#menu_tebar").addClass('active');
+        $("#menu_sampling").addClass('active');
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");
         $(".slup").slideUp("slow");
@@ -137,8 +136,8 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastertebar/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastertebar/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }
 </script>

@@ -29,7 +29,7 @@ class Pemberian_pakan extends CI_Model
     }
 
 
-    public function insert($ukuran, $fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling_id, $grading_id, $create_uid){
+    public function insert($ukuran, $fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling_id, $grading_id, $sampling, $size, $biomass, $total_ikan, $angka, $satuan, $create_uid){
         $data = array(
             'is_active' => 1,
             'ukuran' => $ukuran,
@@ -44,26 +44,32 @@ class Pemberian_pakan extends CI_Model
             'kolam_id' => $kolam_id,
             'sampling_id' => $sampling_id,
             'grading_id' => $grading_id,
+            'sampling' => $sampling,
+            'size' => $size,
+            'biomass' => $biomass,
+            'total_ikan' => $total_ikan,
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
             'dt' => $this->get_now(),
+            'angka' => $angka,
+            'satuan' => $satuan,
         );
         $query = $this->db->insert('pemberian_pakan', $data);
         return $this->db->insert_id();
     }
 
 
-    public function get($id){
-        $query = $this->db->select('id, name')
-            ->from('obat')
-            ->where('id', $id)
+    public function get_by_sampling($id){
+        $query = $this->db->select('id, sampling, angka, satuan, size, biomass, total_ikan, ukuran, fr, sr, dosis_pakan, total_pakan, pagi, sore, malam, tebar_id, kolam_id, sampling_id, grading_id')
+            ->from('pemberian_pakan')
+            ->where('sampling_id', $id)
             ->where('deleted',0)
             ->get();
         return $query->result();
     }
 
 
-    public function update_from_tebar($fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $kolam_id, $id, $write_uid){
+    public function update_from_tebar($fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling, $size, $biomass, $total_ikan, $angka, $satuan, $id, $write_uid){
         $data = array(
             'fr' => $fr,
             'sr' => $sr,
@@ -72,9 +78,16 @@ class Pemberian_pakan extends CI_Model
             'pagi' => $pagi,
             'sore' => $sore,
             'malam' => $malam,
+            'tebar_id' => $tebar_id,
             'kolam_id' => $kolam_id,
+            'sampling' => $sampling,
+            'size' => $size,
+            'biomass' => $biomass,
+            'total_ikan' => $total_ikan,
             'write_uid' => $write_uid,
-            'write_time' => $this->get_now()
+            'write_time' => $this->get_now(),
+            'angka' => $angka,
+            'satuan' => $satuan,
         );
 
         $this->db->where('id', $id);

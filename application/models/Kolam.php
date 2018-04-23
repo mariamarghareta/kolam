@@ -161,12 +161,24 @@ class Kolam extends CI_Model
 
 
     public function get_kolam_by_blok($blok_id){
-        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name')
+        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name, kolam.tebar_id')
             ->from('kolam')
             ->join('blok', 'blok.id = kolam.blok_id')
             ->where('kolam.deleted', 0)
             ->where('blok.id', $blok_id)
             ->where('kolam.tebar_id', 0)
+            ->get();
+        return $query->result_array();
+    }
+
+
+    public function get_occupied_kolam($blok_id){
+        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name, kolam.tebar_id')
+            ->from('kolam')
+            ->join('blok', 'blok.id = kolam.blok_id')
+            ->where('kolam.deleted', 0)
+            ->where('blok.id', $blok_id)
+            ->where('kolam.tebar_id !=', 0)
             ->get();
         return $query->result_array();
     }
@@ -191,6 +203,56 @@ class Kolam extends CI_Model
         $data = array(
             'pemberian_pakan_id' => $pemberian_pakan_id,
             'tebar_id' => $tebar_id,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('kolam', $data);
+    }
+
+
+    public function get_last_pakan($id, $tebar_id, $write_uid){
+        print $id;
+        print $tebar_id;
+        $query = $this->db->select('his.sampling_id, his.grading_id')
+            ->from('tebar_history his')
+            ->where('his.deleted', 0)
+            ->where('his.tebar_id', $tebar_id)
+            ->where('his.tujuan_kolam_id', $id)
+            ->order_by('sequence desc')
+            ->limit(1)
+            ->get();
+        $temp = $query->result()[0];
+        if($temp->sampling_id != 0){
+            $query = $this->db->select('id')
+                ->from('pemberian_pakan')
+                ->where('sampling_id', $temp->sampling_id)
+                ->where('deleted', 0)
+                ->get();
+            $pakan_id = $query->result()[0]->id;
+        } else {
+            $query = $this->db->select('id')
+                ->from('pemberian_pakan')
+                ->where('grading_id', $temp->grading_id)
+                ->where('deleted', 0)
+                ->get();
+            $pakan_id = $query->result()[0]->id;
+        }
+        $data = array(
+            'pemberian_pakan_id' => $pakan_id,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('kolam', $data);
+    }
+
+    public function update_pemberian_pakan_sampling($kolam_lama, $pemberian_pakan_id, $tebar_id, $id, $write_uid){
+        $this->get_last_pakan($kolam_lama, $tebar_id, $write_uid);
+        $data = array(
+            'pemberian_pakan_id' => $pemberian_pakan_id,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );

@@ -58,19 +58,85 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function get($id){
-        $query = $this->db->select('id, name')
-            ->from('obat')
-            ->where('id', $id)
+    public function get_by_sampling($id){
+        $query = $this->db->select('id, tebar_id, sequence, sampling_id, grading_id, keterangan, asal_kolam_id, tujuan_kolam_id')
+            ->from('tebar_history')
+            ->where('sampling_id', $id)
             ->where('deleted',0)
             ->get();
         return $query->result();
     }
 
 
-    public function update_by_tebar($tujuan_kolam, $id, $write_uid){
+    public function get_total_ikan($kolam_id){
+        $query = $this->db->select('sampling_id, grading_id')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('tujuan_kolam_id', $kolam_id)
+            ->group_start()
+            ->group_start()
+            ->where('sampling_id !=', 0)
+            ->where('sequence', 1)
+            ->group_end()
+//            ->or_where('grading_id !=', 0)
+            ->group_end()
+            ->order_by('sequence desc')
+            ->limit(1)
+            ->get();
+        $id = $query->result_array();
+        if($id[0]["sampling_id"] != 0){
+            $query = $this->db->select('total_ikan, biomass, total_pakan')
+                ->where('sampling_id', $id[0]["sampling_id"])
+                ->from('pemberian_pakan')
+                ->get();
+            return ($query->result_array());
+        } else if($id[0]["grading_id"] != 0){
+            $query = $this->db->select('total_ikan, biomass, total_pakan')
+                ->where('grading_id', $id[0]["grading_id"])
+                ->from('pemberian_pakan')
+                ->get();
+            return ($query->result_array());
+        }
+    }
+
+
+    public function get_history_by_sampling($kolam_id, $seq){
+        $query = $this->db->select('sampling_id, grading_id')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('tujuan_kolam_id', $kolam_id)
+            ->where('sequence <=', $seq)
+            ->group_start()
+            ->group_start()
+            ->where('sampling_id !=', 0)
+            ->where('sequence', 1)
+            ->group_end()
+//            ->or_where('grading_id !=', 0)
+            ->group_end()
+            ->order_by('sequence desc')
+            ->limit(1)
+            ->get();
+        $id = $query->result_array();
+        if($id[0]["sampling_id"] != 0){
+            $query = $this->db->select('total_ikan, biomass, total_pakan')
+                ->where('sampling_id', $id[0]["sampling_id"])
+                ->from('pemberian_pakan')
+                ->get();
+            return ($query->result_array());
+        } else if($id[0]["grading_id"] != 0){
+            $query = $this->db->select('total_ikan, biomass, total_pakan')
+                ->where('grading_id', $id[0]["grading_id"])
+                ->from('pemberian_pakan')
+                ->get();
+            return ($query->result_array());
+        }
+    }
+
+
+    public function update_by_tebar($tujuan_kolam, $tebar_id, $id, $write_uid){
         $data = array(
             'tujuan_kolam_id' => $tujuan_kolam,
+            'tebar_id' => $tebar_id,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );
