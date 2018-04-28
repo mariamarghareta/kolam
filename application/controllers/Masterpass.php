@@ -21,7 +21,7 @@ class Masterpass extends CI_Controller {
 
     }
     public function check_role(){
-        if(isset($_SESSION['role_id'])){
+        if(isset($_SESSION['hash'], $_SESSION['hash'])){
             $double_login = $this->Karyawan->check_double_login($_SESSION['id'], $_SESSION['hash']);
             $newdata = array(
                 'role_id'  => $_SESSION['role_id'],

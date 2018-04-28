@@ -72,7 +72,7 @@
                         <?php } ?>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label style="font-weight: bold">Blok</label>
+                                <label style="font-weight: bold">Blok </label><label style="color: red; padding-left: 5px;"> *</label>
                                 <br>
                                 <div id="div_blok" class="">
                                     <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
@@ -85,7 +85,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label style="font-weight: bold">Kolam</label>
+                                <label style="font-weight: bold">Kolam</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <br>
                                 <div id="div_blok" class="">
                                     <select id="tkolam" name="tkolam" class="form-control" style="width:220px;">
@@ -98,7 +98,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label style="font-weight: bold">Sampling</label>
+                                <label style="font-weight: bold">Sampling</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <div class="row">
                                     <div class="col-xs-7 col-md-4 col-sm-11">
                                         <?php echo form_input(array('name'=>'sampling', 'id'=>'sampling', 'class'=>'w3-input'), $sampling);?>

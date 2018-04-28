@@ -81,7 +81,9 @@ class Karyawan extends CI_Model {
             'role_id' => $kd_role,
             'deleted' => 0,
             'create_uid' => $id,
-            'create_time' => $this->get_now()
+            'create_time' => $this->get_now(),
+            'write_uid' => $id,
+            'write_time' => $this->get_now()
         );
 
         $query = $this->db->insert('karyawan', $data);

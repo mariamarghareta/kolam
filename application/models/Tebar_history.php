@@ -51,7 +51,9 @@ class Tebar_history extends CI_Model
             'tujuan_kolam_id' => $tujuan_kolam,
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
-            'sequence' => $this->get_sequence($tebar_id)
+            'sequence' => $this->get_sequence($tebar_id),
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
         );
         $query = $this->db->insert('tebar_history', $data);
         return $this->db->insert_id();

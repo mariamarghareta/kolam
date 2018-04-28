@@ -24,6 +24,7 @@ class Obat extends CI_Model
             ->where('deleted', 0)
             ->like('name ', $searchword)
             ->limit($data_count, ($offset-1) * $data_count)
+            ->order_by('status asc')
             ->get();
         return $query->result_array();
     }
@@ -31,9 +32,10 @@ class Obat extends CI_Model
 
     public function show_all_data()
     {
-        $query = $this->db->select('id, name')
+        $query = $this->db->select('id, name, satuan, stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
             ->from('obat')
             ->where('deleted', 0)
+            ->order_by('status asc')
             ->get();
         return $query->result_array();
     }
@@ -71,7 +73,9 @@ class Obat extends CI_Model
             'min' => $min,
             'satuan' => $satuan,
             'create_uid' => $create_uid,
-            'create_time' => $this->get_now()
+            'create_time' => $this->get_now(),
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
         );
         $query = $this->db->insert('obat', $data);
         return $query;
@@ -79,7 +83,7 @@ class Obat extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name, min, satuan')
+        $query = $this->db->select('id, name, min, satuan, stok')
             ->from('obat')
             ->where('id', $id)
             ->where('deleted',0)
@@ -106,6 +110,32 @@ class Obat extends CI_Model
     public function delete($id, $write_uid){
         $data = array(
             'deleted' => 1,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('obat', $data);
+    }
+
+    public function tambah_stok($id, $jumlah, $write_uid){
+        $data_sekarang = $this->get($id);
+        $lama = $data_sekarang[0]->stok;
+        $sekarang = $lama + $jumlah;
+        $data = array(
+            'stok' => $sekarang,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('obat', $data);
+    }
+
+
+    public function update_stok($id, $stok, $write_uid){
+        $data = array(
+            'stok' => $stok,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );

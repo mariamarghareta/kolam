@@ -65,7 +65,9 @@ class Kolam extends CI_Model
             'name' => $nama,
             'blok_id' => $blok_id,
             'create_uid' => $create_uid,
-            'create_time' => $this->get_now()
+            'create_time' => $this->get_now(),
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
         );
         $query = $this->db->insert('kolam', $data);
         return $query;
@@ -73,9 +75,11 @@ class Kolam extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name, kolam.tebar_id, kolam.pemberian_pakan_id')
+        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name, kolam.tebar_id, kolam.pemberian_pakan_id, pakan.total_ikan, pakan.biomass, pakan.size, tebar.tgl_tebar')
             ->from('kolam')
             ->join('blok', 'blok.id = kolam.blok_id')
+            ->join('pemberian_pakan pakan', 'pakan.id = kolam.pemberian_pakan_id', 'left')
+            ->join('tebar', 'tebar.id = kolam.tebar_id', 'left')
             ->where('kolam.id', $id)
             ->where('kolam.deleted',0)
             ->get();

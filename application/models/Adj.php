@@ -1,5 +1,5 @@
 <?php
-class Blok extends CI_Model
+class Adj extends CI_Model
 {
 
     public function __construct()
@@ -19,9 +19,8 @@ class Blok extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, name')
-            ->from('blok')
-            ->where('deleted', 0)
+        $query = $this->db->select('ref_id, type, stok, create_time, name')
+            ->from('inv_adj')
             ->like('name ', $searchword)
             ->limit($data_count, ($offset-1) * $data_count)
             ->get();
@@ -53,39 +52,31 @@ class Blok extends CI_Model
 
     public function get_count_all()
     {
-        $this->db->like('deleted', 0);
-        $this->db->from('blok');
+        $this->db->from('inv_adj');
         return $this->db->count_all_results();
     }
 
 
-    public function cek_kembar($name, $id){
-        if ($name == ""){
-            return false;
-        }
-        $this->db->from('blok')
-            ->where('name', strtoupper($name))
-            ->where('deleted', 0)
-            ->where('id !=', $id);
-        $query = $this->db->count_all_results();
-        if($query >= 1){
-            return false;
-        } else {
-            return true;
-        }
+    public function insert_pakan($pakan_id, $stok, $create_uid){
+        $data = array(
+            'pakan_id' => $pakan_id,
+            'stok' => $stok,
+            'create_uid' => $create_uid,
+            'create_time' => $this->get_now()
+        );
+        $query = $this->db->insert('pakan_inventory_adj', $data);
+        return $query;
     }
 
 
-    public function insert($nama, $create_uid){
-        $nama = strtoupper($nama);
+    public function insert_obat($obat_id, $stok, $create_uid){
         $data = array(
-            'name' => $nama,
+            'obat_id' => $obat_id,
+            'stok' => $stok,
             'create_uid' => $create_uid,
-            'create_time' => $this->get_now(),
-            'write_uid' => $create_uid,
-            'write_time' => $this->get_now()
+            'create_time' => $this->get_now()
         );
-        $query = $this->db->insert('blok', $data);
+        $query = $this->db->insert('obat_inventory_adj', $data);
         return $query;
     }
 

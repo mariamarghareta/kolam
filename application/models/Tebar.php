@@ -73,7 +73,9 @@ class Tebar extends CI_Model
             'tgl_tebar' => $this->get_now(),
             'kode' => $this->get_kode(),
             'angka' => $angka,
-            'satuan' => $satuan
+            'satuan' => $satuan,
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
         );
         $query = $this->db->insert('tebar', $data);
         return $this->db->insert_id();

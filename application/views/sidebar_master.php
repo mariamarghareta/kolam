@@ -26,6 +26,7 @@
                     <li id="menu_tabel_pakan"><a  href="<?= base_url();?><?= index_page();?>/Mastertabelpakan" >Master Tabel Pakan</a></li>
                     <li id="menu_mitra"><a  href="<?= base_url();?><?= index_page();?>/Mastermitra" >Master Mitra Bisnis</a></li>
                     <li id="menu_karyawan"><a  href="<?= base_url();?><?= index_page();?>/Masterkaryawan" >Master Karyawan</a></li>
+                    <li id="menu_invadj"><a  href="<?= base_url();?><?= index_page();?>/StockAdj" >Inventory Adjustment</a></li>
                 </ul>
             </li>
             <?php } ?>
@@ -39,6 +40,18 @@
                 <a href="<?= base_url();?><?= index_page();?>/Mastersampling" id="menu_sampling" >
                     <i class="fa fa-plus"></i>
                     <span>Sampling</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Monitoringpakan" id="menu_monitoring_pakan" >
+                    <i class="fa fa-plus"></i>
+                    <span>Monitoring Pakan</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/TransaksiPembelian" id="menu_pembelian" >
+                    <i class="fa fa-plus"></i>
+                    <span>Pembelian</span>
                 </a>
             </li>
             <?php if ($_SESSION['role_id'] == 1) {?>

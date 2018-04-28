@@ -53,6 +53,9 @@ class Pemberian_pakan extends CI_Model
             'dt' => $this->get_now(),
             'angka' => $angka,
             'satuan' => $satuan,
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
+
         );
         $query = $this->db->insert('pemberian_pakan', $data);
         return $this->db->insert_id();

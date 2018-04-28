@@ -65,7 +65,9 @@ class Tabelpakan extends CI_Model
             'fr' => $fr,
             'sr' => $sr,
             'create_uid' => $create_uid,
-            'create_time' => $this->get_now()
+            'create_time' => $this->get_now(),
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
         );
         $query = $this->db->insert('tabel_pakan', $data);
         return $query;
