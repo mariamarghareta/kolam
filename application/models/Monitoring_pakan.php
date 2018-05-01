@@ -35,6 +35,7 @@ class Monitoring_pakan extends CI_Model
             ->or_like('mon.dt ', $searchword)
             ->group_end()
             ->limit($data_count, ($offset-1) * $data_count)
+            ->order_by('mon.create_time desc')
             ->get();
         return $query->result_array();
     }

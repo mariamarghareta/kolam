@@ -160,13 +160,48 @@ class Pembelian extends CI_Model
     }
 
 
+    public function update_obat($obat_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $id, $write_uid){
+        $data = array(
+            'obat_id' => $obat_id,
+            'jumlah_item' => $jumlah_item,
+            'harga_per_item' => $harga_per_item,
+            'total_harga' => $total_harga,
+            'isi' => $isi,
+            'total_isi' => $total_isi,
+            'keterangan' => $keterangan,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('beli_obat', $data);
+    }
+
+
+    public function update_pakan($pakan_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $id, $write_uid){
+        $data = array(
+            'pakan_id' => $pakan_id,
+            'jumlah_item' => $jumlah_item,
+            'harga_per_item' => $harga_per_item,
+            'total_harga' => $total_harga,
+            'isi' => $isi,
+            'total_isi' => $total_isi,
+            'keterangan' => $keterangan,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('beli_pakan', $data);
+    }
+
+
     public function delete($id, $tipe, $write_uid){
         $data = array(
             'deleted' => 1,
             'write_uid' => $write_uid,
             'write_time' => $this->get_now()
         );
-//      WARNING INI HARUS UPDATE STOK
         $this->db->where('id', $id);
         if($tipe == 'o'){
             return $this->db->update('beli_obat', $data);
