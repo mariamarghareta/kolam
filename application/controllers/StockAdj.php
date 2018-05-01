@@ -107,7 +107,7 @@ class StockAdj extends CI_Controller {
         $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');
-        echo json_encode([$this->Obat->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Obat->get_count_all()]);
+        echo json_encode([$this->Adj->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Adj->get_count_all()]);
 
     }
 

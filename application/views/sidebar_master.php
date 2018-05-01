@@ -49,6 +49,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Monitoringair" id="menu_monitoring_air" >
+                    <i class="fa fa-plus"></i>
+                    <span>Monitoring Air</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/TransaksiPembelian" id="menu_pembelian" >
                     <i class="fa fa-plus"></i>
                     <span>Pembelian</span>

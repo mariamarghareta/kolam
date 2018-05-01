@@ -40,6 +40,14 @@ class Obat extends CI_Model
         return $query->result_array();
     }
 
+    public function show_all_in_stock(){
+        $query = $this->db->select('id, name, satuan, stok')
+            ->from('obat')
+            ->where('deleted', 0)
+            ->where('stok >', 0)
+            ->get();
+        return $query->result_array();
+    }
 
     public function get_count_all()
     {
@@ -133,6 +141,24 @@ class Obat extends CI_Model
     }
 
 
+    public function kurangi_stok($id, $jumlah, $write_uid){
+        $data_sekarang = $this->get($id);
+        $lama = $data_sekarang[0]->stok;
+        $sekarang = $lama - $jumlah;
+        if($sekarang < 0 ){
+            $sekarang = 0;
+        }
+        $data = array(
+            'stok' => $sekarang,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('obat', $data);
+    }
+
+
     public function update_stok($id, $stok, $write_uid){
         $data = array(
             'stok' => $stok,
@@ -142,5 +168,15 @@ class Obat extends CI_Model
 
         $this->db->where('id', $id);
         return $this->db->update('obat', $data);
+    }
+
+
+    public function update_live_stok($id, $write_uid){
+        $query = $this->db->select('obat_id, final_stok')
+            ->from('obat_real_stok')
+            ->where('obat_id', $id)
+            ->get();
+        $real_stok = $query->result()[0]->final_stok;
+        return $this->update_stok($id, $real_stok, $write_uid);
     }
 }
