@@ -38,7 +38,7 @@
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
                     <div class="col-sm-8 page-title">Inventory Adjustment</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/StockAdj/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Stockadj/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -95,7 +95,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/StockAdj" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Stockadj" name="route" id="route"/>
 
             </div>
         </section>
@@ -130,8 +130,8 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/StockAdj/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/StockAdj/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Stockadj/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Stockadj/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }
 </script>

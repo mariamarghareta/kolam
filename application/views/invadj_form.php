@@ -43,11 +43,11 @@
                 <?php
                 $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
                 if ($state == "update"){
-                    echo form_open('StockAdj/update_data', $attributes);
+                    echo form_open('Stockadj/update_data', $attributes);
                 } else if ($state == "create"){
-                    echo form_open('StockAdj/add_new_data', $attributes);
+                    echo form_open('Stockadj/add_new_data', $attributes);
                 } else if ($state == "delete"){
-                    echo form_open('StockAdj/delete_data', $attributes);
+                    echo form_open('Stockadj/delete_data', $attributes);
                 }
                 ?>
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
@@ -99,7 +99,7 @@
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
                             <button name="write" value="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/StockAdj">Batal</a></button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Stockadj">Batal</a></button>
                         </div>
                     <?php } else if ($state == "create"){ ?>
                         <div class="text-center">
@@ -108,7 +108,7 @@
                     <?php } else if ($state == "delete"){?>
                         <div class="text-center">
                             <button name="delete" value="delete" type="submit" class="w3-button w3-red w3-center margin-up-md">Hapus Data</button>
-                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/StockAdj">Batal</a></button>
+                            <button name="cancel" class="w3-button w3-grey w3-center margin-up-md"><a href="<?php echo base_url() . index_page(); ?>/Stockadj">Batal</a></button>
                         </div>
                     <?php }?>
                     <div class="margin-up-sm">

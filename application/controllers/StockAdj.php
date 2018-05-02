@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class StockAdj extends CI_Controller {
+class Stockadj extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
@@ -93,7 +93,7 @@ class StockAdj extends CI_Controller {
             }
         }
         if($result == 1){
-            redirect('StockAdj');
+            redirect('Stockadj');
         }else{
             $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Insert Gagal</div>";
         }

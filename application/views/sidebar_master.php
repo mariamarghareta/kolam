@@ -26,7 +26,7 @@
                     <li id="menu_tabel_pakan"><a  href="<?= base_url();?><?= index_page();?>/Mastertabelpakan" >Master Tabel Pakan</a></li>
                     <li id="menu_mitra"><a  href="<?= base_url();?><?= index_page();?>/Mastermitra" >Master Mitra Bisnis</a></li>
                     <li id="menu_karyawan"><a  href="<?= base_url();?><?= index_page();?>/Masterkaryawan" >Master Karyawan</a></li>
-                    <li id="menu_invadj"><a  href="<?= base_url();?><?= index_page();?>/StockAdj" >Inventory Adjustment</a></li>
+                    <li id="menu_invadj"><a  href="<?= base_url();?><?= index_page();?>/Stockadj" >Inventory Adjustment</a></li>
                 </ul>
             </li>
             <?php } ?>
