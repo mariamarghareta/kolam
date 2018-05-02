@@ -12,6 +12,7 @@ class Monitoring extends CI_Controller {
         $this->load->model('Timeout');
         $this->load->model('Pakan');
         $this->load->model('Obat');
+        $this->load->model('Monitoring_pakan');
         $this->load->model('Karyawan');
     }
     private $data;
@@ -57,5 +58,6 @@ class Monitoring extends CI_Controller {
         $this->data["search_word"] = "";
         $this->data["arr_pakan"] = json_encode($this->Pakan->get_all());
         $this->data["arr_obat"] = json_encode($this->Obat->show_all_data());
+        $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
     }
 }

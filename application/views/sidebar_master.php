@@ -30,33 +30,33 @@
                 </ul>
             </li>
             <?php } ?>
-            <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/Mastertebar" id="menu_tebar" >
-                    <i class="fa fa-plus"></i>
-                    <span>Tebar Bibit</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/Mastersampling" id="menu_sampling" >
-                    <i class="fa fa-plus"></i>
-                    <span>Sampling</span>
-                </a>
-            </li>
+<!--            <li class="sub-menu">-->
+<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastertebar" id="menu_tebar" >-->
+<!--                    <i class="fa fa-plus"></i>-->
+<!--                    <span>Tebar Bibit</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="sub-menu">-->
+<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastersampling" id="menu_sampling" >-->
+<!--                    <i class="fa fa-plus"></i>-->
+<!--                    <span>Sampling</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Monitoringpakan" id="menu_monitoring_pakan" >
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-eye"></i>
                     <span>Monitoring Pakan</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Monitoringair" id="menu_monitoring_air" >
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-tint"></i>
                     <span>Monitoring Air</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/TransaksiPembelian" id="menu_pembelian" >
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-dollar"></i>
                     <span>Pembelian</span>
                 </a>
             </li>

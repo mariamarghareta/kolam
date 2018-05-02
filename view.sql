@@ -146,3 +146,48 @@ union
 select 'o' as type, adj.obat_id as ref_id, adj.stok, adj.create_time, obat.name
 from obat_inventory_adj adj
 left join obat on obat.id = adj.obat_id
+
+
+------------------------------
+--view untuk monitoring--
+------------------------------
+
+create or replace view air_pagi as
+select *
+from monitoring_air
+where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE , '%Y-%m-%d') and waktu = 'PAGI' and deleted = 0
+
+create or replace view air_sore as
+select *
+from monitoring_air
+where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE , '%Y-%m-%d') and waktu = 'SORE' and deleted = 0
+
+create or replace view pakan_pagi AS
+select *
+from monitoring_pakan
+where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE , '%Y-%m-%d') and waktu_pakan = 'PAGI' and deleted = 0
+
+create or replace view pakan_sore AS
+select *
+from monitoring_pakan
+where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE , '%Y-%m-%d') and waktu_pakan = 'SORE' and deleted = 0
+
+create or replace view pakan_malam AS
+select *
+from monitoring_pakan
+where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT(CURRENT_DATE , '%Y-%m-%d') and waktu_pakan = 'MALAM' and deleted = 0
+
+create or replace view monitoring_all as
+SELECT kolam.id as kolam_id, tebar.kode, case when air_pagi.id is not null then 1 else 0 end as air_pagi,
+case when air_sore.id is not null then 1 else 0 end as air_sore,
+case when pakan_pagi.id is not null then 1 else 0 end as pakan_pagi,
+case when pakan_sore.id is not null then 1 else 0 end as pakan_sore,
+case when pakan_malam.id is not null then 1 else 0 end as pakan_malam
+from kolam
+left join air_pagi on air_pagi.kolam_id = kolam.id and air_pagi.tebar_id = kolam.tebar_id
+left join air_sore on air_sore.kolam_id = kolam.id and air_sore.tebar_id = kolam.tebar_id
+left join pakan_pagi on pakan_pagi.kolam_id = kolam.id and pakan_pagi.tebar_id = kolam.tebar_id
+left join pakan_sore on pakan_sore.kolam_id = kolam.id and pakan_sore.tebar_id = kolam.tebar_id
+left join pakan_malam on pakan_malam.kolam_id = kolam.id and pakan_malam.tebar_id = kolam.tebar_id
+left join tebar on tebar.id = kolam.tebar_id
+where kolam.tebar_id != 0
