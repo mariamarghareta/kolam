@@ -241,6 +241,10 @@
         getSatuan();
     });
 
+    $("#tkolam").change(function(){
+        getKolamInfo();
+    });
+
     $("#btn_add_obat").click(function(){
         add_obat_list();
     });
