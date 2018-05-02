@@ -273,7 +273,7 @@
         var deferredData = new jQuery.Deferred();
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url() . index_page() . "/TransaksiPembelian/getSatuan"; ?>",
+            url: "<?php echo base_url() . index_page() . "/Transaksipembelian/getSatuan"; ?>",
             dataType: "json",
             data: {
                 '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',

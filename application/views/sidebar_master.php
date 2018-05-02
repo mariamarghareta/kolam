@@ -55,7 +55,7 @@
                 </a>
             </li>
             <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/TransaksiPembelian" id="menu_pembelian" >
+                <a href="<?= base_url();?><?= index_page();?>/Transaksipembelian" id="menu_pembelian" >
                     <i class="fa fa-dollar"></i>
                     <span>Pembelian</span>
                 </a>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TransaksiPembelian extends CI_Controller {
+class Transaksipembelian extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
@@ -170,7 +170,7 @@ class TransaksiPembelian extends CI_Controller {
                 #tambah stok
                 $temp = $this->Obat->tambah_stok($this->data["selected_obat"], $this->data["total_isi"], $_SESSION['id']);
                 if($temp){
-                    redirect('TransaksiPembelian');
+                    redirect('Transaksipembelian');
                 }
             }
         } else if($this->data["tipe_pembelian"] == "p"){
@@ -179,13 +179,13 @@ class TransaksiPembelian extends CI_Controller {
                 #tambah stok
                 $temp = $this->Pakan->tambah_stok($this->data["selected_pakan"], $this->data["total_isi"], $_SESSION['id']);
                 if($temp){
-                    redirect('TransaksiPembelian');
+                    redirect('Transaksipembelian');
                 }
             }
         } else if($this->data["tipe_pembelian"] == "l"){
             $result = $this->Pembelian->insert_lain($this->data["nama_lain"], $this->data["jumlah_item"], $this->data["harga_per_item"], $this->data["total_harga"], 0, 0, $this->data["keterangan"], $_SESSION['id']);
             if($result == 1){
-                redirect('TransaksiPembelian');
+                redirect('Transaksipembelian');
             }
         }
     }
@@ -212,7 +212,7 @@ class TransaksiPembelian extends CI_Controller {
                     if($this->data['tipe_pembelian'] == 'l') {
                         $result = $this->Pembelian->update_lain($this->data["nama_lain"], $this->data["jumlah_item"], $this->data["harga_per_item"], $this->data["total_harga"], $this->data["isi"], $this->data["total_isi"], $this->data["keterangan"], $this->data['id'], $_SESSION['id']);
                         if ($result == 1) {
-                            redirect('TransaksiPembelian');
+                            redirect('Transaksipembelian');
                         }
                     } else if($this->data['tipe_pembelian'] == 'o') {
                         $result = $this->Pembelian->update_obat($this->data["selected_obat"], $this->data["jumlah_item"], $this->data["harga_per_item"], $this->data["total_harga"], $this->data["isi"], $this->data["total_isi"], $this->data["keterangan"], $this->data['id'], $_SESSION['id']);
@@ -221,7 +221,7 @@ class TransaksiPembelian extends CI_Controller {
                                 $this->Obat->update_live_stok($this->data["item_id_before"], $_SESSION['id']);
                             }
                             $this->Obat->update_live_stok($this->data["selected_obat"], $_SESSION['id']);
-                            redirect('TransaksiPembelian');
+                            redirect('Transaksipembelian');
                         }
                     } else if($this->data['tipe_pembelian'] == 'p') {
                         $result = $this->Pembelian->update_pakan($this->data["selected_pakan"], $this->data["jumlah_item"], $this->data["harga_per_item"], $this->data["total_harga"], $this->data["isi"], $this->data["total_isi"], $this->data["keterangan"], $this->data['id'], $_SESSION['id']);
@@ -230,7 +230,7 @@ class TransaksiPembelian extends CI_Controller {
                                 $this->Pakan->update_live_stok($this->data["item_id_before"], $_SESSION['id']);
                             }
                             $this->Pakan->update_live_stok($this->data["selected_pakan"], $_SESSION['id']);
-                            redirect('TransaksiPembelian');
+                            redirect('Transaksipembelian');
                         }
                     }
                 }

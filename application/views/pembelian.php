@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>TransaksiPembelian</title>
+    <title>Transaksi Pembelian</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -38,7 +38,7 @@
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
                     <div class="col-sm-8 page-title">Transaksi Pembelian</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/TransaksiPembelian/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -103,7 +103,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/TransaksiPembelian" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Transaksipembelian" name="route" id="route"/>
 
             </div>
         </section>
@@ -137,8 +137,8 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/TransaksiPembelian/update/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/TransaksiPembelian/delete/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/update/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/delete/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }
 </script>
