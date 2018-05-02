@@ -20,7 +20,7 @@ class Pembelian extends CI_Model
     public function show_all($data_count, $offset, $searchword)
     {
         $query = $this->db->select('id, tipe, dt, ref_id, name, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan, deleted')
-            ->from('pembelian')
+            ->from('v_pembelian')
             ->where('deleted', 0)
             ->group_start()
             ->like('dt ', $searchword)
@@ -41,7 +41,7 @@ class Pembelian extends CI_Model
     public function show_all_data()
     {
         $query = $this->db->select('id, name')
-            ->from('pembelian')
+            ->from('v_pembelian')
             ->where('deleted', 0)
             ->get();
         return $query->result_array();
@@ -51,7 +51,7 @@ class Pembelian extends CI_Model
     public function get_count_all()
     {
         $this->db->like('deleted', 0);
-        $this->db->from('pembelian');
+        $this->db->from('v_pembelian');
         return $this->db->count_all_results();
     }
 

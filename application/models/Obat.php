@@ -173,7 +173,7 @@ class Obat extends CI_Model
 
     public function update_live_stok($id, $write_uid){
         $query = $this->db->select('obat_id, final_stok')
-            ->from('obat_real_stok')
+            ->from('v_obat_real_stok')
             ->where('obat_id', $id)
             ->get();
         $real_stok = $query->result()[0]->final_stok;

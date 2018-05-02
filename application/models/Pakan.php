@@ -179,7 +179,7 @@ class Pakan extends CI_Model
 
     public function update_live_stok($id, $write_uid){
         $query = $this->db->select('pakan_id, final_stok')
-            ->from('pakan_real_stok')
+            ->from('v_pakan_real_stok')
             ->where('pakan_id', $id)
             ->get();
         $real_stok = $query->result()[0]->final_stok;

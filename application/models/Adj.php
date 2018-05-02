@@ -20,7 +20,7 @@ class Adj extends CI_Model
     public function show_all($data_count, $offset, $searchword)
     {
         $query = $this->db->select('ref_id, type, stok, create_time, name')
-            ->from('inv_adj')
+            ->from('v_inv_adj')
             ->like('name ', $searchword)
             ->limit($data_count, ($offset-1) * $data_count)
             ->get();
@@ -52,7 +52,7 @@ class Adj extends CI_Model
 
     public function get_count_all()
     {
-        $this->db->from('inv_adj');
+        $this->db->from('v_inv_adj');
         return $this->db->count_all_results();
     }
 
