@@ -28,6 +28,7 @@ class Sampling extends CI_Model
             ->join('tebar_history his','his.sampling_id = sampling.id', 'left')
             ->where('sampling.deleted', 0)
             ->where('his.sequence !=', 1)
+            ->where('tebar.deleted', 0)
             ->group_start()
             ->like('tebar.kode', $searchword)
             ->or_like('blok.name', $searchword)
@@ -37,7 +38,7 @@ class Sampling extends CI_Model
             ->or_like('sampling.adg', $searchword)
             ->group_end()
             ->limit($data_count, ($offset-1) * $data_count)
-            ->order_by('tebar.kode desc')
+            ->order_by('sampling.id desc')
             ->get();
         return $query->result_array();
     }

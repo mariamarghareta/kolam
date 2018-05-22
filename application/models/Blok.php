@@ -51,6 +51,19 @@ class Blok extends CI_Model
     }
 
 
+    public function show_blok_available(){
+        $query = $this->db->select('blok.id, blok.name')
+            ->from('blok')
+            ->join('kolam', 'kolam.blok_id = blok.id', 'left')
+            ->where('blok.deleted', 0)
+            ->where('kolam.deleted', 0)
+            ->where('kolam.tebar_id', 0)
+            ->distinct()
+            ->get();
+        return $query->result_array();
+    }
+
+
     public function get_count_all()
     {
         $this->db->like('deleted', 0);

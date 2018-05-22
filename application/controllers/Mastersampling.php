@@ -100,11 +100,11 @@ class Mastersampling extends CI_Controller {
     }
 
 
-    public function update(){
+    public function show(){
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
-        $this->data["state"] = "update";
+        $this->data["state"] = "show";
         $this->load_data();
         $this->load->view('mastersampling_form', $this->data);
     }
@@ -124,7 +124,7 @@ class Mastersampling extends CI_Controller {
         $his = $this->Tebar_history->get_by_sampling($this->data["id"])[0];
         $pakan = $this->Pemberian_pakan->get_by_sampling($this->data["id"])[0];
         $before = $this->Tebar_history->get_history_by_sampling($datum->kolam_id, $his->sequence);
-        $this->data["id"] = $datum->tebar_id;
+        $this->data["id"] = $datum->id;
         $this->data["his_id"] = $his->id;
         $this->data["pakan_id"] = $pakan->id;
         $this->data["kolam_id"] = $datum->kolam_id;
@@ -261,18 +261,28 @@ class Mastersampling extends CI_Controller {
         $this->get_form_data();
         $this->data['id'] = $this->input->post('tid');
         if($this->input->post('delete') == "delete") {
-            $result = $this->Sampling->delete($this->data['sampling_id'], $_SESSION['id']);
-            if($result == 1){
-                $del_his = $this->Tebar_history->delete($this->data["his_id"], $_SESSION['id']);
-                if($del_his){
-                    $tebar_id = $this->Kolam->get($this->data['kolam_id'])[0]->tebar_id;
-                    $up_kolam = $this->Kolam->get_last_pakan($this->data['kolam_id'], $tebar_id, $_SESSION['id']);
-                    if($up_kolam){
-                        redirect('Mastersampling');
+            $cek_sampling = $this->Tebar_history->check_sequence_sampling($this->data['id']);
+            if($cek_sampling == 0) {
+                $result = $this->Sampling->delete($this->data['sampling_id'], $_SESSION['id']);
+                if ($result == 1) {
+                    $del_his = $this->Tebar_history->delete($this->data["his_id"], $_SESSION['id']);
+                    if ($del_his) {
+                        $tebar_id = $this->Kolam->get($this->data['kolam_id'])[0]->tebar_id;
+                        $up_kolam = $this->Kolam->get_last_pakan($this->data['kolam_id'], $tebar_id, 0, 1, $_SESSION['id']);
+                        $tebar_history = $this->Tebar_history->insert($tebar_id, $this->data['id'], 0, "Delete Sampling", $this->data['kolam_id'], 0, $_SESSION['id']);
+                        if ($up_kolam) {
+                            redirect('Mastersampling');
+                        }
+                    } else {
+                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
                     }
+                } else {
+                    $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
                 }
+            } else {
+                $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Data tidak bisa dihapus karena terdapat data sampling/grading setelahnya.</div>";
             }
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
+
             $this->data["state"] = "delete";
             $this->load->view('mastersampling_form', $this->data);
         } else {

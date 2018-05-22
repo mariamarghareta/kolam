@@ -285,13 +285,20 @@
         $(".slfadein").fadeIn("slow");
         $(".slhide").hide();
         $(".slshow").show();
-        calculate_sampling();
-        calculate();
-        getTotalIkan();
+        if( "<?php echo $state ?>" == "create") {
+            calculate_sampling();
+            calculate();
+            getTotalIkan();
+        }
     });
 
     if( "<?php echo $state ?>" == "delete"){
         $("input[type=text]").prop('disabled', true);
+        $("select").prop('disabled', true);
+    }
+
+    if( "<?php echo $state ?>" == "show"){
+        $("input[type=text]").prop('readonly', true);
         $("select").prop('disabled', true);
     }
 

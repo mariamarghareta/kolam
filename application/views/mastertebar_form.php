@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Master Pakan</title>
+    <title>Tebar Bibit</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,7 +37,7 @@
         <section class="wrapper site-min-height">
             <div class="col-md-8 col-md-offset-2 margin-up-md">
                 <div class="w3-container w3-green page-title w3-center w3-padding-16">
-                    Tebar Pakan
+                    Tebar Bibit
                 </div>
 
                 <?php
@@ -207,6 +207,31 @@
                     <div class="margin-up-sm">
                         <?=$msg?>
                     </div>
+                    <?php if ($state == "show"){ ?>
+                        <div class="col-sm-12 page-title" style="margin:25px 0px;">History Tebar</div>
+                        <div class="col-sm-12" id="tebar_kode" name="tebar_kode" style="font-weight: bold; font-size: 14pt;">Kode Tebar: <?php echo $kode; ?> </div>
+                        <div class="col-sm-12">
+                            <table
+                                    id="table"
+                                    data-toggle="true"
+                                    data-show-columns="false"
+                                    data-height="350">
+                                <thead>
+                                <tr>
+                                    <th data-field="dt" data-sortable="true">Tanggal</th>
+                                    <th data-field="sequence" data-sortable="true">Urutan</th>
+                                    <th data-field="keterangan" data-sortable="true">Keterangan</th>
+                                    <th data-field="asal_kolam_name" data-sortable="true">Asal Kolam</th>
+                                    <th data-field="tujuan_kolam_name" data-sortable="true">Tujuan Kolam</th>
+                                    <th data-field="karyawan_name" data-sortable="true">User</th>
+                                    <th data-field="action"
+                                        data-align="center"
+                                        data-formatter="actionFormatter">Aksi</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    <?php } ?>
                 </div>
                 <?php
                 echo form_close();
@@ -239,6 +264,20 @@
         $("input[type=text]").prop('disabled', true);
         $("select").prop('disabled', true);
     }
+
+    if( "<?php echo $state ?>" == "show"){
+        $("input[type=text]").prop('readonly', true);
+        $("select").prop('disabled', true);
+    }
+
+    $(window).load(function(){
+        var data = <?php echo $list_history; ?> ;
+        $(function() {
+            $('#table').bootstrapTable({
+                data: data,
+            });
+        });
+    });
 
     $("#tangka").keyup(function(){
         calculate_sampling();

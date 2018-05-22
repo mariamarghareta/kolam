@@ -136,7 +136,7 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
             '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }

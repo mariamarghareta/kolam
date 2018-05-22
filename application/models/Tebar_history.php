@@ -17,9 +17,19 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function show_all($data_count, $offset, $searchword)
+    public function show_all($tebar_id)
     {
-
+        $query = $this->db->select('his.id, his.dt, his.sequence, his.keterangan, his.sampling_id, his.grading_id, his.asal_kolam_id, his.tujuan_kolam_id, kar.name as karyawan_name, CONCAT(b.name, " ", k.name) as asal_kolam_name, CONCAT(bt.name, " ", kt.name) as tujuan_kolam_name, t.kode as tebar_kode')
+            ->from('tebar_history his')
+            ->join('kolam k', 'k.id = his.asal_kolam_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
+            ->join('kolam kt', 'kt.id = his.tujuan_kolam_id', 'left')
+            ->join('blok bt', 'bt.id = kt.blok_id', 'left')
+            ->join('karyawan kar', 'kar.id = his.write_uid', 'left')
+            ->join('tebar t', 't.id = his.tebar_id', 'left')
+            ->where('his.tebar_id', $tebar_id)
+            ->get();
+        return $query->result();
     }
 
 
@@ -71,66 +81,72 @@ class Tebar_history extends CI_Model
 
 
     public function get_total_ikan($kolam_id){
-        $query = $this->db->select('sampling_id, grading_id')
+        $query = $this->db->select('his.sampling_id, his.grading_id, s.deleted as sampling_deleted, g.deleted as grading_deleted')
             ->from('tebar_history his')
-            ->where('deleted', 0)
-            ->where('tujuan_kolam_id', $kolam_id)
+            ->join('grading g', 'g.id = his.grading_id', 'left')
+            ->join('sampling s', 's.id = his.sampling_id', 'left')
+            ->where('his.deleted', 0)
+            ->where('his.tujuan_kolam_id', $kolam_id)
             ->group_start()
-            ->group_start()
-            ->where('sampling_id !=', 0)
-            ->where('sequence', 1)
-            ->group_end()
-//            ->or_where('grading_id !=', 0)
+            ->where('his.sampling_id !=', 0)
+            ->or_where('his.grading_id !=', 0)
             ->group_end()
             ->order_by('sequence desc')
             ->limit(1)
             ->get();
         $id = $query->result_array();
-        if($id[0]["sampling_id"] != 0){
-            $query = $this->db->select('total_ikan, biomass, total_pakan')
-                ->where('sampling_id', $id[0]["sampling_id"])
-                ->from('pemberian_pakan')
-                ->get();
-            return ($query->result_array());
-        } else if($id[0]["grading_id"] != 0){
-            $query = $this->db->select('total_ikan, biomass, total_pakan')
-                ->where('grading_id', $id[0]["grading_id"])
-                ->from('pemberian_pakan')
-                ->get();
-            return ($query->result_array());
+        if(sizeof($id)>0){
+            if($id[0]["sampling_id"] != 0 and $id[0]["sampling_deleted"] == 0){
+                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                    ->where('sampling_id', $id[0]["sampling_id"])
+                    ->where('kolam_id', $kolam_id)
+                    ->from('pemberian_pakan')
+                    ->get();
+                return ($query->result_array());
+            } else if($id[0]["grading_id"] != 0 and $id[0]["grading_deleted"] == 0){
+                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                    ->where('grading_id', $id[0]["grading_id"])
+                    ->where('kolam_id', $kolam_id)
+                    ->from('pemberian_pakan')
+                    ->get();
+                return ($query->result_array());
+            }
         }
     }
 
 
     public function get_history_by_sampling($kolam_id, $seq){
-        $query = $this->db->select('sampling_id, grading_id')
+        $query = $this->db->select('his.sampling_id, his.grading_id, s.deleted as sampling_deleted, g.deleted as grading_deleted')
             ->from('tebar_history his')
-            ->where('deleted', 0)
-            ->where('tujuan_kolam_id', $kolam_id)
-            ->where('sequence <=', $seq)
+            ->join('grading g', 'g.id = his.grading_id', 'left')
+            ->join('sampling s', 's.id = his.sampling_id', 'left')
+            ->where('his.deleted', 0)
+            ->where('his.tujuan_kolam_id', $kolam_id)
+            ->where('his.sequence <', $seq)
             ->group_start()
-            ->group_start()
-            ->where('sampling_id !=', 0)
-            ->where('sequence', 1)
-            ->group_end()
-//            ->or_where('grading_id !=', 0)
+            ->where('his.sampling_id !=', 0)
+            ->or_where('his.grading_id !=', 0)
             ->group_end()
             ->order_by('sequence desc')
             ->limit(1)
             ->get();
         $id = $query->result_array();
-        if($id[0]["sampling_id"] != 0){
-            $query = $this->db->select('total_ikan, biomass, total_pakan')
-                ->where('sampling_id', $id[0]["sampling_id"])
-                ->from('pemberian_pakan')
-                ->get();
-            return ($query->result_array());
-        } else if($id[0]["grading_id"] != 0){
-            $query = $this->db->select('total_ikan, biomass, total_pakan')
-                ->where('grading_id', $id[0]["grading_id"])
-                ->from('pemberian_pakan')
-                ->get();
-            return ($query->result_array());
+        if(sizeof($id)>0) {
+            if($id[0]["sampling_id"] != 0 and $id[0]["sampling_deleted"] == 0){
+                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                    ->where('sampling_id', $id[0]["sampling_id"])
+                    ->where('kolam_id', $kolam_id)
+                    ->from('pemberian_pakan')
+                    ->get();
+                return ($query->result_array());
+            } else if($id[0]["grading_id"] != 0 and $id[0]["grading_deleted"] == 0){
+                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                    ->where('grading_id', $id[0]["grading_id"])
+                    ->where('kolam_id', $kolam_id)
+                    ->from('pemberian_pakan')
+                    ->get();
+                return ($query->result_array());
+            }
         }
     }
 
@@ -157,5 +173,88 @@ class Tebar_history extends CI_Model
 
         $this->db->where('id', $id);
         return $this->db->update('tebar_history', $data);
+    }
+
+    public function delete_by_grading($id, $write_uid){
+        $data = array(
+            'deleted' => 1,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('grading_id', $id);
+        return $this->db->update('tebar_history', $data);
+    }
+
+
+    public function check_sequence_grading($grading_id){
+        $query = $this->db->select('max(tebar_id) as tebar_id, max(sequence) as sequence')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('grading_id', $grading_id)
+            ->get();
+        $res = $query->result_array();
+        $query = $this->db->select('tebar_id, count(id) as jumlah')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('tebar_id', $res[0]["tebar_id"])
+            ->where('sequence >', $res[0]["sequence"])
+            ->where('keterangan !=', "Delete Grading")
+            ->where('keterangan !=', "Delete Sampling")
+            ->where('keterangan !=', "Delete Tebar Bibit")
+            ->group_by('tebar_id')
+            ->get();
+        $res = ($query->result_array());
+        if(sizeof($res)>0){
+            return $res[0]["jumlah"];
+        } else {
+            return 0;
+        }
+    }
+
+
+    public function check_sequence_sampling($sampling_id){
+        $query = $this->db->select('max(tebar_id) as tebar_id, max(sequence) as sequence')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('sampling_id', $sampling_id)
+            ->get();
+        $res = $query->result_array();
+        $query = $this->db->select('tebar_id, count(id) as jumlah')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('tebar_id', $res[0]["tebar_id"])
+            ->where('sequence >', $res[0]["sequence"])
+            ->where('keterangan !=', "Delete Grading")
+            ->where('keterangan !=', "Delete Sampling")
+            ->where('keterangan !=', "Delete Tebar Bibit")
+            ->group_by('tebar_id')
+            ->get();
+        $res = ($query->result_array());
+        if(sizeof($res)>0){
+            return $res[0]["jumlah"];
+        } else {
+            return 0;
+        }
+    }
+
+
+    public function check_sequence_tebar($tebar_id){
+        $query = $this->db->select('tebar_id, count(id) as jumlah')
+            ->from('tebar_history his')
+            ->where('deleted', 0)
+            ->where('tebar_id', $tebar_id)
+            ->where('sequence >', 1)
+            ->where('keterangan !=', "Delete Grading")
+            ->where('keterangan !=', "Delete Sampling")
+            ->where('keterangan !=', "Delete Tebar Bibit")
+            ->group_by('tebar_id')
+            ->get();
+        $res = ($query->result_array());
+        if(sizeof($res)>0){
+            return $res[0]["jumlah"];
+        } else {
+            return 0;
+        }
     }
 }

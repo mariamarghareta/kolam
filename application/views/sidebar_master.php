@@ -30,18 +30,24 @@
                 </ul>
             </li>
             <?php } ?>
-<!--            <li class="sub-menu">-->
-<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastertebar" id="menu_tebar" >-->
-<!--                    <i class="fa fa-plus"></i>-->
-<!--                    <span>Tebar Bibit</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="sub-menu">-->
-<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastersampling" id="menu_sampling" >-->
-<!--                    <i class="fa fa-plus"></i>-->
-<!--                    <span>Sampling</span>-->
-<!--                </a>-->
-<!--            </li>-->
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Mastertebar" id="menu_tebar" >
+                    <i class="fa fa-plus"></i>
+                    <span>Tebar Bibit</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Mastersampling" id="menu_sampling" >
+                    <i class="fa fa-plus"></i>
+                    <span>Sampling</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Mastergrading" id="menu_grading" >
+                    <i class="fa fa-plus"></i>
+                    <span>Grading</span>
+                </a>
+            </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Monitoringpakan" id="menu_monitoring_pakan" >
                     <i class="fa fa-eye"></i>

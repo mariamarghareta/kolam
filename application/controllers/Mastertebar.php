@@ -44,9 +44,11 @@ class Mastertebar extends CI_Controller {
         $this->data["kolam_id"] = "";
         $this->data["sampling_id"] = "";
         $this->data["search_word"] = "";
+        $this->data["kode"] = "";
         $data_count = 10;
         $offset = 1;
         $this->data["arr"] = json_encode($this->Tebar->show_all($data_count, $offset, $this->data["search_word"]));
+        $this->data["list_history"] = json_encode([]);
         $this->data["max_data"] = $this->Tebar->get_count_all();
         $this->data["arr_blok"] = ($this->Blok->show_all_data());
         if(count($this->data["arr_blok"])>0){
@@ -104,6 +106,15 @@ class Mastertebar extends CI_Controller {
         $this->load->view('mastertebar_form', $this->data);
     }
 
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        $this->data["state"] = "show";
+        $this->load_get_data();
+        $this->load->view('mastertebar_form', $this->data);
+    }
 
     public function delete(){
         $this->check_role();
@@ -131,6 +142,8 @@ class Mastertebar extends CI_Controller {
         $this->data['size'] = $datum->size;
         $this->data['tangka'] = $datum->angka;
         $this->data['tsatuan'] = $datum->satuan;
+        $this->data['kode'] = $datum->kode;
+        $this->data["list_history"] = json_encode($this->Tebar_history->show_all($datum->id));
     }
 
     public function add_new_data(){
@@ -259,10 +272,15 @@ class Mastertebar extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->input->post('tid');
+        $this->data['kolam_id'] = $this->input->post('kolam_id');
         if($this->input->post('delete') == "delete") {
             $result = $this->Tebar->delete($this->data['id'], $_SESSION['id']);
             if($result == 1){
-                redirect('Mastertebar');
+                $up_kolam = $this->Kolam->update_kolam_by_delete_tebar($this->data['kolam_id'], $this->data['id'], $_SESSION['id']);
+                $tebar_history = $this->Tebar_history->insert( $this->data['id'], 0, 0, "Delete Tebar Bibit", $this->data['kolam_id'], 0, $_SESSION['id']);
+                if($up_kolam){
+                    redirect('Mastertebar');
+                }
             }else{
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
             }

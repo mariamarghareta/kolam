@@ -72,6 +72,18 @@ class Pemberian_pakan extends CI_Model
     }
 
 
+    public function get_by_grading($id){
+        $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, p.biomass, p.total_ikan, p.ukuran, p.fr, p.sr, p.dosis_pakan, p.total_pakan, p.pagi, p.sore, p.malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name')
+            ->from('pemberian_pakan p')
+            ->join('kolam k', 'p.id = k.pemberian_pakan_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
+            ->where('p.grading_id', $id)
+            ->where('p.deleted',0)
+            ->get();
+        return $query->result();
+    }
+
+
     public function update_from_tebar($fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling, $size, $biomass, $total_ikan, $angka, $satuan, $id, $write_uid){
         $data = array(
             'fr' => $fr,
@@ -106,6 +118,18 @@ class Pemberian_pakan extends CI_Model
         );
 
         $this->db->where('id', $id);
+        return $this->db->update('pemberian_pakan', $data);
+    }
+
+
+    public function delete_by_grading($id, $write_uid){
+        $data = array(
+            'deleted' => 1,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+
+        $this->db->where('grading_id', $id);
         return $this->db->update('pemberian_pakan', $data);
     }
 }
