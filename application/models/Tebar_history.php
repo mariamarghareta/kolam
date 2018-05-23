@@ -19,7 +19,7 @@ class Tebar_history extends CI_Model
 
     public function show_all($tebar_id)
     {
-        $query = $this->db->select('his.id, his.dt, his.sequence, his.keterangan, his.sampling_id, his.grading_id, his.asal_kolam_id, his.tujuan_kolam_id, kar.name as karyawan_name, CONCAT(b.name, " ", k.name) as asal_kolam_name, CONCAT(bt.name, " ", kt.name) as tujuan_kolam_name, t.kode as tebar_kode')
+        $query = $this->db->select('his.id, his.dt, his.sequence, his.keterangan, his.sampling_id, his.grading_id, his.asal_kolam_id, his.tujuan_kolam_id, kar.name as karyawan_name, CONCAT(b.name, " ", k.name) as asal_kolam_name, CONCAT(bt.name, " ", kt.name) as tujuan_kolam_name, t.kode as tebar_kode, his.tebar_id')
             ->from('tebar_history his')
             ->join('kolam k', 'k.id = his.asal_kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

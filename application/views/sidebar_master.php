@@ -38,13 +38,13 @@
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Mastersampling" id="menu_sampling" >
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-search"></i>
                     <span>Sampling</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Mastergrading" id="menu_grading" >
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-book"></i>
                     <span>Grading</span>
                 </a>
             </li>

@@ -130,7 +130,20 @@ class Mastergrading extends CI_Controller {
             unset($_SESSION["list_grading"]);
         }
         $this->data["state"] = "show";
-        $this->load_get_data();
+        $this->load_get_data(0);
+        $this->load->view('grading_form', $this->data);
+    }
+
+    public function data_show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        if(!$this->input->post["tblok"]){
+            unset($_SESSION["list_grading"]);
+        }
+        $this->data["state"] = "show";
+        $this->load_get_data(1);
         $this->load->view('grading_form', $this->data);
     }
 
@@ -144,13 +157,17 @@ class Mastergrading extends CI_Controller {
             unset($_SESSION["list_grading"]);
         }
         $this->data["state"] = "delete";
-        $this->load_get_data();
+        $this->load_get_data(0);
         $this->load->view('grading_form', $this->data);
     }
 
 
-    public function load_get_data(){
-        $datum = $this->Grading->get($this->data['id'])[0];
+    public function load_get_data($param){
+        if($param == 0){
+            $datum = $this->Grading->get($this->data['id'])[0];
+        } else {
+            $datum = $this->Grading->get_without_check($this->data['id'])[0];
+        }
         $this->data["id"] = $datum->id;
         $this->data["tebar_id"] = $datum->tebar_id;
         $this->data["total_biomass"] = $datum->total_biomass;

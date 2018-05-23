@@ -84,6 +84,17 @@ class Sampling extends CI_Model
     }
 
 
+    public function get_without_check($id){
+        $query = $this->db->select('s.id, s.tebar_id, s.kenaikan_daging, s.fcr, s.adg, s.kolam_id, k.blok_id')
+            ->from('sampling s')
+            ->join('kolam k', 'k.id = s.kolam_id')
+            ->join('blok b', 'b.id = k.blok_id')
+            ->where('s.id', $id)
+            ->get();
+        return $query->result();
+    }
+
+
     public function update($tebar_id, $kolam_id, $kenaikan_daging, $fcr, $adg, $id, $write_uid){
         $data = array(
             'tebar_id' => $tebar_id,

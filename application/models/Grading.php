@@ -114,6 +114,18 @@ class Grading extends CI_Model
     }
 
 
+    public function get_without_check($id){
+        $query = $this->db->select('g.id, g.tebar_id, g.sampling_id, g.asal_kolam_id, g.dt, g.total_biomass, g.total_populasi, g.sr, g.pertumbuhan_daging, g.fcr, g.adg, t.kode, k.name as kolam_name, b.name as blok_name, b.id as blok_id')
+            ->from('grading g')
+            ->join('kolam k', 'k.id = g.asal_kolam_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
+            ->join('tebar t', 't.id = k.tebar_id', 'left')
+            ->where('g.id', $id)
+            ->get();
+        return $query->result();
+    }
+
+
     public function update($name, $id, $write_uid){
         $name = strtoupper($name);
         $data = array(

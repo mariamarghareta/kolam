@@ -263,9 +263,11 @@
                                 <th data-field="pagi" data-sortable="true">Pagi</th>
                                 <th data-field="sore" data-sortable="true">Sore</th>
                                 <th data-field="malam" data-sortable="true">Malam</th>
+                                <?php if ($state == "create"){?>
                                 <th data-field="action"
                                     data-align="center"
                                     data-formatter="actionFormatter">Aksi</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                         </table>

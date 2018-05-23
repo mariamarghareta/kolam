@@ -375,6 +375,19 @@
         });
         return deferredData; // contains the passed data
     };
+
+    function actionFormatter(value, row) {
+        if(row["sampling_id"] != 0 && row["sequence"] == 1){
+            return '';
+        }else if(row["sampling_id"] != 0 && row["keterangan"] != "Delete Sampling"){
+            return '<div class=""><a href="<?php echo base_url() . index_page(); ?>/Mastersampling/data_show/' + row["sampling_id"] + '" class="btn btn-success btn-sm"><i class="fa"></i><span>LIHAT DATA</span></a></div>';
+        } else if(row["grading_id"] != 0){
+            return '<div class=""><a href="<?php echo base_url() . index_page(); ?>/Mastergrading/data_show/' + row["grading_id"] + '" class="btn btn-success btn-sm"><i class="fa"></i><span>LIHAT DATA</span></a></div>';
+        } else{
+            return "";
+        }
+
+    }
 </script>
 
 </body>

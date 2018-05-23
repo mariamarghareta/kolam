@@ -105,7 +105,16 @@ class Mastersampling extends CI_Controller {
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
         $this->data["state"] = "show";
-        $this->load_data();
+        $this->load_data(0);
+        $this->load->view('mastersampling_form', $this->data);
+    }
+
+    public function data_show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+        $this->data["state"] = "show";
+        $this->load_data(1);
         $this->load->view('mastersampling_form', $this->data);
     }
 
@@ -114,13 +123,17 @@ class Mastersampling extends CI_Controller {
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
         $this->data["state"] = "delete";
-        $this->load_data();
+        $this->load_data(0);
         $this->load->view('mastersampling_form', $this->data);
     }
 
 
-    public function load_data(){
-        $datum = $this->Sampling->get($this->data["id"])[0];
+    public function load_data($param){
+        if($param == 0){
+            $datum = $this->Sampling->get($this->data["id"])[0];
+        } else {
+            $datum = $this->Sampling->get_without_check($this->data["id"])[0];
+        }
         $his = $this->Tebar_history->get_by_sampling($this->data["id"])[0];
         $pakan = $this->Pemberian_pakan->get_by_sampling($this->data["id"])[0];
         $before = $this->Tebar_history->get_history_by_sampling($datum->kolam_id, $his->sequence);
