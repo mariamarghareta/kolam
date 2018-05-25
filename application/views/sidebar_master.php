@@ -61,6 +61,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Monitoringsayur" id="menu_monitoring_sayur" >
+                    <i class="fa fa-tint"></i>
+                    <span>Monitoring Sayur</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Transaksipembelian" id="menu_pembelian" >
                     <i class="fa fa-dollar"></i>
                     <span>Pembelian</span>
