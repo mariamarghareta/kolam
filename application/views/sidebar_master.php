@@ -62,7 +62,7 @@
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Monitoringsayur" id="menu_monitoring_sayur" >
-                    <i class="fa fa-tint"></i>
+                    <i class="fa fa-leaf"></i>
                     <span>Monitoring Sayur</span>
                 </a>
             </li>

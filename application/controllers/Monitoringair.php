@@ -221,7 +221,11 @@ class Monitoringair extends CI_Controller {
                     $is_error = False;
                     if(isset($_SESSION['list_obat'])){
 //                        delete existing bahan penolong
+                        $detail = $this->Monitoring_air->get_bahan_penolong($this->data["id"]);
                         $this->Monitoring_air->delete_bahan_penolong($this->data["id"], $_SESSION['id']);
+                        for($i=0; $i<sizeof($detail); $i++){
+                            $this->Obat->update_live_stok($detail[$i]["obat_id"], $_SESSION['id']);
+                        }
                         $temp = $_SESSION['list_obat'];
                         for($i=0; $i <sizeof($temp); $i ++){
                             $res = $this->Monitoring_air->insert_bahan_penolong($this->data["id"], $temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
@@ -255,21 +259,13 @@ class Monitoringair extends CI_Controller {
         if($this->input->post('delete') == "delete") {
             $result = $this->Monitoring_air->delete($this->data['id'], $_SESSION['id']);
             if($result == 1){
+                $detail = $this->Monitoring_air->get_bahan_penolong($this->data["id"]);
                 $res = $this->Monitoring_air->delete_bahan_penolong($this->data["id"], $_SESSION['id']);
-                $is_error = False;
-                if(isset($_SESSION['list_obat'])){
-                    $temp = $_SESSION['list_obat'];
-                    for($i=0; $i <sizeof($temp); $i ++){
-                        $feedback = $this->Obat->update_live_stok($temp[$i]["obat_id"], $_SESSION['id']);
-                        if($feedback != 1){
-                            $is_error = True;
-                        }
-                    }
+                for($i=0; $i<sizeof($detail); $i++){
+                    $this->Obat->update_live_stok($detail[$i]["obat_id"], $_SESSION['id']);
                 }
-                if(!$is_error){
-                    unset($_SESSION["list_obat"]);
-                    redirect('Monitoringair');
-                }
+                unset($_SESSION["list_obat"]);
+                redirect('Monitoringair');
 
             }else{
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Hapus Data Gagal</div>";
