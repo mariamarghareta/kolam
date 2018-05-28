@@ -111,6 +111,19 @@ class Penjualan extends CI_Model
     }
 
 
+    public function get_data($id){
+        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name')
+            ->from('jual j')
+            ->join('kolam k', 'k.id = j.kolam_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
+            ->join('tebar t', 't.id = j.tebar_id', 'left')
+            ->join('mitra_bisnis m', 'm.id = j.mitra_bisnis_id', 'left')
+            ->where('j.id', $id)
+            ->get();
+        return $query->result();
+    }
+
+
     public function delete($id, $write_uid){
         $data = array(
             'deleted' => 1,

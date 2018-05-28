@@ -37,7 +37,7 @@
         <section class="wrapper site-min-height">
             <div class="col-md-8 col-md-offset-2 margin-up-md">
                 <div class="w3-container w3-green page-title w3-center w3-padding-16">
-                    Pembelian
+                    Penjualan
                 </div>
 
                 <?php

@@ -73,7 +73,7 @@
                                 <label style="font-weight: bold">Blok</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <br>
                                 <div id="div_blok" class="">
-                                    <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                    <select id="tblok" name="tblok" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                         <?php foreach($arr_blok as $row){
                                             if($row['id'] == $selected_blok){ ?>
                                                 <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -129,7 +129,7 @@
                                 <label style="font-weight: bold">Aplikasi Bahan Penolong</label>
                                 <br>
                                 <div id="div_obat" class="">
-                                    <select id="tobat" name="tobat" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                    <select id="tobat" name="tobat" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                         <?php foreach($arr_obat as $row){
                                             if($row['id'] == $selected_obat){ ?>
                                                 <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -226,7 +226,7 @@
         });
     });
 
-    if( "<?php echo $state ?>" == "delete"){
+    if( "<?php echo $state ?>" == "delete" || "<?php echo $state ?>" == "show"){
         $("input[type=text]").prop('disabled', true);
         $("select").prop('disabled', true);
         $("#btn_add_obat").prop('disabled', true);

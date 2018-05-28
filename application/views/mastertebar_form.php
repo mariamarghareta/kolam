@@ -383,7 +383,9 @@
             return '<div class=""><a href="<?php echo base_url() . index_page(); ?>/Mastersampling/data_show/' + row["sampling_id"] + '" class="btn btn-success btn-sm"><i class="fa"></i><span>LIHAT DATA</span></a></div>';
         } else if(row["grading_id"] != 0){
             return '<div class=""><a href="<?php echo base_url() . index_page(); ?>/Mastergrading/data_show/' + row["grading_id"] + '" class="btn btn-success btn-sm"><i class="fa"></i><span>LIHAT DATA</span></a></div>';
-        } else{
+        } else if(row["jual_id"] != 0){
+            return '<div class=""><a href="<?php echo base_url() . index_page(); ?>/Transaksipenjualan/data_show/' + row["jual_id"] + '" class="btn btn-success btn-sm"><i class="fa"></i><span>LIHAT DATA</span></a></div>';
+        }else{
             return "";
         }
 

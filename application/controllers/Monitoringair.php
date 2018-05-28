@@ -127,6 +127,14 @@ class Monitoringair extends CI_Controller {
         $this->data["list_obat"] = json_encode($arrobat);
     }
 
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+        $this->data["state"] = "show";
+        $this->load_data();
+        $this->load->view('monitoring_air_form', $this->data);
+    }
 
     public function update(){
         $this->check_role();

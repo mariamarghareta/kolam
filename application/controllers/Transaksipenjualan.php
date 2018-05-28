@@ -89,8 +89,12 @@ class Transaksipenjualan extends CI_Controller {
     }
 
 
-    public function load_data(){
-        $datum = $this->Penjualan->get($this->data['id'])[0];
+    public function load_data($deleted){
+        if($deleted == 0){
+            $datum = $this->Penjualan->get($this->data['id'])[0];
+        } else if($deleted == 1){
+            $datum = $this->Penjualan->get_data($this->data['id'])[0];
+        }
         $this->data["id"] = $datum->id;
         $this->data["selected_kolam"] = $datum->kolam_id;
         $this->data["selected_kolam_before"] = $datum->kolam_id;
@@ -113,7 +117,17 @@ class Transaksipenjualan extends CI_Controller {
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
         $this->data["state"] = "update";
-        $this->load();
+        $this->load(0);
+        $this->load->view('penjualan_form', $this->data);
+    }
+
+    public function data_show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+        $this->data["state"] = "show";
+
+        $this->load_data(1);
         $this->load->view('penjualan_form', $this->data);
     }
 
@@ -123,7 +137,7 @@ class Transaksipenjualan extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
         $this->data["state"] = "show";
 
-        $this->load_data();
+        $this->load_data(0);
         $this->load->view('penjualan_form', $this->data);
     }
 
@@ -133,7 +147,7 @@ class Transaksipenjualan extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $this->load_data();
+        $this->load_data(0);
         $this->load->view('penjualan_form', $this->data);
     }
 

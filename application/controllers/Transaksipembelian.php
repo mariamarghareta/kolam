@@ -107,6 +107,13 @@ class Transaksipembelian extends CI_Controller {
         $this->data["keterangan"] = $datum->keterangan;
     }
 
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->load_data();
+        $this->data["state"] = "show";
+        $this->load->view('pembelian_form', $this->data);
+    }
 
     public function update(){
         $this->check_role();

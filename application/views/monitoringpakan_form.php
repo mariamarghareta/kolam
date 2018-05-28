@@ -76,7 +76,7 @@
                                 <label style="font-weight: bold">Blok</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <br>
                                 <div id="div_blok" class="">
-                                    <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                    <select id="tblok" name="tblok" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                         <?php foreach($arr_blok as $row){
                                             if($row['id'] == $selected_blok){ ?>
                                                 <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -123,7 +123,7 @@
                                 <br>
                                 <label style="font-weight: bold">Jenis Pakan</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <div id="div_blok" class="">
-                                    <select id="jenis_pakan" name="jenis_pakan" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                    <select id="jenis_pakan" name="jenis_pakan" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                         <?php foreach($arr_pakan as $row){
                                             if($row['id'] == $selected_pakan){ ?>
                                                 <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -192,7 +192,7 @@
         getKolamInfo();
     });
 
-    if( "<?php echo $state ?>" == "delete"){
+    if( "<?php echo $state ?>" == "delete" || "<?php echo $state ?>" == "show"){
         $("input[type=text]").prop('disabled', true);
         $("select").prop('disabled', true);
     }

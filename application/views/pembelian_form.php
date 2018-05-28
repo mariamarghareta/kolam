@@ -68,7 +68,7 @@
                         <label style="font-weight: bold">Barang</label><label style="color: red; padding-left: 5px;"> *</label>
                         <br>
                         <div id="div_pakan">
-                            <select id="cb_pakan" name="cb_pakan" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                            <select id="cb_pakan" name="cb_pakan" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                 <?php foreach($arr_pakan as $row){
                                     if($row['id'] == $selected_pakan){ ?>
                                         <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -78,7 +78,7 @@
                             </select>
                         </div>
                         <div id="div_obat">
-                            <select id="cb_obat" name="cb_obat" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                            <select id="cb_obat" name="cb_obat" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                 <?php foreach($arr_obat as $row){
                                     if($row['id'] == $selected_obat){ ?>
                                         <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
@@ -178,7 +178,7 @@
         cek_tipe();
     });
 
-    if( "<?php echo $state ?>" == "delete"){
+    if( "<?php echo $state ?>" == "delete" || "<?php echo $state ?>" == "show"){
         $("input[type=text]").prop('disabled', true);
         $("#tipe_pembelian").prop('disabled', true);
         $("#cb_pakan").prop('disabled', true);
