@@ -220,7 +220,7 @@ class Mastersampling extends CI_Controller {
                     $kolam_id = $this->Kolam->update_pemberian_pakan($pemberian_pakan_id, $tebar_id, $this->data['selected_kolam'], $_SESSION['id']);
                     if ($kolam_id) {
                         #insert tebar history
-                        $tebar_history = $this->Tebar_history->insert($tebar_id, $sampling_id, 0, "Sampling", 0, $this->data['selected_kolam'], $_SESSION['id']);
+                        $tebar_history = $this->Tebar_history->insert($tebar_id, $sampling_id, 0, "Sampling", 0, $this->data['selected_kolam'], $_SESSION['id'], 0);
                         if ($tebar_history) {
                             redirect('Mastersampling');
                         }
@@ -282,7 +282,7 @@ class Mastersampling extends CI_Controller {
                     if ($del_his) {
                         $tebar_id = $this->Kolam->get($this->data['kolam_id'])[0]->tebar_id;
                         $up_kolam = $this->Kolam->get_last_pakan($this->data['kolam_id'], $tebar_id, 0, 1, $_SESSION['id']);
-                        $tebar_history = $this->Tebar_history->insert($tebar_id, $this->data['id'], 0, "Delete Sampling", $this->data['kolam_id'], 0, $_SESSION['id']);
+                        $tebar_history = $this->Tebar_history->insert($tebar_id, $this->data['id'], 0, "Delete Sampling", $this->data['kolam_id'], 0, $_SESSION['id'], 0);
                         if ($up_kolam) {
                             redirect('Mastersampling');
                         }

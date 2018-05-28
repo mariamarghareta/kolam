@@ -266,7 +266,7 @@ class Monitoringsayur extends CI_Controller {
         $page = $this->input->post('page');
         $data_per_page = $this->input->post('data_per_page');
         $search_word = $this->input->post('search_word');
-        echo json_encode([$this->Monitoring_air->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Monitoring_air->get_count_all()]);
+        echo json_encode([$this->Monitoring_sayur->show_all($data_per_page, $page, $search_word),$this->data["max_data"] = $this->Monitoring_sayur->get_count_all()]);
 
     }
 

@@ -204,4 +204,10 @@ class Masterkolam extends CI_Controller {
         $blok_id = $this->input->post('blok_id');
         echo json_encode($this->Kolam->get_kolam_by_blok($blok_id));
     }
+
+    public function get_kolam_detail(){
+        $this->check_role();
+        $kolam_id = $this->input->post('kolam_id');
+        echo json_encode($this->Kolam->get($kolam_id));
+    }
 }

@@ -36,6 +36,16 @@ class Mitra extends CI_Model
     }
 
 
+    public function show_all_data()
+    {
+        $query = $this->db->select('id, name, phone1, phone2, tipe_mitra, alamat, keterangan')
+            ->from('mitra_bisnis')
+            ->where('deleted', 0)
+            ->get();
+        return $query->result_array();
+    }
+
+
     public function get_count_all()
     {
         $this->db->like('deleted', 0);

@@ -117,22 +117,38 @@ and bahan.deleted = 0
 group by bahan.obat_id
 ;
 
+create or replace view v_mon_sayur as
+select bahan.obat_id, sum(bahan.jumlah) as total
+from treatment_sayur bahan
+left join v_max_adj_obat on v_max_adj_obat.obat_id = bahan.obat_id
+left join obat_inventory_adj adj on adj.id = v_max_adj_obat.id
+where bahan.write_time >= adj.create_time
+and bahan.deleted = 0
+group by bahan.obat_id
+;
+
 create or replace view v_tot_mon_obat as
 select obat_id, sum(jumlah) as total
 from bahan_penolong
+where deleted = 0
+group by obat_id
+UNION
+select obat_id, sum(jumlah) as total
+from treatment_sayur
 where deleted = 0
 group by obat_id
 ;
 
 create or replace view v_obat_real_stok as
 SELECT obat.id as obat_id, adj_obat.stok as stok_adj, beli_after_adj_obat.total_isi as total_pembelian_after_adj, tot_beli_obat.total as total_pembelian_obat
-, mon_obat.total as monitoring_after_adj, tot_mon_obat.total as total_monitoring_obat,
+, mon_obat.total + mon_sayur.total as monitoring_after_adj, tot_mon_obat.total as total_monitoring_obat,
 ifnull(adj_obat.stok,0) + (case when beli_after_adj_obat.obat_id is null then ifnull(tot_beli_obat.total,0) else ifnull(beli_after_adj_obat.total_isi,0) end) - (case when mon_obat.obat_id is null then ifnull(tot_mon_obat.total,0) else ifnull(mon_obat.total,0) end) as final_stok
 from obat
 left join v_adj_obat adj_obat on adj_obat.obat_id = obat.id
 left join v_beli_after_adj_obat beli_after_adj_obat on beli_after_adj_obat.obat_id = obat.id
 left join v_tot_beli_obat tot_beli_obat on tot_beli_obat.obat_id = obat.id
 left join v_mon_obat mon_obat on mon_obat.obat_id = obat.id
+left join v_mon_sayur mon_sayur on mon_sayur.obat_id = obat.id
 left join v_tot_mon_obat tot_mon_obat on tot_mon_obat.obat_id = obat.id
 ;
 ------------------------------

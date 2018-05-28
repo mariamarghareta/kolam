@@ -68,8 +68,14 @@
             </li>
             <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Transaksipembelian" id="menu_pembelian" >
-                    <i class="fa fa-dollar"></i>
+                    <i class="fa fa-minus"></i>
                     <span>Pembelian</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Transaksipenjualan" id="menu_penjualan" >
+                    <i class="fa fa-dollar"></i>
+                    <span>Penjualan</span>
                 </a>
             </li>
             <?php if ($_SESSION['role_id'] == 1) {?>

@@ -50,7 +50,7 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function insert($tebar_id, $sampling_id, $grading_id, $keterangan, $asal_kolam, $tujuan_kolam, $create_uid){
+    public function insert($tebar_id, $sampling_id, $grading_id, $keterangan, $asal_kolam, $tujuan_kolam, $create_uid, $jual_id){
         $data = array(
             'tebar_id' => $tebar_id,
             'dt' => $this->get_now(),
@@ -63,7 +63,8 @@ class Tebar_history extends CI_Model
             'create_time' => $this->get_now(),
             'sequence' => $this->get_sequence($tebar_id),
             'write_uid' => $create_uid,
-            'write_time' => $this->get_now()
+            'write_time' => $this->get_now(),
+            'jual_id' => $jual_id,
         );
         $query = $this->db->insert('tebar_history', $data);
         return $this->db->insert_id();
@@ -74,6 +75,16 @@ class Tebar_history extends CI_Model
         $query = $this->db->select('id, tebar_id, sequence, sampling_id, grading_id, keterangan, asal_kolam_id, tujuan_kolam_id')
             ->from('tebar_history')
             ->where('sampling_id', $id)
+            ->where('deleted',0)
+            ->get();
+        return $query->result();
+    }
+
+
+    public function get_by_jual($id){
+        $query = $this->db->select('id, tebar_id, sequence, sampling_id, grading_id, keterangan, asal_kolam_id, tujuan_kolam_id')
+            ->from('tebar_history')
+            ->where('jual_id', $id)
             ->where('deleted',0)
             ->get();
         return $query->result();

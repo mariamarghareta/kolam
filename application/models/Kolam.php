@@ -75,7 +75,7 @@ class Kolam extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name, kolam.tebar_id, kolam.pemberian_pakan_id, pakan.total_ikan, pakan.biomass, pakan.size, tebar.tgl_tebar, pakan.sampling_id')
+        $query = $this->db->select('kolam.id, kolam.name, blok.id as blok_id, blok.name as blok_name, kolam.tebar_id, kolam.pemberian_pakan_id, pakan.total_ikan, pakan.biomass, pakan.size, tebar.tgl_tebar, pakan.sampling_id, tebar.kode, tebar.tgl_tebar')
             ->from('kolam')
             ->join('blok', 'blok.id = kolam.blok_id')
             ->join('pemberian_pakan pakan', 'pakan.id = kolam.pemberian_pakan_id', 'left')

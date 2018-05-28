@@ -309,7 +309,7 @@ class Mastergrading extends CI_Controller {
                             $kolam_id = $this->Kolam->update_pemberian_pakan($pemberian_pakan_id, $this->data['tebar_id'], $kolam_tujuan, $_SESSION['id']);
                             if ($kolam_id) {
                                 #insert tebar history
-                                $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, $result, "Grading", $this->data['selected_kolam'], $kolam_tujuan, $_SESSION['id']);
+                                $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, $result, "Grading", $this->data['selected_kolam'], $kolam_tujuan, $_SESSION['id'], 0);
                                 if (!$tebar_history) {
                                     $isSuccess = false;
                                 }
@@ -357,7 +357,7 @@ class Mastergrading extends CI_Controller {
                                 $up_res = $this->Kolam->get_last_pakan($this->data['kolam_id'], $this->data['tebar_id'], 0, 1, $_SESSION['id']);
                                 #set tebar id sebelumnya
                                 $up_res = $this->Kolam->set_tebar_id($this->data['tebar_id'], $this->data['kolam_id'], $_SESSION['id']);
-                                $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, $this->data['id'], "Delete Grading", $this->data['kolam_id'], 0, $_SESSION['id']);
+                                $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, $this->data['id'], "Delete Grading", $this->data['kolam_id'], 0, $_SESSION['id'], 0);
                                 redirect('Mastergrading');
                             }
                         }

@@ -188,7 +188,7 @@ class Mastertebar extends CI_Controller {
                         $kolam_id = $this->Kolam->update_pemberian_pakan($pemberian_pakan_id, $result, $this->data['selected_kolam'], $_SESSION['id']);
                         if ($kolam_id) {
                             #insert tebar history
-                            $tebar_history = $this->Tebar_history->insert($result, $sampling_id, 0, "Tebar Bibit Ikan", 0, $this->data['selected_kolam'], $_SESSION['id']);
+                            $tebar_history = $this->Tebar_history->insert($result, $sampling_id, 0, "Tebar Bibit Ikan", 0, $this->data['selected_kolam'], $_SESSION['id'], 0);
                             if ($tebar_history) {
                                 redirect('Mastertebar');
                             }
@@ -277,7 +277,7 @@ class Mastertebar extends CI_Controller {
             $result = $this->Tebar->delete($this->data['id'], $_SESSION['id']);
             if($result == 1){
                 $up_kolam = $this->Kolam->update_kolam_by_delete_tebar($this->data['kolam_id'], $this->data['id'], $_SESSION['id']);
-                $tebar_history = $this->Tebar_history->insert( $this->data['id'], 0, 0, "Delete Tebar Bibit", $this->data['kolam_id'], 0, $_SESSION['id']);
+                $tebar_history = $this->Tebar_history->insert( $this->data['id'], 0, 0, "Delete Tebar Bibit", $this->data['kolam_id'], 0, $_SESSION['id'], 0);
                 if($up_kolam){
                     redirect('Mastertebar');
                 }
