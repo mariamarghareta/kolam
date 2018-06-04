@@ -65,6 +65,7 @@
                 <input type="hidden" name="pakan_id" id="pakan_id" value="<?php echo $pakan_id; ?>">
                 <input type="hidden" name="kolam_id" id="kolam_id" value="<?php echo $kolam_id; ?>">
                 <input type="hidden" name="sampling_id" id="sampling_id" value="<?php echo $sampling_id; ?>">
+                <input type="hidden" name="is_jual_kolam" id="is_jual_kolam" value="<?php echo $is_jual_kolam; ?>">
                 <div class="w3-container w3-white w3-padding-32">
                     <div style="margin:10px 20px;">
                         <?php if ($state == "delete"){?>
@@ -364,9 +365,15 @@
         if(!isFinite($adg) || $adg <= 0){
             $adg = 0;
         }
-        $("#kenaikan_daging").val($kenaikan_daging);
-        $("#fcr").val($fcr);
-        $("#adg").val($adg);
+        if($("#is_jual_kolam").val() == 0){
+            $("#kenaikan_daging").val($kenaikan_daging);
+            $("#fcr").val($fcr);
+            $("#adg").val($adg);
+        } else {
+            $("#kenaikan_daging").val(0);
+            $("#fcr").val(0);
+            $("#adg").val(0);
+        }
     }
 
     $("#tblok").change(function(){
@@ -434,11 +441,12 @@
             dataType: "json",
             data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', kolam_id: $kolam_id},
             success: function(data) {
-                for(var $i=0; $i<data.length; $i++){
-                    $("#total_ikan").val(data[$i]["total_ikan"]);
-                    $("#biomass_before").val(data[$i]["biomass"]);
-                    $("#total_pakan_before").val(data[$i]["total_pakan"]);
+                for(var $i=0; $i<data[0].length; $i++){
+                    $("#total_ikan").val(data[0][$i]["total_ikan"]);
+                    $("#biomass_before").val(data[0][$i]["biomass"]);
+                    $("#total_pakan_before").val(data[0][$i]["total_pakan"]);
                 }
+                $("#is_jual_kolam").val(data[1]);
                 calculate();
             }
         });

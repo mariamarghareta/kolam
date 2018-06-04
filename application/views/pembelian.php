@@ -138,8 +138,8 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/show/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/update/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipembelian/delete/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+//            '<a href="<?php //echo base_url() . index_page(); ?>///Transaksipembelian/update/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+//            '<a href="<?php //echo base_url() . index_page(); ?>///Transaksipembelian/delete/' + row['tipe'] + "/" + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
         ].join('');
     }
 </script>

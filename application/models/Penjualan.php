@@ -57,7 +57,7 @@ class Penjualan extends CI_Model
     }
 
 
-    public function insert($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $create_uid){
+    public function insert($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $tutup, $create_uid){
         $data = array(
             'dt' => $this->get_now(),
             'mitra_bisnis_id' => $mitra_id,
@@ -68,6 +68,7 @@ class Penjualan extends CI_Model
             'harga' => $harga,
             'total' => $total,
             'keterangan' => $keterangan,
+            'tutup_kolam' => $tutup,
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
             'write_uid' => $create_uid,
@@ -98,7 +99,7 @@ class Penjualan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name')
+        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, j.tutup_kolam, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name')
             ->from('jual j')
             ->join('kolam k', 'k.id = j.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
@@ -112,7 +113,7 @@ class Penjualan extends CI_Model
 
 
     public function get_data($id){
-        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name')
+        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, j.tutup_kolam, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name')
             ->from('jual j')
             ->join('kolam k', 'k.id = j.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

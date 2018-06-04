@@ -116,6 +116,9 @@
                         <label style="font-weight: bold">Keterangan</label>
                         <?php echo form_input(array('name'=>'keterangan', 'id'=>'keterangan', 'class'=>'w3-input'), $keterangan);?>
                         <?php echo form_error('keterangan'); ?>
+                        <br>
+                        <input class="w3-check" type="checkbox" name="cb_tutup" value="tutup" <?php if($cb_tutup == 1){echo "checked=checked";}?> >
+                        <label>Tutup Kolam</label>
 
                     </div>
                     <?php if ($state == "update") { ?>

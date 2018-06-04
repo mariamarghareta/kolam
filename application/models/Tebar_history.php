@@ -125,6 +125,18 @@ class Tebar_history extends CI_Model
         }
     }
 
+    public function get_jual_ikan($kolam_id){
+        $query = $this->db->select('tebar_history.id, tebar_history.keterangan')
+            ->from('tebar_history')
+            ->join('kolam', 'kolam.tebar_id = tebar_history.tebar_id and kolam.id = tebar_history.tujuan_kolam_id')
+            ->where('tebar_history.tujuan_kolam_id', $kolam_id)
+            ->where('tebar_history.deleted', 0)
+            ->order_by('tebar_history.id desc')
+            ->limit(1)
+            ->get()
+            ->row();
+        if($query->keterangan == "Penjualan Ikan"){return 1;} else {return 0;}
+    }
 
     public function get_history_by_sampling($kolam_id, $seq){
         $query = $this->db->select('his.sampling_id, his.grading_id, s.deleted as sampling_deleted, g.deleted as grading_deleted')

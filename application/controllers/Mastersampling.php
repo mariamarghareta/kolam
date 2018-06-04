@@ -49,6 +49,7 @@ class Mastersampling extends CI_Controller {
         $this->data["kenaikan_daging"] = 0;
         $this->data["fcr"] = 0;
         $this->data["adg"] = 0;
+        $this->data["is_jual_kolam"] = 0;
         $this->data["search_word"] = "";
         $data_count = 10;
         $offset = 1;
@@ -315,6 +316,6 @@ class Mastersampling extends CI_Controller {
 
     public function getTotalIkan(){
         $kolam_id = $this->input->post('kolam_id');
-        echo json_encode($this->Tebar_history->get_total_ikan($kolam_id));
+        echo json_encode([$this->Tebar_history->get_total_ikan($kolam_id), $this->Tebar_history->get_jual_ikan($kolam_id)]);
     }
 }
