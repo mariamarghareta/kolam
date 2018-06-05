@@ -214,3 +214,24 @@ left join v_pakan_malam pakan_malam on pakan_malam.kolam_id = kolam.id and pakan
 left join tebar on tebar.id = kolam.tebar_id
 where kolam.tebar_id != 0
 ;
+
+-- untuk lihat laporan keuangan
+create or replace view v_lap_keuangan as
+select dt, keterangan, jumlah, harga, total, 1 as jenis
+from jual
+where jual.deleted = 0
+UNION
+select dt, name, jumlah_item, harga_per_item, total_harga, 0 as jenis
+from beli_lain
+where beli_lain.deleted = 0
+UNION
+select dt, obat.name, jumlah_item, harga_per_item, total_harga, 0 as jenis
+from beli_obat
+left join obat on obat.id = beli_obat.obat_id
+where beli_obat.deleted = 0
+UNION
+select dt, pakan.name, jumlah_item, harga_per_item, total_harga, 0 as jenis
+from beli_pakan
+left join pakan on pakan.id = beli_pakan.pakan_id
+where beli_pakan.deleted = 0
+order by dt asc

@@ -92,6 +92,15 @@
                     <span>Ubah Password</span>
                 </a>
             </li>
+            <li class="sub-menu">
+                <a class="" href="#" id="menu_laporan">
+                    <i class="fa fa-book"></i>
+                    <span>Laporan</span>
+                </a>
+                <ul class="sub" id="sub_menu_laporan">
+                    <li class="" id="menu_laporan_keuangan"><a  href="<?= base_url();?><?= index_page();?>/Laporankeuangan" >Laporan Keuangan</a></li>
+                </ul>
+            </li>
         </ul>
         <!-- sidebar menu end-->
     </div>
