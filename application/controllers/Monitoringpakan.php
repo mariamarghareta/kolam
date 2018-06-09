@@ -162,7 +162,7 @@ class Monitoringpakan extends CI_Controller {
                 #kurangi stok pakan
                 $update_pakan = $this->Pakan->kurangi_stok($this->data["selected_pakan"], $this->data["jumlah_pakan"], $_SESSION['id']);
                 if ($update_pakan) {
-//                    redirect('Monitoringpakan');
+                    redirect('Monitoringpakan');
                 }
             }
             $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Insert Gagal</div>";
