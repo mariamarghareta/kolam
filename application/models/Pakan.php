@@ -134,6 +134,7 @@ class Pakan extends CI_Model
         $data_sekarang = $this->get($id);
         $lama = $data_sekarang[0]->stok;
         $sekarang = $lama - $jumlah;
+        echo $lama . "-" . $jumlah . "=" . $sekarang;
         if($sekarang < 0){
             $sekarang = 0;
         }
