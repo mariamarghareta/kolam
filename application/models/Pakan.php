@@ -51,7 +51,7 @@ class Pakan extends CI_Model
 
     public function get_all()
     {
-        $query = $this->db->select('id, name, stok, min, satuan, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
+        $query = $this->db->select('id, name, round(stok,2) as stok, min, satuan, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
             ->from('pakan')
             ->where('deleted', 0)
             ->order_by('status asc')

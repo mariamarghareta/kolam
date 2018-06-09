@@ -32,7 +32,7 @@ class Obat extends CI_Model
 
     public function show_all_data()
     {
-        $query = $this->db->select('id, name, satuan, stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
+        $query = $this->db->select('id, name, satuan, round(stok,2) as stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status')
             ->from('obat')
             ->where('deleted', 0)
             ->order_by('status asc')
