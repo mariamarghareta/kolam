@@ -19,7 +19,7 @@ class Adj extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('ref_id, type, stok, create_time, name')
+        $query = $this->db->select('ref_id, type, stok, create_time, name, create_user')
             ->from('v_inv_adj')
             ->like('name ', $searchword)
             ->limit($data_count, ($offset-1) * $data_count)

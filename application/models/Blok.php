@@ -104,10 +104,12 @@ class Blok extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name')
+        $query = $this->db->select('blok.id, blok.name, k.name as create_user, kw.name as write_user, blok.create_time, blok.write_time')
             ->from('blok')
-            ->where('id', $id)
-            ->where('deleted',0)
+            ->join('karyawan k', 'k.id = blok.create_uid', 'left')
+            ->join('karyawan kw', 'kw.id = blok.write_uid', 'left')
+            ->where('blok.id', $id)
+            ->where('blok.deleted',0)
             ->get();
         return $query->result();
     }

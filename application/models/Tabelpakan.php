@@ -19,7 +19,7 @@ class Tabelpakan extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, age, weight, fr, sr')
+        $query = $this->db->select('id, age, round(weight,2) as weight, fr, sr')
             ->from('tabel_pakan')
             ->where('deleted', 0)
             ->group_start()
@@ -75,10 +75,12 @@ class Tabelpakan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, age, weight, fr, sr')
-            ->from('tabel_pakan')
-            ->where('id', $id)
-            ->where('deleted',0)
+        $query = $this->db->select('tb.id, tb.age, round(tb.weight,2) as weight, round(tb.fr,2) as fr, round(tb.sr,2) as sr, kar.name as create_user, karw.name as write_user, tb.create_time, tb.write_time')
+            ->from('tabel_pakan tb')
+            ->join('karyawan kar', 'kar.id = tb.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = tb.write_uid', 'left')
+            ->where('tb.id', $id)
+            ->where('tb.deleted',0)
             ->get();
         return $query->result();
     }

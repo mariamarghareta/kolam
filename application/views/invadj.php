@@ -55,6 +55,8 @@
                         <th data-field="create_time" data-sortable="true">Tgl.</th>
                         <th data-field="name" data-sortable="true">Nama</th>
                         <th data-field="stok" data-sortable="true">Stok</th>
+                        <th data-field="create_user" data-sortable="true">Dibuat Oleh</th>
+                        <th data-field="create_time" data-sortable="true">Tgl. Dibuat</th>
                     </tr>
                     </thead>
                 </table>

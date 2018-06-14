@@ -47,7 +47,7 @@
                             <thead>
                             <tr>
                                 <th data-field="name" data-sortable="true">Nama</th)>
-                                <th data-field="stok" data-sortable="true">Stok (kg)</th>
+                                <th data-field="stok" data-sortable="true" data-formatter="commaFormatter">Stok (kg)</th>
                                 <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                             </tr>
                             </thead>
@@ -65,7 +65,7 @@
                             <thead>
                             <tr>
                                 <th data-field="name" data-sortable="true">Nama</th)>
-                                <th data-field="stok" data-sortable="true">Stok (ml)</th>
+                                <th data-field="stok" data-sortable="true" data-formatter="commaFormatter">Stok (ml)</th>
                                 <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                             </tr>
                             </thead>
@@ -154,6 +154,10 @@
         } else {
             return '<div class="btn btn-success fa fa-check"></div>';
         }
+    }
+
+    function commaFormatter(value, row) {
+        return parseFloat(value).toLocaleString('en');
     }
 
     function stat(value, row) {

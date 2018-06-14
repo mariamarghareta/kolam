@@ -91,10 +91,12 @@ class Obat extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name, min, satuan, stok')
+        $query = $this->db->select('obat.id, obat.name, obat.min, obat.satuan, obat.stok, kar.name as create_user, karw.name as write_user, obat.create_time, obat.write_time')
             ->from('obat')
-            ->where('id', $id)
-            ->where('deleted',0)
+            ->join('karyawan kar', 'kar.id = obat.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = obat.write_uid', 'left')
+            ->where('obat.id', $id)
+            ->where('obat.deleted',0)
             ->get();
         return $query->result();
     }

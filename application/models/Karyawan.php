@@ -111,8 +111,10 @@ class Karyawan extends CI_Model {
 
 
     public function get($kode){
-        $query = $this->db->select('k.id, k.uname, k.name, k.alamat, k.telp, r.id as role_id, r.role, k.pass')
+        $query = $this->db->select('k.id, k.uname, k.name, k.alamat, k.telp, r.id as role_id, r.role, k.pass, kar.name as create_user, karw.name as write_user, k.create_time, k.write_time')
             ->from('karyawan k')
+            ->join('karyawan kar', 'kar.id = k.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = k.write_uid', 'left')
             ->where('k.id', $kode)
             ->where('k.deleted',0)
             ->join('role r', 'r.id = k.role_id')

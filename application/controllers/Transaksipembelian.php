@@ -44,6 +44,10 @@ class Transaksipembelian extends CI_Controller {
         $this->data["arr_obat"] = ($this->Obat->show_all_data());
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -105,6 +109,10 @@ class Transaksipembelian extends CI_Controller {
         $this->data["isi"] = $datum->isi;
         $this->data["total_isi"] = $datum->total_isi;
         $this->data["keterangan"] = $datum->keterangan;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
     }
 
     public function show(){

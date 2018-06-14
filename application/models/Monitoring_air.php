@@ -125,11 +125,13 @@ class Monitoring_air extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('k.name as kolam_name, m.kolam_id, m.id, m.tinggi_air, m.waktu, m.ph, m.suhu, m.kcr, m.warna, m.pemberian_pakan_id, m.tebar_id, m.create_time, t.kode, b.name as blok_name, b.id as blok_id, m.keterangan')
+        $query = $this->db->select('k.name as kolam_name, m.kolam_id, m.id, m.tinggi_air, m.waktu, m.ph, m.suhu, m.kcr, m.warna, m.pemberian_pakan_id, m.tebar_id, m.create_time, t.kode, b.name as blok_name, b.id as blok_id, m.keterangan, kar.name as create_user, karw.name as write_user, m.create_time, m.write_time')
             ->from('monitoring_air m')
             ->join('kolam k', 'k.id = m.kolam_id')
             ->join('blok b', 'b.id = k.blok_id')
             ->join('tebar t', 't.id = m.tebar_id')
+            ->join('karyawan kar', 'kar.id = m.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = m.write_uid', 'left')
             ->where('m.deleted', 0)
             ->where('m.id', $id)
             ->where('m.deleted',0)

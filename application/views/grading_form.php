@@ -294,6 +294,25 @@
                             <?php echo form_input(array('name'=>'adg', 'id'=>'adg', 'class'=>'w3-input', 'readonly' => 'readonly'), $adg);?>
                         </div>
                     </div>
+                    <?php if ($state != "create"){ ?>
+                        <div class="col-sm-12 margin-up-md">
+                            <h4>Tambahan Informasi</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-6">Dibuat Oleh</div>
+                                <div class="col-sm-6">: <?php echo $create_user; ?> </div>
+                                <div class="col-sm-6">Dibuat Pada</div>
+                                <div class="col-sm-6">: <?php echo $create_time; ?> </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-6">Terakhir di Rubah Oleh</div>
+                                <div class="col-sm-6">: <?php echo $write_user; ?> </div>
+                                <div class="col-sm-6">Terakhir di Ubah Pada</div>
+                                <div class="col-sm-6">: <?php echo $write_time; ?> </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                     <?php if ($state == "update") { ?>
                         <div class="text-center">
                             <button name="write" value="write" type="submit" class="w3-button w3-green w3-center margin-up-md">Ubah Data</button>

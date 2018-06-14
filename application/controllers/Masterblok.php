@@ -28,7 +28,11 @@ class Masterblok extends CI_Controller {
         $this->data["arr"] = json_encode($this->Blok->show_all($data_count, $offset, $this->data["search_word"]));
         $this->data["max_data"] = $this->Blok->get_count_all();
         $this->data["data_per_page"] = $data_count;
-        $this->data["page_count"] = 5;
+        $this->data["page_count"] = "";
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -68,15 +72,33 @@ class Masterblok extends CI_Controller {
     }
 
 
+    public function load_data(){
+        $datum = $this->Blok->get($this->data['id'])[0];
+        $this->data["id"] = $datum->id;
+        $this->data["name"] = $datum->name;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
+    }
+
     public function update(){
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "update";
-        $datum = $this->Blok->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
+        $this->load_data();
+        $this->load->view('masterblok_form', $this->data);
+    }
+
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        $this->data["state"] = "show";
+        $this->load_data();
         $this->load->view('masterblok_form', $this->data);
     }
 
@@ -86,9 +108,7 @@ class Masterblok extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $datum = $this->Blok->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
+        $this->load_data();
         $this->load->view('masterblok_form', $this->data);
     }
 

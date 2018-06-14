@@ -69,10 +69,12 @@ class Ikan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name')
+        $query = $this->db->select('ikan.id, ikan.name, kar.name as create_user, karw.name as write_user, ikan.create_time, ikan.write_time')
             ->from('ikan')
-            ->where('id', $id)
-            ->where('deleted',0)
+            ->join('karyawan kar', 'kar.id = ikan.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = ikan.write_uid', 'left')
+            ->where('ikan.id', $id)
+            ->where('ikan.deleted',0)
             ->get();
         return $query->result();
     }

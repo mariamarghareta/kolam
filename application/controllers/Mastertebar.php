@@ -57,6 +57,10 @@ class Mastertebar extends CI_Controller {
         }
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -143,6 +147,10 @@ class Mastertebar extends CI_Controller {
         $this->data['tangka'] = $datum->angka;
         $this->data['tsatuan'] = $datum->satuan;
         $this->data['kode'] = $datum->kode;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
         $this->data["list_history"] = json_encode($this->Tebar_history->show_all($datum->id));
     }
 

@@ -40,6 +40,10 @@ class Monitoringsayur extends CI_Controller {
         $this->data["list_treatment"] = json_encode([]);
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -93,6 +97,10 @@ class Monitoringsayur extends CI_Controller {
         $this->data["tds"] =  $datum->tds;
         $this->data["keterangan"] =  $datum->keterangan;
         $this->data["jumlah_obat"] = 0;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
 
         $arrobat = [];
         $data = $this->Monitoring_sayur->get_bahan_penolong($this->data['id']);

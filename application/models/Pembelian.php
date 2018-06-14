@@ -118,24 +118,30 @@ class Pembelian extends CI_Model
 
     public function get($id, $tipe_pembelian){
         if($tipe_pembelian == 'p'){
-            $query = $this->db->select('id, dt, pakan_id, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan')
-                ->from('beli_pakan')
+            $query = $this->db->select('b.id, b.dt, b.pakan_id, b.jumlah_item, b.harga_per_item, b.total_harga, b.isi, b.total_isi, b.keterangan, kar.name as create_user, karw.name as write_user, b.create_time, b.write_time')
+                ->from('beli_pakan b')
+                ->join('karyawan kar', 'kar.id = b.create_uid', 'left')
+                ->join('karyawan karw', 'karw.id = b.write_uid', 'left')
                 ->where('id', $id)
                 ->where('deleted',0)
                 ->get();
             return $query->result();
         }else if($tipe_pembelian == 'o'){
-            $query = $this->db->select('id, dt, obat_id, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan')
-                ->from('beli_obat')
-                ->where('id', $id)
-                ->where('deleted',0)
+            $query = $this->db->select('b.id, b.dt, b.obat_id, b.jumlah_item, b.harga_per_item, b.total_harga, b.isi, b.total_isi, b.keterangan, kar.name as create_user, karw.name as write_user, b.create_time, b.write_time')
+                ->from('beli_obat b')
+                ->join('karyawan kar', 'kar.id = b.create_uid', 'left')
+                ->join('karyawan karw', 'karw.id = b.write_uid', 'left')
+                ->where('b.id', $id)
+                ->where('b.deleted',0)
                 ->get();
             return $query->result();
         }else if($tipe_pembelian == 'l'){
-            $query = $this->db->select('id, dt, name, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan')
-                ->from('beli_lain')
-                ->where('id', $id)
-                ->where('deleted',0)
+            $query = $this->db->select('b.id, b.dt, b.name, b.jumlah_item, b.harga_per_item, b.total_harga, b.isi, b.total_isi, b.keterangan, kar.name as create_user, karw.name as write_user, b.create_time, b.write_time')
+                ->from('beli_lain b')
+                ->join('karyawan kar', 'kar.id = b.create_uid', 'left')
+                ->join('karyawan karw', 'karw.id = b.write_uid', 'left')
+                ->where('b.id', $id)
+                ->where('b.deleted',0)
                 ->get();
             return $query->result();
         }

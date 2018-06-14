@@ -51,6 +51,10 @@ class Transaksipenjualan extends CI_Controller {
             $this->data["selected_blok"] = $this->data["arr_blok"][0]["id"];
             $this->data["arr_kolam"] = $this->Kolam->get_occupied_kolam($this->data["arr_blok"][0]["id"]);
         }
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -109,8 +113,13 @@ class Transaksipenjualan extends CI_Controller {
         $this->data["pemberian_pakan_id"] = $datum->pemberian_pakan_id;
         $this->data["tebar_id"] = $datum->tebar_id;
         $this->data["cb_tutup"] = $datum->tutup_kolam;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
         $datum_his = $this->Tebar_history->get_by_jual($datum->id)[0];
         $this->data["his_id"] = $datum_his->id;
+
     }
 
 

@@ -94,10 +94,12 @@ class Pakan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name, min, satuan, stok')
+        $query = $this->db->select('pakan.id, pakan.name, pakan.min, pakan.satuan, pakan.stok, kar.name as create_user, karw.name as write_user, pakan.create_time, pakan.write_time')
             ->from('pakan')
-            ->where('id', $id)
-            ->where('deleted',0)
+            ->join('karyawan kar', 'kar.id = pakan.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = pakan.write_uid', 'left')
+            ->where('pakan.id', $id)
+            ->where('pakan.deleted',0)
             ->get();
         return $query->result();
     }

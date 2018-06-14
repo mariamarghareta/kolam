@@ -34,6 +34,10 @@ class Mastermitra extends CI_Controller {
         $this->data["max_data"] = $this->Mitra->get_count_all();
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -73,12 +77,7 @@ class Mastermitra extends CI_Controller {
     }
 
 
-    public function update(){
-        $this->check_role();
-        $this->initialization();
-        $this->data['id'] = $this->uri->segment(3);
-
-        $this->data["state"] = "update";
+    public function load_data(){
         $datum = $this->Mitra->get($this->data['id'])[0];
         $this->data["id"] = $datum->id;
         $this->data["name"] = $datum->name;
@@ -87,6 +86,31 @@ class Mastermitra extends CI_Controller {
         $this->data["tipe_mitra"] = $datum->tipe_mitra;
         $this->data["keterangan"] = $datum->keterangan;
         $this->data["alamat"] = $datum->alamat;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
+    }
+
+
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        $this->data["state"] = "show";
+        $this->load_data();
+        $this->load->view('mastermitra_form', $this->data);
+    }
+
+
+    public function update(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        $this->data["state"] = "update";
+        $this->load_data();
         $this->load->view('mastermitra_form', $this->data);
     }
 
@@ -96,14 +120,7 @@ class Mastermitra extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $datum = $this->Mitra->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
-        $this->data["phone1"] = $datum->phone1;
-        $this->data["phone2"] = $datum->phone2;
-        $this->data["tipe_mitra"] = $datum->tipe_mitra;
-        $this->data["keterangan"] = $datum->keterangan;
-        $this->data["alamat"] = $datum->alamat;
+        $this->load_data();
         $this->load->view('mastermitra_form', $this->data);
     }
 

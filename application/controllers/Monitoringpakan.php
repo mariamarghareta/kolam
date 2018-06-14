@@ -50,6 +50,10 @@ class Monitoringpakan extends CI_Controller {
         $this->data["arr_pakan"] = ($this->Pakan->get_all_instock());
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -103,6 +107,10 @@ class Monitoringpakan extends CI_Controller {
         $this->data["jumlah_pakan"] = $datum->jumlah_pakan;
         $this->data["mr"] = $datum->mr;
         $this->data["keterangan"] = $datum->keterangan;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
     }
 
     public function show(){

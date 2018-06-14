@@ -79,6 +79,10 @@ class Mastergrading extends CI_Controller {
 
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -181,6 +185,10 @@ class Mastergrading extends CI_Controller {
         $this->data['selected_kolam_txt'] = $datum->blok_name . " " . $datum->kolam_name;
         $this->data['kolam_id'] = $datum->asal_kolam_id;
         $this->data["arr_kolam"] = $this->Kolam->get_kolam_for_grading($this->data['selected_blok'], $this->data["id"]);
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
         $datum = $this->Pemberian_pakan->get_by_grading($this->data['id']);
         $arritem = [];
         foreach ($datum as $item) {

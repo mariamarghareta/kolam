@@ -83,12 +83,14 @@ class Tebar extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id, his.sampling_id, tebar.angka, tebar.satuan')
+        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id, his.sampling_id, tebar.angka, tebar.satuan, kar.name as create_user, karw.name as write_user, tebar.create_time, tebar.write_time')
             ->from('tebar')
             ->join('tebar_history his', 'his.tebar_id = tebar.id', 'left')
             ->join('kolam', 'kolam.id = his.tujuan_kolam_id', 'left')
             ->join('blok', 'blok.id = kolam.blok_id', 'left')
             ->join('pemberian_pakan pakan', 'pakan.sampling_id = his.sampling_id', 'left')
+            ->join('karyawan kar', 'kar.id = tebar.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = tebar.write_uid', 'left')
             ->where('tebar.id', $id)
             ->where('his.sequence', 1)
             ->where('tebar.deleted',0)

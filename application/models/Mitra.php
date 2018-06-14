@@ -95,10 +95,12 @@ class Mitra extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('id, name, phone1, phone2, tipe_mitra, alamat, keterangan')
-            ->from('mitra_bisnis')
-            ->where('id', $id)
-            ->where('deleted',0)
+        $query = $this->db->select('mb.id, mb.name, mb.phone1, mb.phone2, mb.tipe_mitra, mb.alamat, mb.keterangan, kar.name as create_user, karw.name as write_user, mb.create_time, mb.write_time')
+            ->from('mitra_bisnis mb')
+            ->join('karyawan kar', 'kar.id = mb.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = mb.write_uid', 'left')
+            ->where('mb.id', $id)
+            ->where('mb.deleted',0)
             ->get();
         return $query->result();
     }

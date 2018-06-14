@@ -119,8 +119,10 @@ class Monitoring_sayur extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('m.id, m.ph, m.tds, m.waktu, m.keterangan')
+        $query = $this->db->select('m.id, m.ph, m.tds, m.waktu, m.keterangan, kar.name as create_user, karw.name as write_user, m.create_time, m.write_time')
             ->from('monitoring_sayur m')
+            ->join('karyawan kar', 'kar.id = m.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = m.write_uid', 'left')
             ->where('m.deleted', 0)
             ->where('m.id', $id)
             ->get();

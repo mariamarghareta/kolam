@@ -29,6 +29,11 @@ class Masterobat extends CI_Controller {
         $this->data["max_data"] = $this->Obat->get_count_all();
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
+        $this->data["page_count"] = "";
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -68,17 +73,37 @@ class Masterobat extends CI_Controller {
     }
 
 
+    public function load_data(){
+        $datum = $this->Obat->get($this->data['id'])[0];
+        $this->data["id"] = $datum->id;
+        $this->data["name"] = $datum->name;
+        $this->data["min"] = $datum->min;
+        $this->data["satuan"] = $datum->satuan;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
+    }
+
+
+    public function show(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->uri->segment(3);
+
+        $this->data["state"] = "show";
+        $this->load_data();
+        $this->load->view('masterobat_form', $this->data);
+    }
+
+
     public function update(){
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "update";
-        $datum = $this->Obat->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
-        $this->data["min"] = $datum->min;
-        $this->data["satuan"] = $datum->satuan;
+        $this->load_data();
         $this->load->view('masterobat_form', $this->data);
     }
 
@@ -88,11 +113,7 @@ class Masterobat extends CI_Controller {
         $this->data['id'] = $this->uri->segment(3);
 
         $this->data["state"] = "delete";
-        $datum = $this->Obat->get($this->data['id'])[0];
-        $this->data["id"] = $datum->id;
-        $this->data["name"] = $datum->name;
-        $this->data["min"] = $datum->min;
-        $this->data["satuan"] = $datum->satuan;
+        $this->load_data();
         $this->load->view('masterobat_form', $this->data);
     }
 

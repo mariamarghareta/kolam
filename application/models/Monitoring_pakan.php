@@ -98,12 +98,14 @@ class Monitoring_pakan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('mon.id, mon.kolam_id, mon.tebar_id, mon.pemberian_pakan_id, mon.dt, mon.waktu_pakan, mon.pakan_id, mon.jumlah_pakan, mon.mr, mon.keterangan, b.name as blok_name, k.name as kolam_name, t.kode, pakan.name as pakan_name, b.id as blok_id')
+        $query = $this->db->select('mon.id, mon.kolam_id, mon.tebar_id, mon.pemberian_pakan_id, mon.dt, mon.waktu_pakan, mon.pakan_id, mon.jumlah_pakan, mon.mr, mon.keterangan, b.name as blok_name, k.name as kolam_name, t.kode, pakan.name as pakan_name, b.id as blok_id, kar.name as create_user, karw.name as write_user, mon.create_time, mon.write_time')
             ->from('monitoring_pakan mon')
             ->join('kolam k', 'k.id = mon.kolam_id')
             ->join('blok b', 'b.id = k.blok_id')
             ->join('tebar t', 't.id = mon.tebar_id')
             ->join('pakan', 'pakan.id = mon.pakan_id')
+            ->join('karyawan kar', 'kar.id = mon.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = mon.write_uid', 'left')
             ->where('mon.deleted', 0)
             ->where('mon.id', $id)
             ->get();

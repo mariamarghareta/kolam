@@ -62,6 +62,10 @@ class Mastersampling extends CI_Controller {
             $this->data["selected_blok"] = $this->data["arr_blok"][0]["id"];
             $this->data["arr_kolam"] = $this->Kolam->get_occupied_kolam($this->data["arr_blok"][0]["id"]);
         }
+        $this->data["create_user"] = "";
+        $this->data["create_time"] = "";
+        $this->data["write_user"] = "";
+        $this->data["write_time"] = "";
     }
 
 
@@ -165,6 +169,10 @@ class Mastersampling extends CI_Controller {
         $this->data["selected_blok"] = $datum->blok_id;
         $this->data["arr_kolam"] = $this->Kolam->get_occupied_kolam($datum->blok_id);
         $this->data["selected_kolam"] = $datum->kolam_id;
+        $this->data["create_user"] = $datum->create_user;
+        $this->data["create_time"] = $datum->create_time;
+        $this->data["write_user"] = $datum->write_user;
+        $this->data["write_time"] = $datum->write_time;
     }
 
 
