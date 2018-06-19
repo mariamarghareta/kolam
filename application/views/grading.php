@@ -56,12 +56,12 @@
                         <th data-field="blok_name" data-sortable="true">Nama Blok</th>
                         <th data-field="kolam_name" data-sortable="true">Nama Kolam</th>
                         <th data-field="dt" data-sortable="true">Tanggal</th>
-                        <th data-field="total_biomass" data-sortable="true">Total Biomass</th>
-                        <th data-field="total_populasi" data-sortable="true">Total Populasi</th>
-                        <th data-field="sr" data-sortable="true">SR</th>
-                        <th data-field="pertumbuhan_daging" data-sortable="true">Pertumbuhan Daging</th>
-                        <th data-field="fcr" data-sortable="true">FCR</th>
-                        <th data-field="adg" data-sortable="true">ADG</th>
+                        <th data-field="total_biomass"  data-formatter="commaFormatter" data-sortable="true">Total Biomass</th>
+                        <th data-field="total_populasi"  data-formatter="commaFormatter" data-sortable="true">Total Populasi</th>
+                        <th data-field="sr"  data-formatter="commaFormatter" data-sortable="true">SR</th>
+                        <th data-field="pertumbuhan_daging"  data-formatter="commaFormatter" data-sortable="true">Pertumbuhan Daging</th>
+                        <th data-field="fcr"  data-formatter="commaFormatter" data-sortable="true">FCR</th>
+                        <th data-field="adg"  data-formatter="commaFormatter" data-sortable="true">ADG</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -140,7 +140,9 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Mastergrading/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
             '<a href="<?php echo base_url() . index_page(); ?>/Mastergrading/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>'
+            <?php } ?>
         ].join('');
     }
 </script>

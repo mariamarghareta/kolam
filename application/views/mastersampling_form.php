@@ -73,6 +73,11 @@
                         <?php } ?>
                         <div class="row">
                             <div class="col-sm-6">
+                                <?php if ($state != "create") {?>
+                                <label>Tanggal Sampling</label>
+                                <?php echo form_input(array('name'=>'dt', 'id'=>'dt', 'class'=>'w3-input', 'readonly' => 'readonly'), $dt);?>
+                                <br>
+                                <?php } ?>
                                 <label style="font-weight: bold">Blok </label><label style="color: red; padding-left: 5px;"> *</label>
                                 <br>
                                 <div id="div_blok" class="">

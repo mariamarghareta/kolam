@@ -108,14 +108,14 @@ class Tebar_history extends CI_Model
         $id = $query->result_array();
         if(sizeof($id)>0){
             if($id[0]["sampling_id"] != 0 and $id[0]["sampling_deleted"] == 0){
-                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                $query = $this->db->select('total_ikan, round(biomass,2) as biomass, round(total_pakan,2) as total_pakan')
                     ->where('sampling_id', $id[0]["sampling_id"])
                     ->where('kolam_id', $kolam_id)
                     ->from('pemberian_pakan')
                     ->get();
                 return ($query->result_array());
             } else if($id[0]["grading_id"] != 0 and $id[0]["grading_deleted"] == 0){
-                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                $query = $this->db->select('total_ikan, round(biomass,2) as biomass, round(total_pakan,2) as total_pakan')
                     ->where('grading_id', $id[0]["grading_id"])
                     ->where('kolam_id', $kolam_id)
                     ->from('pemberian_pakan')
@@ -156,14 +156,14 @@ class Tebar_history extends CI_Model
         $id = $query->result_array();
         if(sizeof($id)>0) {
             if($id[0]["sampling_id"] != 0 and $id[0]["sampling_deleted"] == 0){
-                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                $query = $this->db->select('total_ikan, round(biomass,2) as biomass, round(total_pakan,2) as total_pakan')
                     ->where('sampling_id', $id[0]["sampling_id"])
                     ->where('kolam_id', $kolam_id)
                     ->from('pemberian_pakan')
                     ->get();
                 return ($query->result_array());
             } else if($id[0]["grading_id"] != 0 and $id[0]["grading_deleted"] == 0){
-                $query = $this->db->select('total_ikan, biomass, total_pakan')
+                $query = $this->db->select('total_ikan, round(biomass,2) as biomass, round(total_pakan,2) as total_pakan')
                     ->where('grading_id', $id[0]["grading_id"])
                     ->where('kolam_id', $kolam_id)
                     ->from('pemberian_pakan')

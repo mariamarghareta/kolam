@@ -140,8 +140,10 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringair/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringair/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringair/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php } ?>
         ].join('');
     }
 </script>

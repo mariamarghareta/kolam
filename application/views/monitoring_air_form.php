@@ -361,19 +361,23 @@
 
 
     function remove_obat_list(id){
-        $obat_id = (id.substring(4));
-        var deferredData = new jQuery.Deferred();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url() . index_page() . "/Monitoringair/removeObatList"; ?>",
-            dataType: "json",
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', obat_id: $obat_id},
-            success: function(data) {
-                $('#table').bootstrapTable("load", data);
-            }
-        });
-        return deferredData; // contains the passed data
-
+        if( "<?php echo $state ?>" == "create" || "<?php echo $state ?>" == "update") {
+            $obat_id = (id.substring(4));
+            var deferredData = new jQuery.Deferred();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() . index_page() . "/Monitoringair/removeObatList"; ?>",
+                dataType: "json",
+                data: {
+                    '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                    obat_id: $obat_id
+                },
+                success: function (data) {
+                    $('#table').bootstrapTable("load", data);
+                }
+            });
+            return deferredData; // contains the passed data
+        }
     };
 </script>
 

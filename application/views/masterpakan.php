@@ -53,7 +53,7 @@
                     <thead>
                     <tr>
                         <th data-field="name" data-sortable="true">Nama</th)>
-                        <th data-field="stok" data-sortable="true">Stok (kg)</th>
+                        <th data-field="stok"  data-formatter="commaFormatter" data-sortable="true">Stok (kg)</th>
                         <th data-field="min" data-sortable="true">Batas Minimal Stok (kg)</th>
                         <th data-field="satuan" data-sortable="true">Satuan</th>
                         <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>

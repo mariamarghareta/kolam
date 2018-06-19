@@ -56,9 +56,9 @@
                         <th data-field="dt" data-sortable="true">Tgl. Sampling</th)>
                         <th data-field="blok_name" data-sortable="true">Blok</th>
                         <th data-field="kolam_name" data-sortable="true">Kolam</th>
-                        <th data-field="kenaikan_daging" data-sortable="true">Kenaikan Daging</th>
-                        <th data-field="fcr" data-sortable="true">FCR</th>
-                        <th data-field="adg" data-sortable="true">ADG</th>
+                        <th data-field="kenaikan_daging"  data-formatter="commaFormatter" data-sortable="true">Kenaikan Daging</th>
+                        <th data-field="fcr"  data-formatter="commaFormatter" data-sortable="true">FCR</th>
+                        <th data-field="adg"  data-formatter="commaFormatter" data-sortable="true">ADG</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -137,7 +137,9 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
             '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php } ?>
         ].join('');
     }
 </script>

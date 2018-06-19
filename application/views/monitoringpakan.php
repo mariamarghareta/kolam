@@ -58,7 +58,7 @@
                         <th data-field="kolam_name" data-sortable="true">Kolam</th>
                         <th data-field="waktu_pakan" data-sortable="true">Waktu Pakan</th>
                         <th data-field="pakan_name" data-sortable="true">Jenis Pakan</th>
-                        <th data-field="jumlah_pakan" data-sortable="true">Jumlah Pakan</th>
+                        <th data-field="jumlah_pakan"  data-formatter="commaFormatter" data-sortable="true">Jumlah Pakan</th>
                         <th data-field="mr" data-sortable="true">MR (Kematian)</th>
                         <th data-field="action"
                             data-align="center"
@@ -138,8 +138,10 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
             '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php } ?>
         ].join('');
     }
 </script>

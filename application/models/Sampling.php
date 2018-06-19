@@ -19,7 +19,7 @@ class Sampling extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('sampling.id, tebar.kode, blok.name as blok_name, kolam.name as kolam_name, sampling.kenaikan_daging, sampling.fcr, sampling.adg, sampling.dt, kar.name as create_user, karw.name as write_user, sampling.create_time, sampling.write_time')
+        $query = $this->db->select('sampling.id, tebar.kode, blok.name as blok_name, kolam.name as kolam_name, round(sampling.kenaikan_daging,2) as kenaikan_daging, round(sampling.fcr,2) as fcr, round(sampling.adg,2) as adg, sampling.dt, kar.name as create_user, karw.name as write_user, sampling.create_time, sampling.write_time')
             ->from('sampling')
             ->join('tebar','tebar.id = sampling.tebar_id', 'left')
             ->join('pemberian_pakan pakan','pakan.sampling_id = sampling.id', 'left')
@@ -75,7 +75,7 @@ class Sampling extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('s.id, s.tebar_id, s.kenaikan_daging, s.fcr, s.adg, s.kolam_id, k.blok_id, kar.name as create_user, karw.name as write_user, s.create_time, s.write_time')
+        $query = $this->db->select('s.id, s.tebar_id, round(s.kenaikan_daging,2) as kenaikan_daging, round(s.fcr,2) as fcr, round(s.adg,2) as adg, s.kolam_id, k.blok_id, kar.name as create_user, karw.name as write_user, s.create_time, s.write_time, s.dt')
             ->from('sampling s')
             ->join('kolam k', 'k.id = s.kolam_id')
             ->join('blok b', 'b.id = k.blok_id')
@@ -89,10 +89,12 @@ class Sampling extends CI_Model
 
 
     public function get_without_check($id){
-        $query = $this->db->select('s.id, s.tebar_id, s.kenaikan_daging, s.fcr, s.adg, s.kolam_id, k.blok_id')
+        $query = $this->db->select('s.id, s.tebar_id, s.kenaikan_daging, s.fcr, s.adg, s.kolam_id, k.blok_id, s.dt, kar.name as create_user, karw.name as write_user, s.create_time, s.write_time')
             ->from('sampling s')
             ->join('kolam k', 'k.id = s.kolam_id')
             ->join('blok b', 'b.id = k.blok_id')
+            ->join('karyawan kar', 'kar.id = s.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = s.write_uid', 'left')
             ->where('s.id', $id)
             ->get();
         return $query->result();

@@ -69,35 +69,35 @@ $pdf->SetAutoPageBreak(true,15);
 
 $total_pendapatan = 0;
 $total_pengeluaran = 0;
-for($j=0; $j<30; $j++) {
-    for ($i = 0; $i < sizeof($detail); $i++) {
-        $pdf->SetFillColor(245, 247, 250);
+
+for ($i = 0; $i < sizeof($detail); $i++) {
+    $pdf->SetFillColor(245, 247, 250);
 //    $pdf->Rect(0, $i*5, 33,5, 'F');
-        if ($i % 2 == 0) {
-            $fill = 1;
-        } else {
-            $fill = 0;
-        }
-        $pdf->Cell(12, 5, $i + 1, 0, 0, 'R', $fill);
-        $pdf->Cell(27, 5, $detail[$i]["dt"], 0, 0, 'C', $fill);
-        $pdf->Cell(33, 5, $detail[$i]["keterangan"], 0, 0, 'L', $fill);
-        $pdf->Cell(30, 5, separator($detail[$i]["jumlah"]), 0, 0, 'R', $fill);
-        $pdf->Cell(30, 5, separator($detail[$i]["harga"]), 0, 0, 'R', $fill);
-        if ($detail[$i]["jenis"] == 0) {
-            $pengeluaran = $detail[$i]["total"];
-            $pendapatan = 0;
-            $total_pengeluaran += $pengeluaran;
-        } else {
-            $pengeluaran = 0;
-            $pendapatan = $detail[$i]["total"];
-            $total_pendapatan += $pendapatan;
-        }
-        $pdf->Cell(29, 5, separator($pendapatan), 0, 0, 'R', $fill);
-        $pdf->Cell(29, 5, separator($pengeluaran), 0, 0, 'R', $fill);
-        $pdf->Ln();
-//    $pdf->Cell(50,5,'[ x ] checkbox1',1,0,'L',0);
+    if ($i % 2 == 0) {
+        $fill = 1;
+    } else {
+        $fill = 0;
     }
+    $pdf->Cell(12, 5, $i + 1, 0, 0, 'R', $fill);
+    $pdf->Cell(27, 5, $detail[$i]["dt"], 0, 0, 'C', $fill);
+    $pdf->Cell(33, 5, $detail[$i]["keterangan"], 0, 0, 'L', $fill);
+    $pdf->Cell(30, 5, separator($detail[$i]["jumlah"]), 0, 0, 'R', $fill);
+    $pdf->Cell(30, 5, separator($detail[$i]["harga"]), 0, 0, 'R', $fill);
+    if ($detail[$i]["jenis"] == 0) {
+        $pengeluaran = $detail[$i]["total"];
+        $pendapatan = 0;
+        $total_pengeluaran += $pengeluaran;
+    } else {
+        $pengeluaran = 0;
+        $pendapatan = $detail[$i]["total"];
+        $total_pendapatan += $pendapatan;
+    }
+    $pdf->Cell(29, 5, separator($pendapatan), 0, 0, 'R', $fill);
+    $pdf->Cell(29, 5, separator($pengeluaran), 0, 0, 'R', $fill);
+    $pdf->Ln();
+//    $pdf->Cell(50,5,'[ x ] checkbox1',1,0,'L',0);
 }
+
 $pdf->Ln();
 $pdf->Ln();
 $pdf->Cell(170,5,"Total Pendapatan",0,0,'L',0);

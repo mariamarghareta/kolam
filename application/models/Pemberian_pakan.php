@@ -63,7 +63,7 @@ class Pemberian_pakan extends CI_Model
 
 
     public function get_by_sampling($id){
-        $query = $this->db->select('id, sampling, angka, satuan, size, biomass, total_ikan, ukuran, fr, sr, dosis_pakan, total_pakan, pagi, sore, malam, tebar_id, kolam_id, sampling_id, grading_id')
+        $query = $this->db->select('id, sampling, angka, satuan, size, round(biomass,2) as biomass, total_ikan, ukuran, fr, sr, round(dosis_pakan,2) as dosis_pakan, round(total_pakan,2) as total_pakan, round(pagi,2) as pagi, round(sore, 2) as sore, round(malam,2) as malam, tebar_id, kolam_id, sampling_id, grading_id')
             ->from('pemberian_pakan')
             ->where('sampling_id', $id)
             ->where('deleted',0)
@@ -73,7 +73,7 @@ class Pemberian_pakan extends CI_Model
 
 
     public function get_by_grading($id){
-        $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, p.biomass, p.total_ikan, p.ukuran, p.fr, p.sr, p.dosis_pakan, p.total_pakan, p.pagi, p.sore, p.malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name')
+        $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, round(p.biomass,2) as biomass, p.total_ikan, p.ukuran, p.fr, p.sr, round(p.dosis_pakan,2) as dosis_pakan, round(p.total_pakan, 2) as total_pakan, round(p.pagi,2) as pagi, round(p.sore,2) as sore, round(p.malam,2) as malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name')
             ->from('pemberian_pakan p')
             ->join('kolam k', 'p.id = k.pemberian_pakan_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

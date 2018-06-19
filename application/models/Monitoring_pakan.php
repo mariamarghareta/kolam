@@ -93,7 +93,7 @@ class Monitoring_pakan extends CI_Model
             'write_time' => $this->get_now()
         );
         $query = $this->db->insert('monitoring_pakan', $data);
-        return $query;
+        return $this->db->insert_id();
     }
 
 
@@ -152,5 +152,39 @@ class Monitoring_pakan extends CI_Model
             ->join('blok b', 'b.id = k.blok_id', 'left')
             ->get();
         return $query->result_array();
+    }
+
+    public function insert_bahan_penolong($monitoring_pakan_id, $obat_id, $jumlah, $create_uid){
+        $data = array(
+            'monitoring_pakan_id' => $monitoring_pakan_id,
+            'obat_id' => $obat_id,
+            'jumlah' => $jumlah,
+            'create_uid' => $create_uid,
+            'create_time' => $this->get_now(),
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now()
+        );
+        $this->db->insert('pakan_obat', $data);
+        return $this->db->insert_id();
+    }
+
+    public function get_bahan_penolong($id){
+        $query = $this->db->select('bhn.id, bhn.obat_id, bhn.jumlah, obat.name as obat_name, obat.satuan, bhn.monitoring_pakan_id')
+            ->from('pakan_obat bhn')
+            ->join('obat', 'obat.id = bhn.obat_id')
+            ->where('bhn.deleted', 0)
+            ->where('bhn.monitoring_pakan_id', $id)
+            ->get();
+        return $query->result_array();
+    }
+
+    public function delete_bahan_penolong($monitoring_pakan_id, $write_uid){
+        $data = array(
+            'deleted' => 1,
+            'write_uid' => $write_uid,
+            'write_time' => $this->get_now()
+        );
+        $this->db->where('monitoring_pakan_id', $monitoring_pakan_id);
+        return $this->db->update('pakan_obat', $data);
     }
 }

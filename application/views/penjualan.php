@@ -57,9 +57,9 @@
                         <th data-field="kode" data-sortable="true">Kode Tebar</th>
                         <th data-field="blok_name" data-sortable="true">Blok</th>
                         <th data-field="kolam_name" data-sortable="true">Kolam</th>
-                        <th data-field="jumlah" data-sortable="true">Jumlah</th>
-                        <th data-field="harga" data-sortable="true">Harga</th>
-                        <th data-field="total" data-sortable="true">Total</th>
+                        <th data-field="jumlah" data-formatter="commaFormatter" data-sortable="true">Jumlah</th>
+                        <th data-field="harga" data-formatter="commaFormatter" data-sortable="true">Harga</th>
+                        <th data-field="total" data-formatter="commaFormatter" data-sortable="true">Total</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

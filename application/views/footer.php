@@ -15,3 +15,4 @@
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-table.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>/assets/js/common-scripts.js"></script>
 <script src="<?php echo base_url(); ?>/assets/js/custom_table.js"></script>
+<script src="<?php echo base_url(); ?>/assets/js/custom_data_formatter.js"></script>

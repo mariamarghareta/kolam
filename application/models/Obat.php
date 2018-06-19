@@ -19,7 +19,7 @@ class Obat extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, name, stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status, satuan')
+        $query = $this->db->select('id, name, round(stok,2) as stok, min, case when stok <= min then -1 else (case when stok > min and stok <= (min * 1.2) then 0 else 1 end) end as status, satuan')
             ->from('obat')
             ->where('deleted', 0)
             ->like('name ', $searchword)

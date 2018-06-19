@@ -54,12 +54,14 @@
                     <tr>
                         <th data-field="tgl_tebar" data-sortable="true">Tanggal Tebar</th>
                         <th data-field="kode" data-sortable="true">Kode</th>
-                        <th data-field="sampling" data-sortable="true">Sampling (ekor)</th>
+                        <th data-field="blok_name" data-sortable="true">Blok</th>
+                        <th data-field="kolam_name" data-sortable="true">Kolam</th>
+                        <th data-field="sampling"  data-formatter="commaFormatter" data-sortable="true">Sampling (ekor)</th>
                         <th data-field="angka" data-sortable="true">Tiap</th>
                         <th data-field="satuan" data-sortable="true">Satuan</th>
-                        <th data-field="size" data-sortable="true">Size (ekor/kg)</th>
-                        <th data-field="biomass" data-sortable="true">Biomass</th>
-                        <th data-field="total_ikan" data-sortable="true">Total Ikan</th>
+                        <th data-field="size"  data-formatter="commaFormatter" data-sortable="true">Size (ekor/kg)</th>
+                        <th data-field="biomass"  data-formatter="commaFormatter" data-sortable="true">Biomass</th>
+                        <th data-field="total_ikan"  data-formatter="commaFormatter" data-sortable="true">Total Ikan</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -138,7 +140,9 @@
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Mastertebar/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
             '<a href="<?php echo base_url() . index_page(); ?>/Mastertebar/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php } ?>
         ].join('');
     }
 </script>

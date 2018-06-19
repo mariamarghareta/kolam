@@ -19,7 +19,7 @@ class Grading extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('g.id, g.tebar_id, g.asal_kolam_id, g.dt, g.total_biomass, g.total_populasi, g.sr, g.pertumbuhan_daging, g.fcr, g.adg, k.name as kolam_name, b.name as blok_name, k.id as kolam_id, b.id as blok_id, t.kode')
+        $query = $this->db->select('g.id, g.tebar_id, g.asal_kolam_id, g.dt, round(g.total_biomass,2) as total_biomass, g.total_populasi, round(g.sr,2) as sr, round(g.pertumbuhan_daging,2) as pertumbuhan_daging, round(g.fcr,2) as fcr, round(g.adg,2) as adg, k.name as kolam_name, b.name as blok_name, k.id as kolam_id, b.id as blok_id, t.kode')
             ->from('grading g')
             ->join('kolam k', 'k.id = g.asal_kolam_id')
             ->join('blok b', 'b.id = k.blok_id')

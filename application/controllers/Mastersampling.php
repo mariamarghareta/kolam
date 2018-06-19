@@ -66,6 +66,7 @@ class Mastersampling extends CI_Controller {
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
+        $this->data["dt"] = "";
     }
 
 
@@ -146,6 +147,7 @@ class Mastersampling extends CI_Controller {
         $this->data["his_id"] = $his->id;
         $this->data["pakan_id"] = $pakan->id;
         $this->data["kolam_id"] = $datum->kolam_id;
+        $this->data["dt"] = $datum->dt;
         $this->data["sampling_id"] = $datum->id;
         $this->data["sampling"] = $pakan->sampling;
         $this->data["size"] = $pakan->size;

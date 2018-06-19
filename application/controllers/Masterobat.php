@@ -23,13 +23,14 @@ class Masterobat extends CI_Controller {
         $this->data["msg"] = "";
         $this->data["id"] = "";
         $this->data["search_word"] = "";
+        $this->data["min"] = "";
+        $this->data["satuan"] = "";
         $data_count = 10;
         $offset = 1;
         $this->data["arr"] = json_encode($this->Obat->show_all($data_count, $offset, $this->data["search_word"]));
         $this->data["max_data"] = $this->Obat->get_count_all();
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
-        $this->data["page_count"] = "";
         $this->data["create_user"] = "";
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";

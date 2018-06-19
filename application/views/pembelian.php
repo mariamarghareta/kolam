@@ -55,11 +55,11 @@
                         <th data-field="dt" data-sortable="true">Tanggal</th)>
                         <th data-field="name" data-sortable="true">Nama Barang</th>
                         <th data-field="jumlah_item" data-sortable="true">Jumlah Item</th>
-                        <th data-field="isi" data-sortable="true">Isi</th>
+                        <th data-field="isi"  data-formatter="commaFormatter" data-sortable="true">Isi</th>
                         <th data-field="satuan" data-sortable="true">Satuan</th>
-                        <th data-field="total_isi" data-sortable="true">Total Isi</th>
-                        <th data-field="harga_per_item" data-sortable="true">Harga per Item</th>
-                        <th data-field="total_harga" data-sortable="true">Total</th>
+                        <th data-field="total_isi" data-formatter="commaFormatter" data-sortable="true">Total Isi</th>
+                        <th data-field="harga_per_item" data-formatter="commaFormatter" data-sortable="true">Harga per Item</th>
+                        <th data-field="total_harga" data-formatter="commaFormatter" data-sortable="true">Total</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>

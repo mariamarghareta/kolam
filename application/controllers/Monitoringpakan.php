@@ -15,6 +15,7 @@ class Monitoringpakan extends CI_Controller {
         $this->load->model('Pakan');
         $this->load->model('Monitoring_pakan');
         $this->load->model('Karyawan');
+        $this->load->model('Obat');
     }
     private $data;
 
@@ -47,6 +48,8 @@ class Monitoringpakan extends CI_Controller {
             $this->data["selected_blok"] = $this->data["arr_blok"][0]["id"];
             $this->data["arr_kolam"] = $this->Kolam->get_occupied_kolam($this->data["arr_blok"][0]["id"]);
         }
+        $this->data["list_obat"] = json_encode([]);
+        $this->data["arr_obat"] = ($this->Obat->show_all_in_stock());
         $this->data["arr_pakan"] = ($this->Pakan->get_all_instock());
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
@@ -54,6 +57,7 @@ class Monitoringpakan extends CI_Controller {
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
+        $this->data["jumlah_obat"] = "";
     }
 
 
@@ -88,6 +92,9 @@ class Monitoringpakan extends CI_Controller {
     public function create(){
         $this->check_role();
         $this->initialization();
+        if(!$this->input->post["tblok"]){
+            unset($_SESSION["list_obat"]);
+        }
         $this->data["state"] = "create";
         $this->load->view('monitoringpakan_form', $this->data);
     }
@@ -111,6 +118,18 @@ class Monitoringpakan extends CI_Controller {
         $this->data["create_time"] = $datum->create_time;
         $this->data["write_user"] = $datum->write_user;
         $this->data["write_time"] = $datum->write_time;
+
+        $arrobat = [];
+        $data = $this->Monitoring_pakan->get_bahan_penolong($this->data['id']);
+        for($i=0; $i <sizeof($data); $i ++){
+            $idx = sizeof($arrobat);
+            $arrobat[$idx]["obat_id"] = $data[$i]["obat_id"];
+            $arrobat[$idx]["obat_name"] = $data[$i]["obat_name"];
+            $arrobat[$idx]["jumlah"] =  $data[$i]["jumlah"];
+            $arrobat[$idx]["satuan"] =  $data[$i]["satuan"];
+        }
+        $this->session->set_tempdata(["list_obat" => $arrobat], NULL, 5 * 60);
+        $this->data["list_obat"] = json_encode($arrobat);
     }
 
     public function show(){
@@ -139,7 +158,7 @@ class Monitoringpakan extends CI_Controller {
 
     public function get_form_data(){
         $this->form_validation->set_rules('jenis_pakan', 'Jenis Pakan', 'required', array('required' => '%s harus diisi'));
-        $this->form_validation->set_rules('jumlah_pakan', 'Jumlah Pakan', 'required|greater_than[0]', array('required' => '%s harus diisi', 'greater_than' => '%s harus lebih besar dari 0'));
+        $this->form_validation->set_rules('jumlah_pakan', 'Jumlah Pakan', 'required|greater_than[-1]', array('required' => '%s harus diisi', 'greater_than' => '%s harus lebih besar dari 0'));
         $this->form_validation->set_rules('mr', 'MR', 'required', array('required' => '%s harus diisi'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
@@ -166,17 +185,32 @@ class Monitoringpakan extends CI_Controller {
 
         if ($this->form_validation->run() != FALSE) {
             $result = $this->Monitoring_pakan->insert($this->data["kolam_id"], $this->data["tebar_id"], $this->data["pakan_id"], $this->data["selected_waktu"], $this->data["selected_pakan"], $this->data["jumlah_pakan"], $this->data["mr"], $this->data["keterangan"], $_SESSION['id']);
-            if ($result == 1) {
+            if ($result) {
                 #kurangi stok pakan
-                $update_pakan = $this->Pakan->kurangi_stok($this->data["selected_pakan"], $this->data["jumlah_pakan"], $_SESSION['id']);
+                $update_pakan = $this->Pakan->kurangi_stok($this->data["selected_pakan"], $this->data["jumlah_pakan"], "gr", $_SESSION['id']);
                 if ($update_pakan) {
-                    redirect('Monitoringpakan');
+                    $is_error = False;
+                    if (isset($_SESSION['list_obat'])) {
+                        $temp = $_SESSION['list_obat'];
+                        for ($i = 0; $i < sizeof($temp); $i++) {
+                            $res = $this->Monitoring_pakan->insert_bahan_penolong($result, $temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
+                            if ($res <= 0) {
+                                $is_error = True;
+                            } else {
+                                $this->Obat->kurangi_stok($temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
+                            }
+                        }
+                    }
+                    if (!$is_error) {
+                        unset($_SESSION["list_obat"]);
+                        redirect('Monitoringpakan');
+                    }
                 }
             }
-            $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Insert Gagal</div>";
-            $this->data["state"] = "create";
-            $this->load->view('monitoringpakan_form', $this->data);
         }
+        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Insert Gagal</div>";
+        $this->data["state"] = "create";
+        $this->load->view('monitoringpakan_form', $this->data);
     }
 
 
@@ -194,7 +228,28 @@ class Monitoringpakan extends CI_Controller {
                     }
                     $result = $this->Pakan->update_live_stok($this->data["selected_pakan"], $_SESSION['id']);
                     if($result){
-                        redirect('Monitoringpakan');
+                        $is_error = False;
+                        if(isset($_SESSION['list_obat'])){
+//                        delete existing bahan penolong
+                            $detail = $this->Monitoring_pakan->get_bahan_penolong($this->data["id"]);
+                            $this->Monitoring_pakan->delete_bahan_penolong($this->data["id"], $_SESSION['id']);
+                            for($i=0; $i<sizeof($detail); $i++){
+                                $this->Obat->update_live_stok($detail[$i]["obat_id"], $_SESSION['id']);
+                            }
+                            $temp = $_SESSION['list_obat'];
+                            for($i=0; $i <sizeof($temp); $i ++){
+                                $res = $this->Monitoring_pakan->insert_bahan_penolong($this->data["id"], $temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
+                                if($res <= 0){
+                                    $is_error = True;
+                                } else {
+                                    $this->Obat->update_live_stok($temp[$i]["obat_id"], $_SESSION['id']);
+                                }
+                            }
+                        }
+                        if(!$is_error){
+                            unset($_SESSION["list_obat"]);
+                            redirect('Monitoringpakan');
+                        }
                     }
                 }
             }
@@ -215,6 +270,12 @@ class Monitoringpakan extends CI_Controller {
             if($result == 1){
                 $result = $this->Pakan->update_live_stok($this->data["selected_pakan_before"], $_SESSION['id']);
                 if($result == 1){
+                    $detail = $this->Monitoring_pakan->get_bahan_penolong($this->data["id"]);
+                    $res = $this->Monitoring_pakan->delete_bahan_penolong($this->data["id"], $_SESSION['id']);
+                    for($i=0; $i<sizeof($detail); $i++){
+                        $this->Obat->update_live_stok($detail[$i]["obat_id"], $_SESSION['id']);
+                    }
+                    unset($_SESSION["list_obat"]);
                     redirect('Monitoringpakan');
                 }
             }else{
@@ -241,5 +302,63 @@ class Monitoringpakan extends CI_Controller {
     public function getKolamInfo(){
         $kolam_id = $this->input->post('kolam_id');
         echo json_encode($this->Kolam->get($kolam_id));
+    }
+
+    public function addObatList(){
+        $this->check_role();
+        $obat_id = $this->input->post('obat_id');
+        $obat_name = $this->input->post('obat_name');
+        $jumlah = $this->input->post('jumlah');
+        $satuan = $this->input->post('satuan');
+        $arrobat = [];
+        $is_new_obat = True;
+        if(isset($_SESSION['list_obat'])){
+            $temp = $_SESSION['list_obat'];
+            for($i=0; $i <sizeof($temp); $i ++){
+                $addValue = 0;
+                if($temp[$i]["obat_id"] == $obat_id){
+                    $addValue = $jumlah;
+                    $is_new_obat = False;
+                }
+                $idx = sizeof($arrobat);
+                $arrobat[$idx]["obat_id"] = $temp[$i]["obat_id"];
+                $arrobat[$idx]["obat_name"] = $temp[$i]["obat_name"];
+                $arrobat[$idx]["jumlah"] =  $temp[$i]["jumlah"] + $addValue;
+                $arrobat[$idx]["satuan"] =  $temp[$i]["satuan"];
+            }
+        }
+        if($is_new_obat){
+            $idx = sizeof($arrobat);
+            $arrobat[$idx]["obat_id"] = $obat_id;
+            $arrobat[$idx]["obat_name"] = $obat_name;
+            $arrobat[$idx]["jumlah"] = $jumlah;
+            $arrobat[$idx]["satuan"] = $satuan;
+        }
+
+        $this->session->set_tempdata(["list_obat" => $arrobat], NULL, 5 * 60);
+//        unset($_SESSION["list_obat"]);
+        echo json_encode($arrobat);
+
+    }
+
+    public function removeObatList(){
+        $this->check_role();
+        $obat_id = $this->input->post('obat_id');
+        $arrobat = [];
+        if(isset($_SESSION['list_obat'])){
+            $temp = $_SESSION['list_obat'];
+            for($i=0; $i <sizeof($temp); $i ++){
+                if($temp[$i]["obat_id"] != $obat_id){
+                    $idx = sizeof($arrobat);
+                    $arrobat[$idx]["obat_id"] = $temp[$i]["obat_id"];
+                    $arrobat[$idx]["obat_name"] = $temp[$i]["obat_name"];
+                    $arrobat[$idx]["jumlah"] =  $temp[$i]["jumlah"];
+                    $arrobat[$idx]["satuan"] =  $temp[$i]["satuan"];
+                }
+            }
+        }
+        $this->session->set_tempdata(["list_obat" => $arrobat], NULL, 5 * 60);
+        echo json_encode($arrobat);
+
     }
 }

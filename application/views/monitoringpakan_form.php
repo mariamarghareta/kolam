@@ -112,8 +112,7 @@
                                 <label>Biomass</label>
                                 <?php echo form_input(array('name'=>'biomass', 'id'=>'biomass', 'class'=>'w3-input', 'readonly' => 'readonly'), $biomass);?>
                                 <?php echo form_error('biomass'); ?>
-                            </div>
-                            <div class="col-sm-6">
+                                <br>
                                 <label style="font-weight: bold">Waktu Pemberian Makan</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <select class="form-control" style="width: 220px" id="waktu_pakan" name="waktu_pakan">
                                     <option value="PAGI" <?php if($selected_waktu == "PAGI"){echo "selected";} ?> >PAGI</option>
@@ -133,13 +132,57 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label style="font-weight: bold">Jumlah Pakan (kg)</label><label style="color: red; padding-left: 5px;"> *</label>
+                                <label style="font-weight: bold">Jumlah Pakan (gr)</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <?php echo form_input(array('name'=>'jumlah_pakan', 'id'=>'jumlah_pakan', 'class'=>'w3-input'), $jumlah_pakan);?>
                                 <?php echo form_error('jumlah_pakan'); ?>
                                 <br>
                                 <label style="font-weight: bold">MR</label><label style="color: red; padding-left: 5px;"> *</label>
                                 <?php echo form_input(array('name'=>'mr', 'id'=>'mr', 'class'=>'w3-input'), $mr);?>
                                 <?php echo form_error('mr'); ?>
+                            </div>
+                            <div class="col-sm-6">
+                                <label style="font-weight: bold">Formulasi Obat</label>
+                                <br>
+                                <div id="div_obat" class="">
+                                    <select id="tobat" name="tobat" <?php if ($state != "delete" and $state != "show"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                        <?php foreach($arr_obat as $row){
+                                            if($row['id'] == $selected_obat){ ?>
+                                                <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
+                                            <?php } else { ?>
+                                                <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                                            <?php }} ?>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="" style="margin-bottom: 50px;">
+                                    <div><label style="font-weight: bold">Jumlah Obat</label></div>
+                                    <div class="col-xs-10 col-md-8 row">
+                                        <?php echo form_input(array('name'=>'jumlah_obat', 'id'=>'jumlah_obat', 'class'=>'w3-input'), $jumlah_obat);?>
+                                        <?php echo form_error('jumlah_obat'); ?>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2" id="satuan" style="padding-top: 8px; text-align: center;">
+
+                                    </div>
+                                    <div class="col-xs-12 col-md-2 row" style="text-align: center;">
+                                        <div class="right-align btn btn-success btn-sm" id="btn_add_obat"><i class="fa fa-plus"></i></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <table
+                                        id="table"
+                                        data-toggle="true"
+                                        data-show-columns="false"
+                                        data-height="350">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="obat_name" data-sortable="true">Nama Obat</th)>
+                                        <th data-field="jumlah" data-sortable="true" data-formatter="withSatuan" >Jumlah Obat</th)>
+                                        <th data-field="action"
+                                            data-align="center"
+                                            data-formatter="actionFormatter">Aksi</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                                 <br>
                                 <label style="font-weight: bold">Keterangan</label>
                                 <?php echo form_input(array('name'=>'keterangan', 'id'=>'keterangan', 'class'=>'w3-input'), $keterangan);?>
@@ -209,11 +252,23 @@
         $(".slhide").hide();
         $(".slshow").show();
         getKolamInfo();
+        getSatuan();
+    });
+
+    $(window).load(function(){
+        var data = <?php echo $list_obat; ?> ;
+        $(function() {
+            $('#table').bootstrapTable({
+                data: data,
+            });
+        });
     });
 
     if( "<?php echo $state ?>" == "delete" || "<?php echo $state ?>" == "show"){
         $("input[type=text]").prop('disabled', true);
         $("select").prop('disabled', true);
+        $("#btn_add_obat").prop('disabled', true);
+        $(".delete_obat_class").prop('disabled', true);
     }
 
     $("#tblok").change(function(){
@@ -291,6 +346,83 @@
         });
         return deferredData; // contains the passed data
     }
+
+    $("#tobat").change(function(){
+        getSatuan();
+    });
+
+    function getSatuan(){
+        var deferredData = new jQuery.Deferred();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url() . index_page() . "/Transaksipembelian/getSatuan"; ?>",
+            dataType: "json",
+            data: {
+                '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                tipe: "o",
+                id: $("#tobat").val()
+            },
+            success: function (data) {
+                $("#satuan").html(data[0]["satuan"]);
+            }
+        });
+        return deferredData; // contains the passed data
+    };
+
+    function withSatuan(value, row) {
+        return row["jumlah"] + " " + row["satuan"];
+    };
+
+    function actionFormatter(value, row) {
+        return [
+            '<button name="delete_obat" id=del_' + row['obat_id'] + ' type="button" onclick="remove_obat_list(this.id)" class="btn btn-danger waves-effect delete_obat_class" style="text-align: center;"><div class="fa fa-times"></div></button>'
+        ].join('');
+    };
+
+    $("#btn_add_obat").click(function(){
+        add_obat_list();
+    });
+
+    function add_obat_list(){
+        $obat_id = $("#tobat").val();
+        $jum = $("#jumlah_obat").val();
+        $oname = $('#div_obat span.filter-option').html();
+        $satuan = $('#satuan').html();
+
+        if($jum > 0){
+            var deferredData = new jQuery.Deferred();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() . index_page() . "/Monitoringpakan/addObatList"; ?>",
+                dataType: "json",
+                data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', obat_id: $obat_id, jumlah: $jum, obat_name: $oname, satuan:$satuan},
+                success: function(data) {
+                    $('#table').bootstrapTable("load", data);
+                }
+            });
+            return deferredData; // contains the passed data
+        }
+    };
+
+    function remove_obat_list(id){
+        if( "<?php echo $state ?>" == "create" || "<?php echo $state ?>" == "update") {
+            $obat_id = (id.substring(4));
+            var deferredData = new jQuery.Deferred();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() . index_page() . "/Monitoringpakan/removeObatList"; ?>",
+                dataType: "json",
+                data: {
+                    '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                    obat_id: $obat_id
+                },
+                success: function (data) {
+                    $('#table').bootstrapTable("load", data);
+                }
+            });
+            return deferredData; // contains the passed data
+        }
+    };
 </script>
 
 </body>
