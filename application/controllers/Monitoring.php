@@ -14,6 +14,7 @@ class Monitoring extends CI_Controller {
         $this->load->model('Obat');
         $this->load->model('Monitoring_pakan');
         $this->load->model('Karyawan');
+        $this->load->model('Pemberian_pakan');
     }
     private $data;
 
@@ -59,5 +60,17 @@ class Monitoring extends CI_Controller {
         $this->data["arr_pakan"] = json_encode($this->Pakan->get_all());
         $this->data["arr_obat"] = json_encode($this->Obat->show_all_data());
         $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
+    }
+
+    public function print_pakan(){
+        $this->check_role();
+        $this->initialization();
+        $this->data['id'] = $this->input->post('pemberian_pakan_id');
+        $this->data['waktu'] = $this->input->post('waktu');
+        $this->data['data_pakan'] = $this->Pemberian_pakan->get($this->data['id'])[0];
+        $this->data['hari_ini_date'] = $this->Pemberian_pakan->get_now_date();
+        $this->data['hari_ini_time'] = $this->Pemberian_pakan->get_now_time();
+
+        $this->load->view('print_pemberian_pakan', $this->data);
     }
 }

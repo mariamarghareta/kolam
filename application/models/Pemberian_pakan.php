@@ -16,6 +16,17 @@ class Pemberian_pakan extends CI_Model
         return $dt->format("Y-m-d H:i:s");
     }
 
+    public function get_now_date(){
+        $dt = new DateTime();
+        $dt->setTimezone(new DateTimeZone('GMT+7'));
+        return $dt->format("Y-m-d");
+    }
+
+    public function get_now_time(){
+        $dt = new DateTime();
+        $dt->setTimezone(new DateTimeZone('GMT+7'));
+        return $dt->format("H:i:s");
+    }
 
     public function show_all($data_count, $offset, $searchword)
     {
@@ -61,6 +72,17 @@ class Pemberian_pakan extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function get($id){
+        $query = $this->db->select('p.id, round(p.pagi,3) as pagi, round(p.sore, 3) as sore, round(p.malam,3) as malam, t.kode, CONCAT(b.name, k.name) as kolam_name')
+            ->from('pemberian_pakan p')
+            ->join('tebar t', 't.id = p.tebar_id', 'left')
+            ->join('kolam k', 'k.id = p.kolam_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
+            ->where('p.id', $id)
+            ->where('p.deleted',0)
+            ->get();
+        return $query->result();
+    }
 
     public function get_by_sampling($id){
         $query = $this->db->select('id, sampling, angka, satuan, size, round(biomass,2) as biomass, total_ikan, ukuran, fr, sr, round(dosis_pakan,2) as dosis_pakan, round(total_pakan,2) as total_pakan, round(pagi,2) as pagi, round(sore, 2) as sore, round(malam,2) as malam, tebar_id, kolam_id, sampling_id, grading_id')

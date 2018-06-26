@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Laporankeuangan extends CI_Controller {
+class Laporanmonair extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
@@ -12,7 +12,7 @@ class Laporankeuangan extends CI_Controller {
         $this->load->model('Timeout');
         $this->load->model('Ikan');
         $this->load->model('Karyawan');
-        $this->load->model('Laporan_keuangan');
+        $this->load->model('Laporan_mon_air');
     }
     private $data;
 
@@ -54,7 +54,7 @@ class Laporankeuangan extends CI_Controller {
     {
         $this->check_role();
         $this->initialization();
-        $this->load->view('laporankeuangan', $this->data);
+        $this->load->view('laporan_mon_air', $this->data);
     }
 
 
@@ -69,9 +69,9 @@ class Laporankeuangan extends CI_Controller {
 
         if ($this->form_validation->run() != FALSE)
         {
-            $this->data['detail'] = $this->Laporan_keuangan->show_all($this->data['date_from'], $this->data['date_to']);
+            $this->data['detail'] = $this->Laporan_mon_air->show_all($this->data['date_from'], $this->data['date_to']);
         }
         $this->data["state"] = "create";
-        $this->load->view('laporankeuangan_pdf', $this->data);
+        $this->load->view('laporan_mon_air_pdf', $this->data);
     }
 }

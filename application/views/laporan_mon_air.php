@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Laporan Keuangan</title>
+    <title>Laporan Monitoring Air</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,11 +37,11 @@
         <section class="wrapper site-min-height">
             <div class="col-md-4 col-md-offset-4 white-bg margin-up-md" style="padding:20px 50px;">
                 <?php
-                    $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
-                    echo form_open('Laporankeuangan/search', $attributes);
+                $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
+                echo form_open('Laporanmonair/search', $attributes);
                 ?>
                 <div class="margin-up-md row">
-                    <div class="col-sm-8 page-title">Laporan Keuangan</div>
+                    <div class="col-sm-8 page-title">Laporan Monitoring Air</div>
                 </div>
                 <br>
                 <label>Dari Tanggal</label>
@@ -71,7 +71,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#menu_laporan_keuangan").addClass('active');
+        $("#menu_laporan_mon_air").addClass('active');
         $("#sub_menu_laporan").css("display", "block");
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");

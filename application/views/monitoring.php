@@ -95,6 +95,7 @@
                                 <th data-field="pakan_malam" data-sortable="true" data-formatter="stat" data-align="center">Pakan Malam</th>
                                 <th data-field="air_pagi" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Pagi</th>
                                 <th data-field="air_sore" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Sore</th>
+                                <th data-field="" data-formatter="print" data-align="center">Print Pemberian Pakan</th>
                             </tr>
                             </thead>
                         </table>
@@ -135,6 +136,15 @@
             $('#table_monitoring').bootstrapTable({
                 data: data,
             });
+            $(".print").click( function($this){
+                $parent = $(this).parent().closest("form").attr("id");
+                $("#" + $parent).prop("target", "_blank");
+                $("#" + $parent).attr("action", "<?php echo base_url();echo index_page(); ?>/Monitoring/print_pakan");
+                $("#" + $parent).submit();
+                $("#" + $parent).prop("target", "_self");
+                $("#" + $parent).attr("action", "<?php echo base_url();echo index_page(); ?>/Monitoring/print_pakan");
+                //alert("aaa");
+            });
         });
     });
 
@@ -166,6 +176,41 @@
             return '<div class="btn btn-success fa fa-check"></div>';
         }
     }
+
+    function print(value, row) {
+        return [
+            '<div class="col-sm-3">',
+            '<form action="<?php echo base_url().index_page(); ?>/Monitoring/print_pakan" method="post" id="print' + row['pemberian_pakan_id'] +'" class="form_cetak">',
+            '<input type=hidden value= ' + row['pemberian_pakan_id'] + ' name="pemberian_pakan_id" />',
+            '<input type=hidden value="all" name="waktu" />',
+            '<button type="button" class="print btn btn-default waves-effect btn-print" id="print" name="print">Print</button>',
+            <?php echo "'" . form_close() . "'"; ?>,
+            '</div>',
+            '<div class="col-sm-3">',
+            '<form action="<?php echo base_url().index_page(); ?>/Monitoring/print_pakan" method="post" id="print_pagi_' + row['pemberian_pakan_id'] +'" class="form_cetak">',
+            '<input type=hidden value= ' + row['pemberian_pakan_id'] + ' name="pemberian_pakan_id" />',
+            '<input type=hidden value="pagi" name="waktu" />',
+            '<button type="button" class="print btn btn-default waves-effect btn-print" id="print" name="print">Pagi</button>',
+            <?php echo "'" . form_close() . "'"; ?>,
+            '</div>',
+            '<div class="col-sm-3">',
+            '<form action="<?php echo base_url().index_page(); ?>/Monitoring/print_pakan" method="post" id="print_sore_' + row['pemberian_pakan_id'] +'" class="form_cetak">',
+            '<input type=hidden value= ' + row['pemberian_pakan_id'] + ' name="pemberian_pakan_id" />',
+            '<input type=hidden value="sore" name="waktu" />',
+            '<button type="button" class="print btn btn-default waves-effect btn-print" id="print" name="print">Sore</button>',
+            <?php echo "'" . form_close() . "'"; ?>,
+            '</div>',
+            '<div class="col-sm-3">',
+            '<form action="<?php echo base_url().index_page(); ?>/Monitoring/print_pakan" method="post" id="print_malam_' + row['pemberian_pakan_id'] +'" class="form_cetak">',
+            '<input type=hidden value= ' + row['pemberian_pakan_id'] + ' name="pemberian_pakan_id" />',
+            '<input type=hidden value="malam" name="waktu" />',
+            '<button type="button" class="print btn btn-default waves-effect btn-print" id="print" name="print">Malam</button>',
+            <?php echo "'" . form_close() . "'"; ?>,
+            '</div>'
+        ].join('');
+    }
+
+
 </script>
 
 </body>

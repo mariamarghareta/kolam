@@ -1,5 +1,5 @@
 <?php
-class Laporan_keuangan extends CI_Model
+class Laporan_mon_air extends CI_Model
 {
 
     public function __construct()
@@ -13,11 +13,12 @@ class Laporan_keuangan extends CI_Model
 
     public function show_all($from, $to)
     {
-        $query = $this->db->select('DATE_FORMAT(dt,"%d-%m-%Y") as dt, keterangan, jumlah, harga, total, jenis')
-            ->from('v_lap_keuangan lap')
-            ->where('lap.dt >=', $from)
-            ->where('lap.dt <=', $to)
+        $query = $this->db->select('*')
+            ->from('v_lap_mon_air lap')
+            ->where('lap.write_time >=', $from)
+            ->where('lap.write_time <=', $to)
             ->get();
         return $query->result_array();
     }
+
 }
