@@ -101,6 +101,7 @@
                     <li class="" id="menu_laporan_keuangan"><a  href="<?= base_url();?><?= index_page();?>/Laporankeuangan" >Laporan Keuangan</a></li>
                     <li class="" id="menu_laporan_mon_air"><a  href="<?= base_url();?><?= index_page();?>/Laporanmonair" >Laporan Monitoring Air</a></li>
                     <li class="" id="menu_laporan_mon_pakan"><a  href="<?= base_url();?><?= index_page();?>/Laporanmonpakan" >Laporan Monitoring Pakan</a></li>
+                    <li class="" id="menu_laporan_mon_sayur"><a  href="<?= base_url();?><?= index_page();?>/Laporanmonsayur" >Laporan Monitoring Sayur</a></li>
                 </ul>
             </li>
         </ul>
