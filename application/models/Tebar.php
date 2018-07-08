@@ -59,6 +59,12 @@ class Tebar extends CI_Model
         return $query->result_array();
     }
 
+    public function get_kode_all(){
+        $query = $this->db->select('t.id, t.kode')
+            ->from('tebar t')
+            ->get();
+        return $query->result();
+    }
 
     public function get_count_all()
     {
@@ -104,6 +110,22 @@ class Tebar extends CI_Model
         return $query->result();
     }
 
+    public function get_array($id){
+        $query = $this->db->select('tebar.id, tebar.sampling, tebar.size, tebar.biomass, tebar.total_ikan, tebar.tgl_tebar, tebar.kode, kolam.id as kolam_id, blok.id as blok_id, his.id as his_id, pakan.id as pakan_id, his.sampling_id, tebar.angka, tebar.satuan, kar.name as create_user, karw.name as write_user, tebar.create_time, tebar.write_time')
+            ->from('tebar')
+            ->join('tebar_history his', 'his.tebar_id = tebar.id', 'left')
+            ->join('kolam', 'kolam.id = his.tujuan_kolam_id', 'left')
+            ->join('blok', 'blok.id = kolam.blok_id', 'left')
+            ->join('pemberian_pakan pakan', 'pakan.sampling_id = his.sampling_id', 'left')
+            ->join('karyawan kar', 'kar.id = tebar.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = tebar.write_uid', 'left')
+            ->where('tebar.id', $id)
+            ->where('his.sequence', 1)
+            ->where('tebar.deleted',0)
+            ->get();
+        return $query->result_array();
+    }
+
 
     public function update($sampling, $size, $biomass, $total_ikan, $angka, $satuan, $id, $write_uid){
         $data = array(
@@ -131,5 +153,18 @@ class Tebar extends CI_Model
 
         $this->db->where('id', $id);
         return $this->db->update('tebar', $data);
+    }
+
+    public function get_report($from, $to)
+    {
+        $from = DateTime::createFromFormat('d-m-Y', $from)->format("Y-m-d H:i:s");
+        $to = DateTime::createFromFormat('d-m-Y H:i:s', $to)->format("Y-m-d H:i:s");
+
+        $query = $this->db->select('lap.*')
+            ->from('tebar lap')
+            ->where('CAST(lap.tgl_tebar As DATETIME) >=', $from)
+            ->where('CAST(lap.tgl_tebar As DATETIME) <=', $to)
+            ->get();
+        return $query->result_array();
     }
 }

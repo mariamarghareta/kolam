@@ -89,10 +89,10 @@ class Sampling extends CI_Model
 
 
     public function get_without_check($id){
-        $query = $this->db->select('s.id, s.tebar_id, s.kenaikan_daging, s.fcr, s.adg, s.kolam_id, k.blok_id, s.dt, kar.name as create_user, karw.name as write_user, s.create_time, s.write_time')
+        $query = $this->db->select('s.id, s.tebar_id, round(s.kenaikan_daging,2) as kenaikan_daging, round(s.fcr,2) as fcr, round(s.adg,2) as adg, s.kolam_id, k.blok_id, kar.name as create_user, karw.name as write_user, s.create_time, s.write_time, s.dt')
             ->from('sampling s')
-            ->join('kolam k', 'k.id = s.kolam_id')
-            ->join('blok b', 'b.id = k.blok_id')
+            ->join('kolam k', 'k.id = s.kolam_id', 'left')
+            ->join('blok b', 'b.id = k.blok_id', 'left')
             ->join('karyawan kar', 'kar.id = s.create_uid', 'left')
             ->join('karyawan karw', 'karw.id = s.write_uid', 'left')
             ->where('s.id', $id)

@@ -106,4 +106,15 @@ for ($i = 0; $i < sizeof($detail); $i++) {
 //    $pdf->Cell(50,5,'[ x ] checkbox1',1,0,'L',0);
 }
 $pdf->Output();
+
+//for ($i = 0; $i < sizeof($details); $i++) {
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["kode"], 0, 0, 'L', 0);
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["tgl_tebar"], 0, 1, 'L', 0);
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["sampling"] . "/" . $details[$i]["tebar"]["angka"] . " " . $details[$i]["tebar"]["satuan"], 0, 0, 'L', 0);
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["size"], 0, 1, 'L', 0);
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["biomass"], 0, 0, 'L', 0);
+//    $pdf->Cell(50, 5, $details[$i]["tebar"]["total_ikan"], 0, 1, 'L', 0);
+//
 ?>
+
+

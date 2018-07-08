@@ -172,7 +172,7 @@ class Monitoringsayur extends CI_Controller {
                 if(isset($_SESSION['list_treatment'])){
                     $temp = $_SESSION['list_treatment'];
                     for($i=0; $i <sizeof($temp); $i ++){
-                        $res = $this->Monitoring_sayur->insert_bahan_penolong($result, $temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
+                        $res = $this->Monitoring_sayur->insert_bahan_penolong($result, $temp[$i]["obat_id"], $temp[$i]["jumlah"], $temp[$i]["satuan"], $_SESSION['id']);
                         if($res <= 0){
                             $is_error = True;
                         } else {
@@ -216,7 +216,7 @@ class Monitoringsayur extends CI_Controller {
                         }
                         $temp = $_SESSION['list_treatment'];
                         for($i=0; $i <sizeof($temp); $i ++){
-                            $res = $this->Monitoring_sayur->insert_bahan_penolong($this->data["id"], $temp[$i]["obat_id"], $temp[$i]["jumlah"], $_SESSION['id']);
+                            $res = $this->Monitoring_sayur->insert_bahan_penolong($this->data["id"], $temp[$i]["obat_id"], $temp[$i]["jumlah"], $temp[$i]["satuan"], $_SESSION['id']);
                             if($res <= 0){
                                 $is_error = True;
                             } else {

@@ -98,11 +98,12 @@ class Monitoring_air extends CI_Model
     }
 
 
-    public function insert_bahan_penolong($monitoring_air_id, $obat_id, $jumlah, $create_uid){
+    public function insert_bahan_penolong($monitoring_air_id, $obat_id, $jumlah, $satuan, $create_uid){
         $data = array(
             'monitoring_air_id' => $monitoring_air_id,
             'obat_id' => $obat_id,
             'jumlah' => $jumlah,
+            'satuan' => $satuan,
             'create_uid' => $create_uid,
             'create_time' => $this->get_now(),
             'write_uid' => $create_uid,

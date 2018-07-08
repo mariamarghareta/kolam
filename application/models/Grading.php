@@ -117,11 +117,13 @@ class Grading extends CI_Model
 
 
     public function get_without_check($id){
-        $query = $this->db->select('g.id, g.tebar_id, g.sampling_id, g.asal_kolam_id, g.dt, g.total_biomass, g.total_populasi, g.sr, g.pertumbuhan_daging, g.fcr, g.adg, t.kode, k.name as kolam_name, b.name as blok_name, b.id as blok_id')
+        $query = $this->db->select('g.id, g.tebar_id, g.sampling_id, g.asal_kolam_id, g.dt, round(g.total_biomass,2) as total_biomass, round(g.total_populasi,2) as total_populasi, round(g.sr,2) as sr, round(g.pertumbuhan_daging,2) as pertumbuhan_daging, round(g.fcr,2) as fcr, round(g.adg,2) as adg, t.kode, k.name as kolam_name, b.name as blok_name, b.id as blok_id, kar.name as create_user, karw.name as write_user, g.create_time, g.write_time')
             ->from('grading g')
             ->join('kolam k', 'k.id = g.asal_kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
             ->join('tebar t', 't.id = k.tebar_id', 'left')
+            ->join('karyawan kar', 'kar.id = g.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = g.write_uid', 'left')
             ->where('g.id', $id)
             ->get();
         return $query->result();

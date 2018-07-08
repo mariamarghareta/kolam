@@ -16,7 +16,8 @@ class PDF extends FPDF
     {
         $logo = APPPATH . "../assets/logo.jpg";
         $this->SetFont('Arial','',24);
-        $this->Cell( 40, 25, $this->Image($logo, $this->GetX(), $this->GetY(), 25), 0, 0, 'L', false );
+        $this->Cell( 40, 25, "", 0, 0, 'L', false );
+        $this->Cell( 40, 25, $this->Image($logo, $this->GetX(), $this->GetY(), 25), 0, 0, 'R', false );
         $this->Cell( 40, 25, "KEBUN IKAN", 0, 0, 'L', false );
         $this->Ln();
         $this->Cell( 190, 10, "", 0, 0, 'L', false );
