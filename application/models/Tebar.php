@@ -157,9 +157,6 @@ class Tebar extends CI_Model
 
     public function get_report($from, $to)
     {
-        $from = DateTime::createFromFormat('d-m-Y', $from)->format("Y-m-d H:i:s");
-        $to = DateTime::createFromFormat('d-m-Y H:i:s', $to)->format("Y-m-d H:i:s");
-
         $query = $this->db->select('lap.*')
             ->from('tebar lap')
             ->where('CAST(lap.tgl_tebar As DATETIME) >=', $from)

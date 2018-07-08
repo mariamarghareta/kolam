@@ -29,8 +29,8 @@ class Laporantebar extends CI_Controller {
         $dt_to = new DateTime('last day of this month');
         $dt_to->setTimezone(new DateTimeZone('GMT+7'));
 
-        $this->data["date_from"] = $dt_from->format("d-m-Y");
-        $this->data["date_to"] = $dt_to->format("d-m-Y");
+        $this->data["date_from"] = $dt_from->format("Y-m-d");
+        $this->data["date_to"] = $dt_to->format("Y-m-d");
         $this->data["arr_tebar"] = $this->Tebar->get_kode_all();
         $this->data["cb_cari"] = "tgl";
     }

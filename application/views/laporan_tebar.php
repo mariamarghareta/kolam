@@ -65,14 +65,14 @@
                 <div id="div_tanggal" style="<?php if($cb_cari == "kode"){ echo "display:none";} ?>" >
                     <br>
                     <label>Dari Tanggal</label>
-                    <div class="date" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="dd-mm-yyyy">
-                        <input class="form-control datepicker"  data-date-format="dd-mm-yyyy" type="text" name="date_from" placeholder="dd-mm-yyyy" autocomplete="off" value="<?=$date_from?>" >
+                    <div class="date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input class="form-control datepicker"  data-date-format="yyyy-mm-dd" type="text" name="date_from" placeholder="yyyy-mm-dd" autocomplete="off" value="<?=$date_from?>" >
                         <?php echo form_error('date_from'); ?>
                     </div>
                     <br>
                     <label>Sampai Tanggal</label>
-                    <div class="date" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="dd-mm-yyyy">
-                        <input class="form-control datepicker"  data-date-format="dd-mm-yyyy" type="text" name="date_to" placeholder="dd-mm-yyyy" autocomplete="off" value="<?=$date_to?>" >
+                    <div class="date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input class="form-control datepicker"  data-date-format="yyyy-mm-dd" type="text" name="date_to" placeholder="yyyy-mm-dd" autocomplete="off" value="<?=$date_to?>" >
                         <?php echo form_error('date_to'); ?>
                     </div>
                 </div>
