@@ -139,4 +139,19 @@ class Pembuatan_pakan extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('pembuatan_pakan', $data);
     }
+
+
+    public function get_report($from, $to)
+    {
+        $query = $this->db->select('p.id, p.pakan_id, pakan.name as pakan_name, round(p.jumlah_pakan,2) as jumlah_pakan, p.keterangan, kar.name as create_user, karw.name as write_user, p.create_time, p.write_time')
+            ->from('pembuatan_pakan p')
+            ->join('pakan pakan', 'p.pakan_id = pakan.id', 'left')
+            ->join('karyawan kar', 'kar.id = p.create_uid', 'left')
+            ->join('karyawan karw', 'karw.id = p.write_uid', 'left')
+            ->where('CAST(p.write_time As DATETIME) >=', $from)
+            ->where('CAST(p.write_time As DATETIME) <=', $to)
+            ->where('p.deleted',0)
+            ->get();
+        return $query->result_array();
+    }
 }

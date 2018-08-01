@@ -109,6 +109,7 @@
                     <li class="" id="menu_laporan_mon_pakan"><a  href="<?= base_url();?><?= index_page();?>/Laporanmonpakan" >Laporan Monitoring Pakan</a></li>
                     <li class="" id="menu_laporan_mon_sayur"><a  href="<?= base_url();?><?= index_page();?>/Laporanmonsayur" >Laporan Monitoring Sayur</a></li>
                     <li class="" id="menu_laporan_tebar"><a  href="<?= base_url();?><?= index_page();?>/Laporantebar" >Laporan Tebar</a></li>
+                    <li class="" id="menu_laporan_pembuatan_pakan"><a  href="<?= base_url();?><?= index_page();?>/Laporanpembuatanpakan" >Laporan Pembuatan Pakan</a></li>
                 </ul>
             </li>
         </ul>
