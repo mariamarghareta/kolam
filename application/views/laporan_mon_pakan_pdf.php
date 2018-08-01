@@ -33,17 +33,15 @@ class PDF extends FPDF
         $this->Cell(12, 5, "No.", "TBRL", 0, 'C', 1);
         $this->Cell(15, 5, "Kolam", "TBRL", 0, 'C', 1);
         $this->Cell(25, 5, "Tgl. Tebar", "TBLR", 0, 'C', 1);
-        $this->Cell(20, 5, "Jum. Bibit", "TBLR", 0, 'C', 1);
-        $this->Cell(20, 5, "Size", "TBLR", 0, 'C', 1);
-        $this->Cell(20, 5, "Biomass", "TBLR", 0, 'C', 1);
-        $this->Cell(15, 5, "Pagi", "TBLR", 0, 'C', 1);
-        $this->Cell(15, 5, "Sore", "TBLR", 0, 'C', 1);
-        $this->Cell(15, 5, "Malam", "TBLR", 0, 'C', 1);
+        $this->Cell(30, 5, "Jum. Bibit", "TBLR", 0, 'C', 1);
+        $this->Cell(30, 5, "Size", "TBLR", 0, 'C', 1);
+        $this->Cell(30, 5, "Biomass", "TBLR", 0, 'C', 1);
+        $this->Cell(20, 5, "Pagi", "TBLR", 0, 'C', 1);
+        $this->Cell(20, 5, "Sore", "TBLR", 0, 'C', 1);
+        $this->Cell(20, 5, "Malam", "TBLR", 0, 'C', 1);
         $this->Cell(20, 5, "% Pakan", "TBLR", 0, 'C', 1);
-        $this->Cell(35, 5, "Jenis Pakan", "TBLR", 0, 'C', 1);
-        $this->Cell(15, 5, "Total", "TBLR", 0, 'C', 1);
         $this->Cell(15, 5, "MR", "TBLR", 0, 'C', 1);
-        $this->Cell(35, 5, "Keterangan", "TBLR", 0, 'C', 1);
+        $this->Cell(40, 5, "Keterangan", "TBLR", 0, 'C', 1);
         $this->Ln();
 
     }
@@ -89,33 +87,29 @@ for ($i = 0; $i < sizeof($detail); $i++) {
     $pdf->Cell(12, 5, $i + 1, "LR", 0, 'R', $fill);
     $pdf->Cell(15, 5, $detail[$i]["kolam_name"], "LR", 0, 'C', $fill);
     $pdf->Cell(25, 5, $detail[$i]["write_time"], "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, $detail[$i]["sampling"], "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, $detail[$i]["size"], "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, $detail[$i]["biomass"], "LR", 0, 'C', $fill);
-    $pdf->Cell(15, 5, $detail[$i]["pakan_pagi"], "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, $detail[$i]["pakan_sore"], "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, $detail[$i]["pakan_malam"], "RL", 0, 'C', $fill);
+    $pdf->Cell(30, 5, $detail[$i]["sampling"], "LR", 0, 'C', $fill);
+    $pdf->Cell(30, 5, $detail[$i]["size"], "LR", 0, 'C', $fill);
+    $pdf->Cell(30, 5, $detail[$i]["biomass"], "LR", 0, 'C', $fill);
+    $pdf->Cell(20, 5, $detail[$i]["pakan_pagi"], "RL", 0, 'C', $fill);
+    $pdf->Cell(20, 5, $detail[$i]["pakan_sore"], "RL", 0, 'C', $fill);
+    $pdf->Cell(20, 5, $detail[$i]["pakan_malam"], "RL", 0, 'C', $fill);
     $pdf->Cell(20, 5, $detail[$i]["persen_pakan"], "RL", 0, 'C', $fill);
-    $pdf->Cell(35, 5, $detail[$i]["jenis_pakan"], "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, $detail[$i]["total_pakan"], "RL", 0, 'C', $fill);
     $pdf->Cell(15, 5, $detail[$i]["mr"], "RL", 0, 'C', $fill);
-    $pdf->Cell(35, 5, 'Pagi: ' . $detail[$i]["ket_pagi"], "RL", 1, 'L', $fill);
+    $pdf->Cell(40, 5, 'Pagi: ' . $detail[$i]["ket_pagi"], "RL", 1, 'L', $fill);
 //    gap
     $pdf->Cell(12, 5, "", "LR", 0, 'R', $fill);
     $pdf->Cell(15, 5, "", "LR", 0, 'C', $fill);
     $pdf->Cell(25, 5, "", "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, "", "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, "", "LR", 0, 'C', $fill);
-    $pdf->Cell(20, 5, "", "LR", 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", "RL", 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", "LR", 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", "LR", 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", "LR", 0, 'C', $fill);
     $pdf->Cell(20, 5, "", "RL", 0, 'C', $fill);
-    $pdf->Cell(35, 5, "", "RL", 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", "RL", 0, 'C', $fill);
+    $pdf->Cell(20, 5, "", "RL", 0, 'C', $fill);
+    $pdf->Cell(20, 5, "", "RL", 0, 'C', $fill);
+    $pdf->Cell(20, 5, "", "RL", 0, 'C', $fill);
     $pdf->Cell(15, 5, "", "RL", 0, 'C', $fill);
 //    gap
-    $pdf->Cell(35, 5, 'Sore: ' . $detail[$i]["ket_sore"], "RL", 1, 'L', $fill);
+    $pdf->Cell(40, 5, 'Sore: ' . $detail[$i]["ket_sore"], "RL", 1, 'L', $fill);
 //    gap
     $border = "LR";
     if($i == sizeof($detail)-1){
@@ -124,18 +118,16 @@ for ($i = 0; $i < sizeof($detail); $i++) {
     $pdf->Cell(12, 5, "", $border, 0, 'R', $fill);
     $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(25, 5, "", $border, 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", $border, 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", $border, 0, 'C', $fill);
+    $pdf->Cell(30, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(20, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(20, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(20, 5, "", $border, 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(20, 5, "", $border, 0, 'C', $fill);
-    $pdf->Cell(35, 5, "", $border, 0, 'C', $fill);
-    $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
     $pdf->Cell(15, 5, "", $border, 0, 'C', $fill);
 //    gap
-    $pdf->Cell(35, 5, 'Malam: ' . $detail[$i]["ket_malam"], $border, 0, 'L', $fill);
+    $pdf->Cell(40, 5, 'Malam: ' . $detail[$i]["ket_malam"], $border, 0, 'L', $fill);
     $pdf->Ln();
 //    $pdf->Cell(50,5,'[ x ] checkbox1',1,0,'L',0);
 }

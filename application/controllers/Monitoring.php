@@ -60,6 +60,7 @@ class Monitoring extends CI_Controller {
         $this->data["arr_pakan"] = json_encode($this->Pakan->get_all());
         $this->data["arr_obat"] = json_encode($this->Obat->show_all_data());
         $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
+        $this->data["total_pakan"] = $this->Pemberian_pakan->sum_all_pakan()[0];
     }
 
     public function print_pakan(){

@@ -78,8 +78,13 @@
             </div>
             <div class="row">
                 <div class="col-sm-9 col-sm-offset-1 white-bg margin-up-md">
-                    <div class="page-title">Monitoring Pakan dan Air</div>
-                    <div class="margin-up-sm">
+                    <div class="col-sm-8">
+                        <div class="page-title">Monitoring Pakan dan Air</div>
+                    </div>
+                    <div class="col-sm-4" style="text-align: right">
+                        <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan,2); ?> gr</div>
+                    </div>
+                    <div class="margin-up-md">
                         <table
                                 id="table_monitoring"
                                 data-toggle="true"

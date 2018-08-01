@@ -49,6 +49,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a href="<?= base_url();?><?= index_page();?>/Pembuatanpakan" id="menu_pembuatan_pakan" >
+                    <i class="fa fa-eye"></i>
+                    <span>Pembuatan Pakan</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a href="<?= base_url();?><?= index_page();?>/Monitoringpakan" id="menu_monitoring_pakan" >
                     <i class="fa fa-eye"></i>
                     <span>Monitoring Pakan</span>

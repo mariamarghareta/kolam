@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Monitoring Pakan</title>
+    <title>Pembuatan Pakan</title>
 
     <?php include 'header.php' ?>
 </head>
@@ -37,8 +37,8 @@
         <section class="wrapper site-min-height">
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
-                    <div class="col-sm-8 page-title">Monitoring Pakan</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-8 page-title">Pembuatan Pakan</div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Pembuatanpakan/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -52,12 +52,10 @@
                     data-height="500">
                     <thead>
                     <tr>
-                        <th data-field="dt" data-sortable="true">Tanggal</th)>
-                        <th data-field="kode" data-sortable="true">Kode Tebar</th)>
-                        <th data-field="blok_name" data-sortable="true">Blok</th>
-                        <th data-field="kolam_name" data-sortable="true">Kolam</th>
-                        <th data-field="waktu_pakan" data-sortable="true">Waktu Pakan</th>
-                        <th data-field="mr" data-sortable="true">MR (Kematian)</th>
+                        <th data-field="create_time" data-sortable="true">Tanggal</th)>
+                        <th data-field="pakan_name" data-sortable="true">Nama Pakan</th)>
+                        <th data-field="jumlah_pakan" data-sortable="true">Jumlah Pakan</th>
+                        <th data-field="keterangan" data-sortable="true">Keterangan</th>
                         <th data-field="action"
                             data-align="center"
                             data-formatter="actionFormatter">Aksi</th>
@@ -101,7 +99,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Monitoringpakan" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Pembuatanpakan" name="route" id="route"/>
 
             </div>
         </section>
@@ -124,7 +122,7 @@
     });
 
     $(document).ready(function(){
-        $("#menu_monitoring_pakan").addClass('active');
+        $("#menu_pembuatan_pakan").addClass('active');
         $("#err_msg").addClass('text-center');
         $(".sldown").slideDown("slow");
         $(".slup").slideUp("slow");
@@ -135,10 +133,10 @@
 
     function actionFormatter(value, row) {
         return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Pembuatanpakan/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
             <?php if ($_SESSION['role_id'] == 1) {?>
-            '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-            '<a href="<?php echo base_url() . index_page(); ?>/Monitoringpakan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Pembuatanpakan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Pembuatanpakan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
             <?php } ?>
         ].join('');
     }
