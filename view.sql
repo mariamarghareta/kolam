@@ -46,7 +46,7 @@ group by pakan_id
 
 create or replace view v_mon as
 select mon.pakan_id, sum(mon.jumlah_pakan) as total
-from monitoring_pakan mon
+from pembuatan_pakan mon
 left join v_max_adj on v_max_adj.pakan_id = mon.pakan_id
 left join pakan_inventory_adj adj on adj.id = v_max_adj.id
 where mon.write_time >= adj.create_time
@@ -57,7 +57,7 @@ group by mon.pakan_id
 
 create or replace view v_tot_mon as
 select pakan_id, sum(jumlah_pakan) as total
-from monitoring_pakan
+from pembuatan_pakan
 where deleted = 0
 group by pakan_id
 ;
@@ -343,7 +343,7 @@ where mon.waktu_pakan = 'MALAM' and deleted = 0
 -- monitoring pakan
 create or replace view v_lap_mon_pakan AS
 SELECT mon.write_time, CONCAT(blok.name, kolam.name) as kolam_name, tebar.tgl_tebar, tebar.kode, round(pakan.sampling,2) as sampling, round(pakan.size,2) as size, round(pakan.biomass, 2) as biomass,
-round(pagi.jumlah_pakan,2) as pakan_pagi, round(sore.jumlah_pakan, 2) as pakan_sore, round(malam.jumlah_pakan,2) as pakan_malam,
+(case when pagi.kolam_id is not null then 'OK' else '-' end) as pakan_pagi, (case when sore.kolam_id is not null then 'OK' else '-' end) as pakan_sore, (case when malam.kolam_id is not null then 'OK' else '-' end) as pakan_malam,
 case when pagi.id is not null and sore.id is not null and malam.id is not null then 100 else (case when pagi.id is not null then 33.33 else 0 end + case when sore.id is not null then 33.33 else 0 end + case when malam.id is not null then 33.33 else 0 end) end as persen_pakan,
 round(case when pagi.jumlah_pakan is not null then pagi.jumlah_pakan else 0 end + case when sore.jumlah_pakan is not null then sore.jumlah_pakan else 0 end + case when malam.jumlah_pakan is not null then malam.jumlah_pakan else 0 end,2)  as total_pakan,
 IFNULL(pagi.mr,0) + IFNULL(sore.mr,0) + IFNULL(malam.mr,0) as mr, CONCAT('PAGI: ', case when pagi.keterangan is not null then pagi.keterangan else '-' end , ', SORE: ', case when sore.keterangan is not null then sore.keterangan else '-' end , ', MALAM: ', case when malam.keterangan is not null then malam.keterangan else '-' end) as keterangan,
