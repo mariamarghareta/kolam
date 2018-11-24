@@ -31,7 +31,6 @@ class Masterpakan extends CI_Controller {
         $this->data["max_data"] = $this->Pakan->get_count_all();
         $this->data["data_per_page"] = $data_count;
         $this->data["page_count"] = 5;
-        $this->data["page_count"] = "";
         $this->data["create_user"] = "";
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";

@@ -28,7 +28,7 @@ class Masterblok extends CI_Controller {
         $this->data["arr"] = json_encode($this->Blok->show_all($data_count, $offset, $this->data["search_word"]));
         $this->data["max_data"] = $this->Blok->get_count_all();
         $this->data["data_per_page"] = $data_count;
-        $this->data["page_count"] = "";
+        $this->data["page_count"] = 5;
         $this->data["create_user"] = "";
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";

@@ -1,0 +1,10 @@
+user: kebunika
+pass: HYy7rw93e7
+
+database: kebunika_klmdb
+username: kebunika_klmuser
+password: tahesta1234
+
+login website ERP
+username: admin
+password: tahesta1234
