@@ -65,6 +65,7 @@
                 <input type="hidden" name="kolam_id_before" id="kolam_id" value="<?php echo $kolam_id; ?>">
                 <input type="hidden" name="pakan_id" id="pakan_id" value="<?php echo $pakan_id; ?>">
                 <input type="hidden" name="tebar_id" id="tebar_id" value="<?php echo $tebar_id; ?>">
+                <input type="hidden" name="pemberian_pakan_id" id="pemberian_pakan_id" value="<?php echo $pemberian_pakan_id; ?>">
                 <input type="hidden" name="selected_pakan_before" id="selected_pakan_before" value="<?php echo $selected_pakan_before; ?>">
                 <div class="w3-container w3-white w3-padding-32">
                     <div style="margin:10px 20px;">
@@ -193,7 +194,7 @@
         $(".slhide").hide();
         $(".slshow").show();
         getKolamInfo();
-        getSatuan();
+//        getSatuan();
     });
 
     $(window).load(function(){
@@ -267,13 +268,13 @@
     };
 
     function getKolamInfo(){
-        $kolam_id = $("#tkolam").val();
+        $ppid = $("#pemberian_pakan_id").val();
         var deferredData = new jQuery.Deferred();
         $.ajax({
             type: "POST",
             url: "<?php echo base_url() . index_page() . "/Monitoringpakan/getKolamInfo"; ?>",
             dataType: "json",
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', kolam_id: $kolam_id},
+            data: {pemberian_pakan_id: $ppid},
             success: function(data) {
                 for(var $i=0; $i<data.length; $i++){
                     $("#total_ikan").val(data[$i]["total_ikan"]);

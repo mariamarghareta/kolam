@@ -112,7 +112,7 @@ function getData(param1, param2, param3, param4) {
         type: "POST",
         url: $("#route").val() +"/page",
         dataType: "json",
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>', page: param1, data_per_page: param2, search_word: param3},
+        data: {page: param1, data_per_page: param2, search_word: param3},
         success: function(data) {
             $('#table').bootstrapTable("load", data[0]);
             $("#max_data").val(data[1]);

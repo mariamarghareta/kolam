@@ -58,6 +58,7 @@ class Monitoringpakan extends CI_Controller {
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
         $this->data["jumlah_obat"] = "";
+        $this->data["pemberian_pakan_id"] = "";
     }
 
 
@@ -118,6 +119,7 @@ class Monitoringpakan extends CI_Controller {
         $this->data["create_time"] = $datum->create_time;
         $this->data["write_user"] = $datum->write_user;
         $this->data["write_time"] = $datum->write_time;
+        $this->data["pemberian_pakan_id"] = $datum->pemberian_pakan_id;
 
         $arrobat = [];
         $data = $this->Monitoring_pakan->get_bahan_penolong($this->data['id']);
@@ -135,6 +137,9 @@ class Monitoringpakan extends CI_Controller {
     public function show(){
         $this->check_role();
         $this->initialization();
+        if(count($this->data["arr_blok"])>0){
+            $this->data["arr_kolam"] = $this->Kolam->get_all_kolam_by_blok($this->data["arr_blok"][0]["id"]);
+        }
         $this->load_data();
         $this->data["state"] = "show";
         $this->load->view('monitoringpakan_form', $this->data);
@@ -245,8 +250,8 @@ class Monitoringpakan extends CI_Controller {
 
 
     public function getKolamInfo(){
-        $kolam_id = $this->input->post('kolam_id');
-        echo json_encode($this->Kolam->get($kolam_id));
+        $pemberian_pakan_id = $this->input->post('pemberian_pakan_id');
+        echo json_encode($this->Pemberian_pakan->get($pemberian_pakan_id));
     }
 
     public function addObatList(){

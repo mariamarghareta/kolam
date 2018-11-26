@@ -79,7 +79,7 @@ class Pemberian_pakan extends CI_Model
     }
 
     public function get($id){
-        $query = $this->db->select('p.id, round(p.pagi,3) as pagi, round(p.sore, 3) as sore, round(p.malam,3) as malam, t.kode, CONCAT(b.name, k.name) as kolam_name')
+        $query = $this->db->select('p.id, round(p.pagi,3) as pagi, round(p.sore, 3) as sore, round(p.malam,3) as malam, t.kode, CONCAT(b.name, k.name) as kolam_name, t.tebar_id, t.tgl_tebar, p.total_ikan, p.biomass, p.size')
             ->from('pemberian_pakan p')
             ->join('tebar t', 't.id = p.tebar_id', 'left')
             ->join('kolam k', 'k.id = p.kolam_id', 'left')
