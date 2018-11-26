@@ -137,10 +137,10 @@ class Monitoringpakan extends CI_Controller {
     public function show(){
         $this->check_role();
         $this->initialization();
-        if(count($this->data["arr_blok"])>0){
-            $this->data["arr_kolam"] = $this->Kolam->get_all_kolam_by_blok($this->data["arr_blok"][0]["id"]);
-        }
         $this->load_data();
+        if(count($this->data["arr_blok"])>0){
+            $this->data["arr_kolam"] = $this->Kolam->get_all_kolam_by_blok($this->data["selected_blok"]);
+        }
         $this->data["state"] = "show";
         $this->load->view('monitoringpakan_form', $this->data);
     }
