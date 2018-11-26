@@ -16,6 +16,7 @@ class Monitoringpakan extends CI_Controller {
         $this->load->model('Monitoring_pakan');
         $this->load->model('Karyawan');
         $this->load->model('Obat');
+        $this->load->model('Pemberian_pakan');
     }
     private $data;
 
