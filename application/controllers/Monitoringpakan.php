@@ -150,6 +150,10 @@ class Monitoringpakan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->load_data();
+        if(count($this->data["arr_blok"])>0){
+            $this->data["arr_kolam"] = $this->Kolam->get_all_kolam_by_blok($this->data["selected_blok"]);
+        }
+        $this->data["state"] = "update";
         $this->load->view('monitoringpakan_form', $this->data);
     }
 
@@ -182,6 +186,7 @@ class Monitoringpakan extends CI_Controller {
         $this->data["size"] = $this->input->post("size");
         $this->data["pakan_id"] = $this->input->post("pakan_id");
         $this->data["tebar_id"] = $this->input->post("tebar_id");
+        $this->data["pemberian_pakan_id"] = $this->input->post("pemberian_pakan_id");
     }
 
     public function add_new_data(){
@@ -190,7 +195,7 @@ class Monitoringpakan extends CI_Controller {
         $this->get_form_data();
 
         if ($this->form_validation->run() != FALSE) {
-            $result = $this->Monitoring_pakan->insert($this->data["kolam_id"], $this->data["tebar_id"], $this->data["pakan_id"], $this->data["selected_waktu"], $this->data["selected_pakan"], $this->data["jumlah_pakan"], $this->data["mr"], $this->data["keterangan"], $_SESSION['id']);
+            $result = $this->Monitoring_pakan->insert($this->data["kolam_id"], $this->data["tebar_id"], $this->data["pemberian_pakan_id"], $this->data["selected_waktu"], $this->data["selected_pakan"], $this->data["jumlah_pakan"], $this->data["mr"], $this->data["keterangan"], $_SESSION['id']);
             if ($result) {
                 redirect('Monitoringpakan');
             }
@@ -208,7 +213,7 @@ class Monitoringpakan extends CI_Controller {
 
         if($this->input->post('write') == "write") {
             if ($this->form_validation->run() != FALSE) {
-                $result = $this->Monitoring_pakan->update($this->data["kolam_id"], $this->data["tebar_id"], $this->data["pakan_id"], $this->data["selected_waktu"], $this->data["selected_pakan"], $this->data["jumlah_pakan"], $this->data["mr"], $this->data["keterangan"], $this->data["id"], $_SESSION['id']);
+                $result = $this->Monitoring_pakan->update($this->data["kolam_id"], $this->data["tebar_id"], $this->data["pemberian_pakan_id"], $this->data["selected_waktu"], $this->data["selected_pakan"], $this->data["jumlah_pakan"], $this->data["mr"], $this->data["keterangan"], $this->data["id"], $_SESSION['id']);
                 if($result){
                     redirect('Monitoringpakan');
                 }
@@ -251,6 +256,11 @@ class Monitoringpakan extends CI_Controller {
 
 
     public function getKolamInfo(){
+        $kolam = $this->input->post('kolam_id');
+        echo json_encode($this->Kolam->get($kolam));
+    }
+
+    public function getKolamInfoShow(){
         $pemberian_pakan_id = $this->input->post('pemberian_pakan_id');
         echo json_encode($this->Pemberian_pakan->get($pemberian_pakan_id));
     }

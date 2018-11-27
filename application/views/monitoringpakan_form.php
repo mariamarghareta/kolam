@@ -193,7 +193,12 @@
         $(".slfadein").fadeIn("slow");
         $(".slhide").hide();
         $(".slshow").show();
-        getKolamInfo();
+        if("<?=$state?>" == "update" || "<?=$state?>" == "show" || "<?=$state?>" == "delete"){
+            getKolamInfoShow(<?=$pemberian_pakan_id?>);
+        } else if("<?=$state?>" == "create"){
+            getKolamInfo();
+        }
+
 //        getSatuan();
     });
 
@@ -268,13 +273,13 @@
     };
 
     function getKolamInfo(){
-        $ppid = $("#pemberian_pakan_id").val();
+        $kolam = $("#tkolam").val();
         var deferredData = new jQuery.Deferred();
         $.ajax({
             type: "POST",
             url: "<?php echo base_url() . index_page() . "/Monitoringpakan/getKolamInfo"; ?>",
             dataType: "json",
-            data: {pemberian_pakan_id: $ppid},
+            data: {kolam_id: $kolam},
             success: function(data) {
                 for(var $i=0; $i<data.length; $i++){
                     $("#total_ikan").val(data[$i]["total_ikan"]);
@@ -282,7 +287,29 @@
                     $("#size").val(data[$i]["size"]);
                     $("#tgl_tebar").val(data[$i]["tgl_tebar"]);
                     $("#tebar_id").val(data[$i]["tebar_id"]);
-                    $("#pakan_id").val(data[$i]["pemberian_pakan_id"]);
+                    $("#pemberian_pakan_id").val(data[$i]["pemberian_pakan_id"]);
+                }
+            }
+        });
+        return deferredData; // contains the passed data
+    }
+
+    function getKolamInfoShow(ppid){
+        $pk = ppid;
+        var deferredData = new jQuery.Deferred();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url() . index_page() . "/Monitoringpakan/getKolamInfoShow"; ?>",
+            dataType: "json",
+            data: {pemberian_pakan_id: $pk},
+            success: function(data) {
+                for(var $i=0; $i<data.length; $i++){
+                    $("#total_ikan").val(data[$i]["total_ikan"]);
+                    $("#biomass").val(data[$i]["biomass"]);
+                    $("#size").val(data[$i]["size"]);
+                    $("#tgl_tebar").val(data[$i]["tgl_tebar"]);
+                    $("#tebar_id").val(data[$i]["tebar_id"]);
+                    $("#pemberian_pakan_id").val(data[$i]["id"]);
                 }
             }
         });
