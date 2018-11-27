@@ -36,7 +36,7 @@ class Pemberian_pakan extends CI_Model
 
     public function sum_all_pakan()
     {
-        $query = $this->db->select('ifnull(sum(pakan.total_pakan),0) as total_pakan')
+        $query = $this->db->select('ifnull(sum(pakan.dosis_pakan),0) as total_pakan')
             ->from('kolam')
             ->join('pemberian_pakan pakan', 'pakan.id = kolam.pemberian_pakan_id')
             ->where('kolam.pemberian_pakan_id !=', 0)

@@ -82,7 +82,7 @@
                         <div class="page-title">Monitoring Pakan dan Air</div>
                     </div>
                     <div class="col-sm-4" style="text-align: right">
-                        <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan,2); ?> gr</div>
+                        <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan * 100,2); ?> gr</div>
                     </div>
                     <div class="margin-up-md">
                         <table
