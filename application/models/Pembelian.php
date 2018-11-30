@@ -122,8 +122,8 @@ class Pembelian extends CI_Model
                 ->from('beli_pakan b')
                 ->join('karyawan kar', 'kar.id = b.create_uid', 'left')
                 ->join('karyawan karw', 'karw.id = b.write_uid', 'left')
-                ->where('id', $id)
-                ->where('deleted',0)
+                ->where('b.id', $id)
+                ->where('b.deleted',0)
                 ->get();
             return $query->result();
         }else if($tipe_pembelian == 'o'){
