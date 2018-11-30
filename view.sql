@@ -229,7 +229,10 @@ case when air_sore.id is not null then 1 else 0 end as air_sore,
 case when pakan_pagi.id is not null then 1 else 0 end as pakan_pagi,
 case when pakan_sore.id is not null then 1 else 0 end as pakan_sore,
 case when pakan_malam.id is not null then 1 else 0 end as pakan_malam,
-kolam.pemberian_pakan_id
+kolam.pemberian_pakan_id,
+case when sampling.id != 0 then sampling.fcr else grading.fcr end as fcr,
+sampling.id as sampling_id,
+grading.id as grading_id
 from kolam
 left join v_air_pagi air_pagi on air_pagi.kolam_id = kolam.id and air_pagi.tebar_id = kolam.tebar_id
 left join v_air_sore air_sore on air_sore.kolam_id = kolam.id and air_sore.tebar_id = kolam.tebar_id
@@ -237,6 +240,9 @@ left join v_pakan_pagi pakan_pagi on pakan_pagi.kolam_id = kolam.id and pakan_pa
 left join v_pakan_sore pakan_sore on pakan_sore.kolam_id = kolam.id and pakan_sore.tebar_id = kolam.tebar_id
 left join v_pakan_malam pakan_malam on pakan_malam.kolam_id = kolam.id and pakan_malam.tebar_id = kolam.tebar_id
 left join tebar on tebar.id = kolam.tebar_id
+left join pemberian_pakan ppk on ppk.id = kolam.pemberian_pakan_id
+left join sampling on sampling.id = ppk.sampling_id
+left join grading on grading.id = ppk.grading_id
 where kolam.tebar_id != 0
 ;
 
