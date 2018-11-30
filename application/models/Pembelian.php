@@ -19,7 +19,7 @@ class Pembelian extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('id, tipe, dt, ref_id, name, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan, deleted')
+        $query = $this->db->select('id, tipe, dt, ref_id, name, jumlah_item, harga_per_item, total_harga, isi, total_isi, keterangan, deleted, satuan')
             ->from('v_pembelian')
             ->where('deleted', 0)
             ->group_start()
