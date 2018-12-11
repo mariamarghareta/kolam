@@ -163,8 +163,8 @@ class Transaksipenjualan extends CI_Controller {
     }
 
     public function get_form_data(){
-        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric|greater_than[0]', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than' => '%s harus lebih besar dari 0'));
-        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|numeric|greater_than[0]', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than' => '%s harus lebih besar dari 0'));
+        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than' => '%s harus lebih besar dari 0'));
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|numeric', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than' => '%s harus lebih besar dari 0'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         $this->data['id'] = $this->input->post('tid');
