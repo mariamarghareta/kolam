@@ -67,6 +67,7 @@ class Mastersampling extends CI_Controller {
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
         $this->data["dt"] = "";
+        $this->data["tsatuan"] = "";
     }
 
 
@@ -175,6 +176,7 @@ class Mastersampling extends CI_Controller {
         $this->data["create_time"] = $datum->create_time;
         $this->data["write_user"] = $datum->write_user;
         $this->data["write_time"] = $datum->write_time;
+        $this->data["tsatuan"] = $pakan->satuan;
     }
 
 

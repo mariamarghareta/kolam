@@ -118,8 +118,8 @@
                                     </div>
                                     <div class="col-xs-6 col-md-3 col-sm-2" style="padding-top:8px;">
                                         <select class="form-control" id="tsatuan" name="tsatuan">
-                                            <option value="ons">Ons</option>
-                                            <option value="kg">Kg</option>
+                                            <option value="ons" <?php if($tsatuan == "ons"){echo "selected";} ?> >Ons</option>
+                                            <option value="kg" <?php if($tsatuan == "kg"){echo "selected";} ?>>Kg</option>
                                         </select>
                                     </div>
                                 </div>
