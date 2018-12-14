@@ -103,7 +103,7 @@ class Pemberian_pakan extends CI_Model
     public function get_by_grading($id){
         $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, round(p.biomass,2) as biomass, p.total_ikan, p.ukuran, p.fr, p.sr, round(p.dosis_pakan,2) as dosis_pakan, round(p.total_pakan, 2) as total_pakan, round(p.pagi,2) as pagi, round(p.sore,2) as sore, round(p.malam,2) as malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name')
             ->from('pemberian_pakan p')
-            ->join('kolam k', 'p.id = k.pemberian_pakan_id', 'left')
+            ->join('kolam k', 'k.id = p.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
             ->where('p.grading_id', $id)
             ->where('p.deleted',0)
