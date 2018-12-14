@@ -236,7 +236,7 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function check_sequence_sampling($sampling_id){
+    public function check_sequence_sampling($sampling_id, $kolam_id){
         $query = $this->db->select('max(tebar_id) as tebar_id, max(sequence) as sequence')
             ->from('tebar_history his')
             ->where('deleted', 0)
@@ -251,6 +251,10 @@ class Tebar_history extends CI_Model
             ->where('keterangan !=', "Delete Grading")
             ->where('keterangan !=', "Delete Sampling")
             ->where('keterangan !=', "Delete Tebar Bibit")
+            ->group_start()
+            ->where('asal_kolam_id', $kolam_id)
+            ->or_where('tujuan_kolam_id', $kolam_id)
+            ->group_end()
             ->group_by('tebar_id')
             ->get();
         $res = ($query->result_array());

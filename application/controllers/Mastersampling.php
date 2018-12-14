@@ -287,7 +287,7 @@ class Mastersampling extends CI_Controller {
         $this->get_form_data();
         $this->data['id'] = $this->input->post('tid');
         if($this->input->post('delete') == "delete") {
-            $cek_sampling = $this->Tebar_history->check_sequence_sampling($this->data['id']);
+            $cek_sampling = $this->Tebar_history->check_sequence_sampling($this->data['id'], $this->data['kolam_id']);
             if($cek_sampling == 0) {
                 $result = $this->Sampling->delete($this->data['sampling_id'], $_SESSION['id']);
                 if ($result == 1) {
