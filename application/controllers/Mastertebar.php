@@ -61,6 +61,7 @@ class Mastertebar extends CI_Controller {
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
+        $this->data["tsatuan"] = "ons";
     }
 
 

@@ -58,6 +58,13 @@
                         <?php if ($state == "delete"){?>
                             <div style="margin-bottom: 20px; font-weight:bold;">Apakah Anda yakin menghapus data ini?</div>
                         <?php } ?>
+                        <br>
+                        <label style="font-weight: bold">Dari Tanggal</label>
+                        <div class="date"  data-link-field="dtp_input2">
+                            <input class="form-control datepicker" style="width:220px;" type="text" name="buy_date" placeholder="yyyy-mm-dd hh:mi" autocomplete="off" value="<?=$buy_date?>" >
+                            <?php echo form_error('buy_date'); ?>
+                        </div>
+                        <br>
                         <label style="font-weight: bold">Tipe Pembelian</label><label style="color: red; padding-left: 5px;"> *</label>
                         <select id="tipe_pembelian" name="tipe_pembelian" class="form-control" style="width:220px">
                             <option value="p" <?php if ($tipe_pembelian == "p"){echo "selected";} ?> >Pakan</option>
@@ -290,6 +297,17 @@
         $("#total_harga").val($total_harga);
         $("#total_isi").val($total_isi);
     }
+
+    $('.datepicker').datetimepicker({
+        language:  'id',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
 </script>
 
 </body>

@@ -39,72 +39,98 @@
     <section id="main-content">
         <section class="wrapper site-min-height">
             <div class="row ">
-                <div class="col-sm-4 col-sm-offset-1 white-bg margin-up-md">
-                    <div class="page-title">Monitoring Stok Pakan</div>
-                    <div class="margin-up-sm">
-                        <table
-                                id="table_pakan"
-                                data-toggle="true"
-                                data-show-columns="false"
-                                data-height="500">
-                            <thead>
-                            <tr>
-                                <th data-field="name" data-sortable="true">Nama</th)>
-                                <th data-field="stok" data-sortable="true" data-formatter="commaFormatterWithSatuan" data-halign="center" data-align="right">Stok</th>
-                                <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
-                            </tr>
-                            </thead>
-                        </table>
+                <div class="col-sm-4 margin-up-md">
+                    <div class="white-bg" style="padding:20px;">
+                        <div class="page-title">Monitoring Stok Pakan</div>
+                        <div class="margin-up-sm">
+                            <table
+                                    id="table_pakan"
+                                    data-toggle="true"
+                                    data-show-columns="false"
+                                    data-height="500">
+                                <thead>
+                                <tr>
+                                    <th data-field="name" data-sortable="true">Nama</th)>
+                                    <th data-field="stok" data-sortable="true" data-formatter="commaFormatterWithSatuan" data-halign="center" data-align="right">Stok</th>
+                                    <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-4 col-sm-offset-1 white-bg margin-up-md">
-                    <div class="page-title">Monitoring Stok Obat</div>
-                    <div class="margin-up-sm">
-                        <table
-                                id="table_obat"
-                                data-toggle="true"
-                                data-show-columns="false"
-                                data-height="500">
-                            <thead>
-                            <tr>
-                                <th data-field="name" data-sortable="true">Nama</th)>
-                                <th data-field="stok" data-sortable="true" data-formatter="commaFormatterWithSatuan" data-halign="center" data-align="right">Stok</th>
-                                <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
-                            </tr>
-                            </thead>
-                        </table>
+                <div class="col-sm-4 margin-up-md">
+                    <div class="white-bg" style="padding:20px;">
+                        <div class="page-title">Monitoring Stok Obat</div>
+                        <div class="margin-up-sm">
+                            <table
+                                    id="table_obat"
+                                    data-toggle="true"
+                                    data-show-columns="false"
+                                    data-height="500">
+                                <thead>
+                                <tr>
+                                    <th data-field="name" data-sortable="true">Nama</th)>
+                                    <th data-field="stok" data-sortable="true" data-formatter="commaFormatterWithSatuan" data-halign="center" data-align="right">Stok</th>
+                                    <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 margin-up-md">
+                    <div class="white-bg" style="padding:20px;">
+                        <div class="page-title">Kolam yang Kosong</div>
+                        <div class="margin-up-sm">
+                            <table
+                                    id="table_kolam_kosong"
+                                    data-toggle="true"
+                                    data-show-columns="false"
+                                    data-height="500">
+                                <thead>
+                                <tr>
+                                    <th data-field="blok_name" data-sortable="true">Nama Blok</th)>
+                                    <th data-field="name" data-sortable="true">Nama Kolam</th)>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-9 col-sm-offset-1 white-bg margin-up-md">
-                    <div class="col-sm-8">
-                        <div class="page-title">Monitoring Pakan dan Air</div>
-                    </div>
-                    <div class="col-sm-4" style="text-align: right">
-                        <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan * 100,2); ?> gr</div>
-                    </div>
-                    <div class="margin-up-md">
-                        <table
-                                id="table_monitoring"
-                                data-toggle="true"
-                                data-show-columns="false"
-                                data-height="500">
-                            <thead>
-                            <tr>
-                                <th data-field="blok_name" data-sortable="true">Nama Blok</th)>
-                                <th data-field="kolam_name" data-sortable="true">Nama Kolam</th)>
-                                <th data-field="kode" data-sortable="true">Kode Tebar</th>
-                                <th data-field="fcr" data-sortable="true">FCR</th>
-                                <th data-field="pakan_pagi" data-sortable="true" data-formatter="stat" data-align="center">Pakan Pagi</th>
-                                <th data-field="pakan_sore" data-sortable="true" data-formatter="stat" data-align="center">Pakan Sore</th>
-                                <th data-field="pakan_malam" data-sortable="true" data-formatter="stat" data-align="center">Pakan Malam</th>
-                                <th data-field="air_pagi" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Pagi</th>
-                                <th data-field="air_sore" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Sore</th>
-                                <th data-field="" data-formatter="print" data-align="center">Print Pemberian Pakan</th>
-                            </tr>
-                            </thead>
-                        </table>
+                <div class="col-sm-12 margin-up-md">
+                    <div class="white-bg" style="padding:20px;">
+                        <div class="col-sm-8">
+                            <div class="page-title">Monitoring Pakan dan Air</div>
+                        </div>
+                        <div class="col-sm-4" style="text-align: right">
+                            <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan * 100,2); ?> gr</div>
+                        </div>
+                        <div class="margin-up-md">
+                            <table
+                                    id="table_monitoring"
+                                    data-toggle="true"
+                                    data-show-columns="false"
+                                    data-height="500">
+                                <thead>
+                                <tr>
+                                    <th data-field="blok_name" data-sortable="true">Nama Blok</th)>
+                                    <th data-field="kolam_name" data-sortable="true">Nama Kolam</th)>
+                                    <th data-field="kode" data-sortable="true">Kode Tebar</th>
+                                    <th data-field="total_ikan" data-sortable="true">Total Ikan</th>
+                                    <th data-field="fcr" data-sortable="true">FCR</th>
+                                    <th data-field="pakan_pagi" data-sortable="true" data-formatter="stat" data-align="center">Pakan Pagi</th>
+                                    <th data-field="pakan_sore" data-sortable="true" data-formatter="stat" data-align="center">Pakan Sore</th>
+                                    <th data-field="pakan_malam" data-sortable="true" data-formatter="stat" data-align="center">Pakan Malam</th>
+                                    <th data-field="air_pagi" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Pagi</th>
+                                    <th data-field="air_sore" data-sortable="true" data-formatter="stat" data-align="center">Cek Air Sore</th>
+                                    <th data-field="" data-formatter="print" data-align="center">Print Pemberian Pakan</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,6 +148,13 @@
         var data = <?php echo $arr_pakan; ?>;
         $(function() {
             $('#table_pakan').bootstrapTable({
+                data: data,
+            });
+        });
+
+        var data = <?php echo $arr_kolam_kosong; ?>;
+        $(function() {
+            $('#table_kolam_kosong').bootstrapTable({
                 data: data,
             });
         });

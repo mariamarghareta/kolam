@@ -15,6 +15,7 @@ class Monitoring extends CI_Controller {
         $this->load->model('Monitoring_pakan');
         $this->load->model('Karyawan');
         $this->load->model('Pemberian_pakan');
+        $this->load->model('Kolam');
     }
     private $data;
 
@@ -60,6 +61,7 @@ class Monitoring extends CI_Controller {
         $this->data["arr_pakan"] = json_encode($this->Pakan->get_all());
         $this->data["arr_obat"] = json_encode($this->Obat->show_all_data());
         $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
+        $this->data["arr_kolam_kosong"] = json_encode($this->Kolam->get_all_not_occupied_kolam());
         $this->data["total_pakan"] = $this->Pemberian_pakan->sum_all_pakan()[0];
     }
 

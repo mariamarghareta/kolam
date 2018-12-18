@@ -56,9 +56,9 @@ class Pembelian extends CI_Model
     }
 
 
-    public function insert_obat($obat_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $create_uid){
+    public function insert_obat($obat_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $create_uid){
         $data = array(
-            'dt' => $this->get_now(),
+            'dt' => $buy_date,
             'obat_id' => $obat_id,
             'jumlah_item' => $jumlah_item,
             'harga_per_item' => $harga_per_item,
@@ -76,9 +76,9 @@ class Pembelian extends CI_Model
     }
 
 
-    public function insert_pakan($pakan_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $create_uid){
+    public function insert_pakan($pakan_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $create_uid){
         $data = array(
-            'dt' => $this->get_now(),
+            'dt' => $buy_date,
             'pakan_id' => $pakan_id,
             'jumlah_item' => $jumlah_item,
             'harga_per_item' => $harga_per_item,
@@ -96,9 +96,9 @@ class Pembelian extends CI_Model
     }
 
 
-    public function insert_lain($name, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $create_uid){
+    public function insert_lain($name, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $create_uid){
         $data = array(
-            'dt' => $this->get_now(),
+            'dt' => $buy_date,
             'name' => $name,
             'jumlah_item' => $jumlah_item,
             'harga_per_item' => $harga_per_item,
@@ -148,7 +148,7 @@ class Pembelian extends CI_Model
     }
 
 
-    public function update_lain($name, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $id, $write_uid){
+    public function update_lain($name, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $id, $write_uid){
         $data = array(
             'name' => $name,
             'jumlah_item' => $jumlah_item,
@@ -158,7 +158,8 @@ class Pembelian extends CI_Model
             'total_isi' => $total_isi,
             'keterangan' => $keterangan,
             'write_uid' => $write_uid,
-            'write_time' => $this->get_now()
+            'write_time' => $this->get_now(),
+            'dt' => $buy_date
         );
 
         $this->db->where('id', $id);
@@ -166,7 +167,7 @@ class Pembelian extends CI_Model
     }
 
 
-    public function update_obat($obat_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $id, $write_uid){
+    public function update_obat($obat_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $id, $write_uid){
         $data = array(
             'obat_id' => $obat_id,
             'jumlah_item' => $jumlah_item,
@@ -176,7 +177,8 @@ class Pembelian extends CI_Model
             'total_isi' => $total_isi,
             'keterangan' => $keterangan,
             'write_uid' => $write_uid,
-            'write_time' => $this->get_now()
+            'write_time' => $this->get_now(),
+            'dt' => $buy_date
         );
 
         $this->db->where('id', $id);
@@ -184,7 +186,7 @@ class Pembelian extends CI_Model
     }
 
 
-    public function update_pakan($pakan_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $id, $write_uid){
+    public function update_pakan($pakan_id, $jumlah_item, $harga_per_item, $total_harga, $isi, $total_isi, $keterangan, $buy_date, $id, $write_uid){
         $data = array(
             'pakan_id' => $pakan_id,
             'jumlah_item' => $jumlah_item,
@@ -194,7 +196,8 @@ class Pembelian extends CI_Model
             'total_isi' => $total_isi,
             'keterangan' => $keterangan,
             'write_uid' => $write_uid,
-            'write_time' => $this->get_now()
+            'write_time' => $this->get_now(),
+            'dt' => $buy_date
         );
 
         $this->db->where('id', $id);

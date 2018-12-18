@@ -146,7 +146,7 @@ class Monitoring_pakan extends CI_Model
 
 
     public function monitoring_all(){
-        $query = $this->db->select('m.kolam_id, m.kode, m.air_pagi, m.air_sore, m.pakan_pagi, m.pakan_sore, m.pakan_malam, b.name as blok_name, k.name as kolam_name, m.pemberian_pakan_id, m.fcr')
+        $query = $this->db->select('m.kolam_id, m.kode, m.air_pagi, m.air_sore, m.pakan_pagi, m.pakan_sore, m.pakan_malam, b.name as blok_name, k.name as kolam_name, m.pemberian_pakan_id, m.fcr, m.total_ikan')
             ->from('v_monitoring_all m')
             ->join('kolam k', 'k.id = m.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

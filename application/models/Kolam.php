@@ -198,6 +198,16 @@ class Kolam extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_not_occupied_kolam(){
+        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name, kolam.tebar_id')
+            ->from('kolam')
+            ->join('blok', 'blok.id = kolam.blok_id')
+            ->where('kolam.deleted', 0)
+            ->where('kolam.tebar_id', 0)
+            ->get();
+        return $query->result_array();
+    }
+
 
     public function get_kolam_for_tebar($blok_id, $tebar_id){
         $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name')

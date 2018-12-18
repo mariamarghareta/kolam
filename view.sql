@@ -32,7 +32,7 @@ select beli.pakan_id, sum(beli.total_isi) as total_isi
 from beli_pakan beli
 left join v_max_adj on v_max_adj.pakan_id = beli.pakan_id
 left join pakan_inventory_adj adj on adj.id = v_max_adj.id
-where beli.write_time >= adj.create_time
+where beli.dt >= adj.create_time
 and beli.deleted = 0
 group by beli.pakan_id
 ;
@@ -95,7 +95,7 @@ select beli.obat_id, sum(beli.total_isi) as total_isi
 from beli_obat beli
 left join v_max_adj_obat max_adj on max_adj.obat_id = beli.obat_id
 left join obat_inventory_adj adj on adj.id = max_adj.id
-where beli.write_time >= adj.create_time
+where beli.dt >= adj.create_time
 and beli.deleted = 0
 group by beli.obat_id
 ;
@@ -232,7 +232,8 @@ case when pakan_malam.id is not null then 1 else 0 end as pakan_malam,
 kolam.pemberian_pakan_id,
 case when sampling.id != 0 then sampling.fcr else grading.fcr end as fcr,
 sampling.id as sampling_id,
-grading.id as grading_id
+grading.id as grading_id,
+ppk.total_ikan
 from kolam
 left join v_air_pagi air_pagi on air_pagi.kolam_id = kolam.id and air_pagi.tebar_id = kolam.tebar_id
 left join v_air_sore air_sore on air_sore.kolam_id = kolam.id and air_sore.tebar_id = kolam.tebar_id
