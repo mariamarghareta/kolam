@@ -328,6 +328,7 @@ class Mastersampling extends CI_Controller {
 
     public function getTotalIkan(){
         $kolam_id = $this->input->post('kolam_id');
-        echo json_encode([$this->Tebar_history->get_total_ikan($kolam_id), $this->Tebar_history->get_jual_ikan($kolam_id)]);
+        $kolam = $this->Kolam->get($kolam_id)[0];
+        echo json_encode([$this->Tebar_history->get_total_ikan($kolam_id, $kolam->tebar_id), $this->Tebar_history->get_jual_ikan($kolam_id)]);
     }
 }

@@ -91,12 +91,13 @@ class Tebar_history extends CI_Model
     }
 
 
-    public function get_total_ikan($kolam_id){
+    public function get_total_ikan($kolam_id, $tebar_id){
         $query = $this->db->select('his.sampling_id, his.grading_id, s.deleted as sampling_deleted, g.deleted as grading_deleted')
             ->from('tebar_history his')
             ->join('grading g', 'g.id = his.grading_id', 'left')
             ->join('sampling s', 's.id = his.sampling_id', 'left')
             ->where('his.deleted', 0)
+            ->where('his.tebar_id', $tebar_id)
             ->where('his.tujuan_kolam_id', $kolam_id)
             ->group_start()
             ->where('his.sampling_id !=', 0)
