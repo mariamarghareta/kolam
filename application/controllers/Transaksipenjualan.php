@@ -22,6 +22,8 @@ class Transaksipenjualan extends CI_Controller {
 
     public function initialization()
     {
+        $dt_today = new DateTime();
+        $dt_today->setTimezone(new DateTimeZone('GMT+7'));
         $this->data["state"] = "";
         $this->data["msg"] = "";
         $this->data["id"] = "";
@@ -55,6 +57,8 @@ class Transaksipenjualan extends CI_Controller {
         $this->data["create_time"] = "";
         $this->data["write_user"] = "";
         $this->data["write_time"] = "";
+        $this->data["buy_date"] = $dt_today->format("Y-m-d H:i");
+        $this->data["tipe_penjualan"] = "k";
     }
 
 
@@ -117,18 +121,27 @@ class Transaksipenjualan extends CI_Controller {
         $this->data["create_time"] = $datum->create_time;
         $this->data["write_user"] = $datum->write_user;
         $this->data["write_time"] = $datum->write_time;
-        $datum_his = $this->Tebar_history->get_by_jual($datum->id)[0];
-        $this->data["his_id"] = $datum_his->id;
+        $this->data["buy_date"] = $datum->dt;
+        if ($datum->tipe == null){
+            $this->data["tipe_penjualan"] = "k";
+        } else {
+            $this->data["tipe_penjualan"] = $datum->tipe;
+        }
+        if( $this->data["tipe_penjualan"] == "k"){
+            $datum_his = $this->Tebar_history->get_by_jual($datum->id)[0];
+            $this->data["his_id"] = $datum_his->id;
+        } else {
+            $this->data["his_id"] = "";
+        }
 
     }
-
 
     public function update(){
         $this->check_role();
         $this->initialization();
         $this->data['id'] = $this->uri->segment(3);
         $this->data["state"] = "update";
-        $this->load(0);
+        $this->load_data(0);
         $this->load->view('penjualan_form', $this->data);
     }
 
@@ -180,6 +193,8 @@ class Transaksipenjualan extends CI_Controller {
         $this->data['pemberian_pakan_id'] = $this->input->post('pemberian_pakan_id');
         $this->data['his_id'] = $this->input->post('his_id');
         $this->data['cb_tutup'] = $this->input->post('cb_tutup');
+        $this->data["buy_date"] = $this->input->post('buy_date');
+        $this->data["tipe_penjualan"] = $this->input->post('tipe_penjualan');
     }
 
     public function add_new_data(){
@@ -189,28 +204,32 @@ class Transaksipenjualan extends CI_Controller {
 
         if ($this->form_validation->run() != FALSE)
         {
-            if($this->data['selected_kolam'] != "" and $this->data['selected_mitra'] != ""){
+            if(($this->data['selected_kolam'] != "" and $this->data['selected_mitra'] != "" and $this->data['tipe_penjualan'] == "k") or ($this->data['tipe_penjualan'] == "s" or $this->data['tipe_penjualan'] == "l")){
                 $tutup = 0;
                 if (isset($_POST['cb_tutup'])){
                     $tutup = 1;
                 }
                 $result = $this->Penjualan->insert($this->data['selected_mitra'], $this->data['selected_kolam'], $this->data['tebar_id'], $this->data['pemberian_pakan_id'], $this->data['jumlah']
-                    , $this->data['harga'], $this->data['total'], $this->data['keterangan'], $tutup, $_SESSION['id']);
+                    , $this->data['harga'], $this->data['total'], $this->data['keterangan'], $tutup, $this->data['buy_date'], $this->data['tipe_penjualan'], $_SESSION['id']);
 
                 if($result){
-                    $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, 0, "Penjualan Ikan", 0, $this->data['selected_kolam'], $_SESSION['id'], $result);
-                    if($tebar_history){
-                        if ($tutup == 1){
-                            $empty = $this->Kolam->update_pemberian_pakan(0, 0, $this->data['selected_kolam'], $_SESSION['id']);
-                            if($empty){
-                                $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, 0, "Tutup Kolam", 0, $this->data['selected_kolam'], $_SESSION['id'], $result);
-                                if($tebar_history){
-                                    redirect('Transaksipenjualan');
+                    if($this->data['tipe_penjualan']=="k") {
+                        $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, 0, "Penjualan Ikan", 0, $this->data['selected_kolam'], $_SESSION['id'], $result);
+                        if ($tebar_history) {
+                            if ($tutup == 1) {
+                                $empty = $this->Kolam->update_pemberian_pakan(0, 0, $this->data['selected_kolam'], $_SESSION['id']);
+                                if ($empty) {
+                                    $tebar_history = $this->Tebar_history->insert($this->data['tebar_id'], 0, 0, "Tutup Kolam", 0, $this->data['selected_kolam'], $_SESSION['id'], $result);
+                                    if ($tebar_history) {
+                                        redirect('Transaksipenjualan');
+                                    }
                                 }
+                            } else {
+                                redirect('Transaksipenjualan');
                             }
-                        } else {
-                            redirect('Transaksipenjualan');
                         }
+                    } else {
+                        redirect('Transaksipenjualan');
                     }
                 }
             }
@@ -225,23 +244,12 @@ class Transaksipenjualan extends CI_Controller {
         $this->check_role();
         $this->initialization();
         $this->get_form_data();
-
         if($this->input->post('write') == "write"){
             if ($this->form_validation->run() != FALSE)
             {
-                if($this->data['selected_kolam'] != $this->data['selected_kolam_before']){
-                    $result = $this->Penjualan->update($this->data['selected_mitra'], $this->data['selected_kolam'],  $this->data['tebar_id'], $this->data['pemberian_pakan_id'], $this->data['jumlah'], $this->data['harga'], $this->data['total'], $this->data['keterangan'], $this->data['id'], $_SESSION['id']);
-                    if($result){
-                        $tebar_history = $this->Tebar_history->update_by_tebar($this->data['selected_kolam'], $this->data['tebar_id'], $this->data['his_id'], $_SESSION['id']);
-                        if($tebar_history){
-                            redirect('Transaksipenjualan');
-                        }
-                    }
-                } else {
-                    $result = $this->Penjualan->update($this->data['selected_mitra'], $this->data['selected_kolam'],  $this->data['tebar_id'], $this->data['pemberian_pakan_id'], $this->data['jumlah'], $this->data['harga'], $this->data['total'], $this->data['keterangan'], $this->data['id'], $_SESSION['id']);
-                    if($result){
+                $result = $this->Penjualan->update($this->data['selected_mitra'], $this->data['selected_kolam'],  $this->data['tebar_id'], $this->data['pemberian_pakan_id'], $this->data['jumlah'], $this->data['harga'], $this->data['total'], $this->data['keterangan'], $this->data['buy_date'], $this->data['tipe_penjualan'], $this->data['id'], $_SESSION['id']);
+                if($result){
                         redirect('Transaksipenjualan');
-                    }
                 }
             }
             $this->data["state"] = "update";
@@ -259,8 +267,12 @@ class Transaksipenjualan extends CI_Controller {
         if($this->input->post('delete') == "delete") {
             $result = $this->Penjualan->delete($this->data['id'], $_SESSION['id']);
             if($result == 1){
-                $history = $this->Tebar_history->delete($this->data['his_id'], $_SESSION['id']);
-                if($history){
+                if($this->data['tipe_penjualan'] == "k"){
+                    $history = $this->Tebar_history->delete($this->data['his_id'], $_SESSION['id']);
+                    if($history){
+                        redirect('Transaksipenjualan');
+                    }
+                }else{
                     redirect('Transaksipenjualan');
                 }
             }

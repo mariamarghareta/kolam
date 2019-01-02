@@ -19,7 +19,7 @@ class Penjualan extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, k.name as kolam_name, b.name as blok_name, t.kode, m.name as mitra_name')
+        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, k.name as kolam_name, b.name as blok_name, t.kode, m.name as mitra_name, j.tipe')
             ->from('jual j')
             ->join('kolam k', 'k.id = j.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
@@ -57,41 +57,72 @@ class Penjualan extends CI_Model
     }
 
 
-    public function insert($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $tutup, $create_uid){
-        $data = array(
-            'dt' => $this->get_now(),
-            'mitra_bisnis_id' => $mitra_id,
-            'kolam_id' => $kolam_id,
-            'tebar_id' => $tebar_id,
-            'pemberian_pakan_id' => $pemberian_pakan_id,
-            'jumlah' => $jumlah,
-            'harga' => $harga,
-            'total' => $total,
-            'keterangan' => $keterangan,
-            'tutup_kolam' => $tutup,
-            'create_uid' => $create_uid,
-            'create_time' => $this->get_now(),
-            'write_uid' => $create_uid,
-            'write_time' => $this->get_now(),
-        );
+    public function insert($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $tutup, $dt, $tipe, $create_uid){
+        if($tipe == "k"){
+            $data = array(
+                'dt' => $dt,
+                'tipe' => $tipe,
+                'mitra_bisnis_id' => $mitra_id,
+                'kolam_id' => $kolam_id,
+                'tebar_id' => $tebar_id,
+                'pemberian_pakan_id' => $pemberian_pakan_id,
+                'jumlah' => $jumlah,
+                'harga' => $harga,
+                'total' => $total,
+                'keterangan' => $keterangan,
+                'tutup_kolam' => $tutup,
+                'create_uid' => $create_uid,
+                'create_time' => $this->get_now(),
+                'write_uid' => $create_uid,
+                'write_time' => $this->get_now(),
+            );
+        }else {
+            $data = array(
+                'dt' => $dt,
+                'tipe' => $tipe,
+                'jumlah' => $jumlah,
+                'harga' => $harga,
+                'total' => $total,
+                'keterangan' => $keterangan,
+                'create_uid' => $create_uid,
+                'create_time' => $this->get_now(),
+                'write_uid' => $create_uid,
+                'write_time' => $this->get_now(),
+            );
+        }
         $query = $this->db->insert('jual', $data);
         return $this->db->insert_id();
     }
 
 
-    public function update($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $id, $write_uid){
-        $data = array(
-            'mitra_bisnis_id' => $mitra_id,
-            'kolam_id' => $kolam_id,
-            'tebar_id' => $tebar_id,
-            'pemberian_pakan_id' => $pemberian_pakan_id,
-            'jumlah' => $jumlah,
-            'harga' => $harga,
-            'total' => $total,
-            'keterangan' => $keterangan,
-            'write_uid' => $write_uid,
-            'write_time' => $this->get_now()
-        );
+    public function update($mitra_id, $kolam_id, $tebar_id, $pemberian_pakan_id, $jumlah, $harga, $total, $keterangan, $dt, $tipe, $id, $write_uid){
+        if($tipe == "k"){
+            $data = array(
+                'dt' => $dt,
+                'tipe' => $tipe,
+                'mitra_bisnis_id' => $mitra_id,
+                'kolam_id' => $kolam_id,
+                'tebar_id' => $tebar_id,
+                'pemberian_pakan_id' => $pemberian_pakan_id,
+                'jumlah' => $jumlah,
+                'harga' => $harga,
+                'total' => $total,
+                'keterangan' => $keterangan,
+                'write_uid' => $write_uid,
+                'write_time' => $this->get_now()
+            );
+        }else{
+            $data = array(
+                'dt' => $dt,
+                'tipe' => $tipe,
+                'jumlah' => $jumlah,
+                'harga' => $harga,
+                'total' => $total,
+                'keterangan' => $keterangan,
+                'write_uid' => $write_uid,
+                'write_time' => $this->get_now()
+            );
+        }
 
         $this->db->where('id', $id);
         return $this->db->update('jual', $data);
@@ -99,7 +130,7 @@ class Penjualan extends CI_Model
 
 
     public function get($id){
-        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, j.tutup_kolam, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name, kar.name as create_user, karw.name as write_user, j.create_time, j.write_time')
+        $query = $this->db->select('j.id, j.dt, j.kolam_id, j.tebar_id, j.pemberian_pakan_id, j.mitra_bisnis_id, j.jumlah, j.harga, j.total, j.keterangan, j.tutup_kolam, k.name as kolam_name, b.name as blok_name, b.id as blok_id, t.kode, m.name as mitra_name, kar.name as create_user, karw.name as write_user, j.create_time, j.write_time, j.tipe')
             ->from('jual j')
             ->join('kolam k', 'k.id = j.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

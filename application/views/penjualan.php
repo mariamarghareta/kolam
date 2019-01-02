@@ -53,6 +53,7 @@
                     <thead>
                     <tr>
                         <th data-field="dt" data-sortable="true">Tanggal</th)>
+                        <th data-field="tipe" data-formatter="tipe_penjualan">Tipe</th)>
                         <th data-field="mitra_name" data-sortable="true">Nama Mitra</th>
                         <th data-field="kode" data-sortable="true">Kode Tebar</th>
                         <th data-field="blok_name" data-sortable="true">Blok</th>
@@ -135,11 +136,23 @@
         $(".slshow").show();
     });
 
+    function tipe_penjualan(value, row){
+        if(value == "k" || value == null){
+            return "Kolam";
+        } else if(value == "s" ){
+            return "Sayur";
+        } else if(value == "l" ){
+            return "Lain-lain";
+        }
+    }
+
     function actionFormatter(value, row) {
         return [
             '<a href="<?php echo base_url() . index_page(); ?>/Transaksipenjualan/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
-//            '<a href="<?php //echo base_url() . index_page(); ?>///Transaksipenjualan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
-//            '<a href="<?php //echo base_url() . index_page(); ?>///Transaksipenjualan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php if ($_SESSION['role_id'] == 1) {?>
+            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipenjualan/update/' + row['id'] + '" class="btn btn-default waves-effect">Ubah</a>',
+            '<a href="<?php echo base_url() . index_page(); ?>/Transaksipenjualan/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
+            <?php } ?>
         ].join('');
     }
 </script>
