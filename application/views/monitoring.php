@@ -118,7 +118,7 @@
                                 <tr>
                                     <th data-field="blok_name" data-sortable="true">Nama Blok</th)>
                                     <th data-field="kolam_name" data-sortable="true">Nama Kolam</th)>
-                                    <th data-field="kode" data-sortable="true">Kode Tebar</th>
+                                    <th data-field="kode" data-sortable="true" data-formatter="link_tebar">Kode Tebar</th>
                                     <th data-field="total_ikan" data-sortable="true">Total Ikan</th>
                                     <th data-field="fcr" data-sortable="true">FCR</th>
                                     <th data-field="pakan_pagi" data-sortable="true" data-formatter="stat" data-align="center">Pakan Pagi</th>
@@ -247,6 +247,10 @@
             <?php echo "'" . form_close() . "'"; ?>,
             '</div>'
         ].join('');
+    }
+
+    function link_tebar(value, row){
+        return "<a href='<?php echo base_url().index_page(); ?>/Mastertebar/show/" + row["tebar_id"] + "'>" + value + "</a>";
     }
 
 
