@@ -407,3 +407,42 @@ pagi.keterangan as ket_pagi, sore.keterangan as ket_sore, (pagi.obat_summary) as
 from v_lap_mon_sayur_available mon
 left join v_lap_mon_sayur_pagi pagi on DATE_FORMAT(pagi.write_time , '%Y-%m-%d') = DATE_FORMAT(mon.write_time , '%Y-%m-%d')
 left join v_lap_mon_sayur_sore sore on DATE_FORMAT(sore.write_time , '%Y-%m-%d') = DATE_FORMAT(mon.write_time , '%Y-%m-%d')
+
+--monitoring all parameter tanggal
+select k.id, k.name as kolam_name, b.name as blok_name, tebar.kode, pkn.total_ikan,
+(case when sampling.id is not null then sampling.fcr else grading.fcr end) as fcr,
+(case when pagi.id is null then 0 else 1 end) as pakan_pagi,
+(case when sore.id is null then 0 else 1 end) as pakan_sore,
+(case when malam.id is null then 0 else 1 end) as pakan_malam,
+(case when pagi_air.id is null then 0 else 1 end) as air_pagi,
+(case when sore_air.id is null then 0 else 1 end) as air_sore
+FROM
+(
+  select kolam.id, DATE_FORMAT('2019-01-10' , '%Y-%m-%d') as waktu
+  from kolam
+  where kolam.tebar_id != 0
+) kolam
+left join kolam k on k.id = kolam.id
+left join blok b on b.id = k.blok_id
+left join pemberian_pakan pkn on pkn.id = k.pemberian_pakan_id
+left join tebar on tebar.id = k.tebar_id
+left join sampling on pkn.sampling_id = sampling.id
+left join grading on grading.id = pkn.grading_id
+left JOIN
+(
+  select * from monitoring_pakan where waktu_pakan = 'PAGI' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('2019-01-10' , '%Y-%m-%d') and deleted = 0
+) pagi on pagi.kolam_id = kolam.id
+left JOIN
+(
+  select * from monitoring_pakan where waktu_pakan = 'SORE' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('2019-01-10' , '%Y-%m-%d') and deleted = 0
+) sore on sore.kolam_id = kolam.id
+left JOIN
+(
+  select * from monitoring_pakan where waktu_pakan = 'MALAM' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('2019-01-10' , '%Y-%m-%d') and deleted = 0
+) malam on malam.kolam_id = kolam.id
+left JOIN (
+  select * from monitoring_air where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('2019-01-10' , '%Y-%m-%d') and waktu = 'PAGI' and deleted = 0
+) pagi_air on pagi_air.kolam_id = kolam.id
+left JOIN (
+  select * from monitoring_air where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('2019-01-10' , '%Y-%m-%d') and waktu = 'SORE' and deleted = 0
+) sore_air on sore_air.kolam_id = kolam.id

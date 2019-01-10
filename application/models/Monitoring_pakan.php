@@ -191,4 +191,43 @@ class Monitoring_pakan extends CI_Model
         $this->db->where('monitoring_pakan_id', $monitoring_pakan_id);
         return $this->db->update('pakan_obat', $data);
     }
+
+    public function get_all_monitoring_by_date($dt){
+        $q = "select k.id, k.name as kolam_name, b.name as blok_name, tebar.kode, pkn.total_ikan, pkn.id as pemberian_pakan_id,";
+        $q .= " (case when sampling.id is not null then sampling.fcr else grading.fcr end) as fcr,";
+        $q .= " (case when pagi.id is null then 0 else 1 end) as pakan_pagi,";
+        $q .= " (case when sore.id is null then 0 else 1 end) as pakan_sore,";
+        $q .= " (case when malam.id is null then 0 else 1 end) as pakan_malam,";
+        $q .= " (case when pagi_air.id is null then 0 else 1 end) as air_pagi,";
+        $q .= " (case when sore_air.id is null then 0 else 1 end) as air_sore";
+        $q .= " FROM(";
+        $q .= "   select kolam.id, DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') as waktu";
+        $q .= "   from kolam";
+        $q .= "   where kolam.tebar_id != 0";
+        $q .= " ) kolam";
+        $q .= " left join kolam k on k.id = kolam.id";
+        $q .= " left join blok b on b.id = k.blok_id";
+        $q .= " left join pemberian_pakan pkn on pkn.id = k.pemberian_pakan_id";
+        $q .= " left join tebar on tebar.id = k.tebar_id";
+        $q .= " left join sampling on pkn.sampling_id = sampling.id";
+        $q .= " left join grading on grading.id = pkn.grading_id";
+        $q .= " left JOIN(";
+        $q .= "   select * from monitoring_pakan where waktu_pakan = 'PAGI' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') and deleted = 0";
+        $q .= " ) pagi on pagi.kolam_id = kolam.id";
+        $q .= " left JOIN(";
+        $q .= "   select * from monitoring_pakan where waktu_pakan = 'SORE' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') and deleted = 0";
+        $q .= " ) sore on sore.kolam_id = kolam.id";
+        $q .= " left JOIN(";
+        $q .= "   select * from monitoring_pakan where waktu_pakan = 'MALAM' and DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') and deleted = 0";
+        $q .= " ) malam on malam.kolam_id = kolam.id";
+        $q .= " left JOIN (";
+        $q .= "  select * from monitoring_air where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') and waktu = 'PAGI' and deleted = 0";
+        $q .= " ) pagi_air on pagi_air.kolam_id = kolam.id";
+        $q .= " left JOIN (";
+        $q .= "  select * from monitoring_air where DATE_FORMAT(create_time, '%Y-%m-%d') = DATE_FORMAT('" . $dt . "' , '%Y-%m-%d') and waktu = 'SORE' and deleted = 0";
+        $q .= " ) sore_air on sore_air.kolam_id = kolam.id";
+        $q .= " order by SUBSTR(k.name FROM 1 FOR 1), CAST(SUBSTR(k.name FROM 2) AS UNSIGNED)";
+        $res = $this->db->query($q);
+        return ($res->result_array());
+    }
 }

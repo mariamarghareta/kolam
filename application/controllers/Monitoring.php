@@ -57,12 +57,16 @@ class Monitoring extends CI_Controller {
     public function initialization(){
         $data_count = 10;
         $offset = 1;
+        $dt_today = new DateTime();
+        $dt_today->setTimezone(new DateTimeZone('GMT+7'));
         $this->data["search_word"] = "";
         $this->data["arr_pakan"] = json_encode($this->Pakan->get_all());
         $this->data["arr_obat"] = json_encode($this->Obat->show_all_data());
         $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
         $this->data["arr_kolam_kosong"] = json_encode($this->Kolam->get_all_not_occupied_kolam());
         $this->data["total_pakan"] = $this->Pemberian_pakan->sum_all_pakan()[0];
+        $this->data["date_filter"] = $this->Pemberian_pakan->sum_all_pakan()[0];
+        $this->data["date_filter"] = $dt_today->format("Y-m-d");
     }
 
     public function print_pakan(){
@@ -75,5 +79,10 @@ class Monitoring extends CI_Controller {
         $this->data['hari_ini_time'] = $this->Pemberian_pakan->get_now_time();
 
         $this->load->view('print_pemberian_pakan', $this->data);
+    }
+
+    public function get_monitoring_by_date(){
+        $dt = $this->input->post('dt');
+        echo json_encode($this->Monitoring_pakan->get_all_monitoring_by_date($dt));
     }
 }

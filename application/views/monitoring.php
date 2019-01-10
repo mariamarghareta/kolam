@@ -103,12 +103,19 @@
                 <div class="col-sm-12 margin-up-md">
                     <div class="white-bg" style="padding:20px;">
                         <div class="col-sm-8">
-                            <div class="page-title">Monitoring Pakan dan Air</div>
+                            <div class="col-sm-4 row page-title">Monitoring Pakan dan Air</div>
+                            <div class="date col-sm-2" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input class="form-control datepicker"  data-date-format="yyyy-mm-dd" type="text" id="date_filter" name="date_filter" placeholder="yyyy-mm-dd" autocomplete="off" value="<?=$date_filter?>" >
+                                <?php echo form_error('date_from'); ?>
+                            </div>
+                            <div class="col-sm-2 row">
+                                <button type="button" class="btn btn-info" id="btn_cari_monitoring">Cari</button>
+                            </div>
                         </div>
                         <div class="col-sm-4" style="text-align: right">
                             <div class="page-title">Total Pakan : <?php echo round($total_pakan->total_pakan * 100,2); ?> gr</div>
                         </div>
-                        <div class="margin-up-md">
+                        <div class="margin-up-lg">
                             <table
                                     id="table_monitoring"
                                     data-toggle="true"
@@ -252,6 +259,43 @@
     function link_tebar(value, row){
         return "<a href='<?php echo base_url().index_page(); ?>/Mastertebar/show/" + row["tebar_id"] + "'>" + value + "</a>";
     }
+
+    $('.datepicker').datetimepicker({
+        language:  'id',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+    $("#btn_cari_monitoring").click(function(){
+        var deferredData = new jQuery.Deferred();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url() . index_page() . "/Monitoring/get_monitoring_by_date"; ?>",
+            dataType: "json",
+            data: {dt: $("#date_filter").val()},
+            success: function(data) {
+                $(function() {
+                    $('#table_monitoring').bootstrapTable("load", data);
+                });
+                $(".print").click( function($this){
+                    $parent = $(this).parent().closest("form").attr("id");
+                    $("#" + $parent).prop("target", "_blank");
+                    $("#" + $parent).attr("action", "<?php echo base_url();echo index_page(); ?>/Monitoring/print_pakan");
+                    $("#" + $parent).submit();
+                    $("#" + $parent).prop("target", "_self");
+                    $("#" + $parent).attr("action", "<?php echo base_url();echo index_page(); ?>/Monitoring/print_pakan");
+                    //alert("aaa");
+                });
+            }
+
+        });
+        return deferredData; // contains the passed data
+    });
 
 
 </script>
