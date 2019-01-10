@@ -102,14 +102,17 @@
             <div class="row">
                 <div class="col-sm-12 margin-up-md">
                     <div class="white-bg" style="padding:20px;">
-                        <div class="col-sm-8">
-                            <div class="col-sm-4 row page-title">Monitoring Pakan dan Air</div>
-                            <div class="date col-sm-2" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <div class="col-sm-8 col-xs-12">
+                            <div class="col-sm-4 col-xs-12 row page-title">Monitoring Pakan dan Air</div>
+                            <div class="date col-sm-2 col-xs-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input class="form-control datepicker"  data-date-format="yyyy-mm-dd" type="text" id="date_filter" name="date_filter" placeholder="yyyy-mm-dd" autocomplete="off" value="<?=$date_filter?>" >
                                 <?php echo form_error('date_from'); ?>
                             </div>
-                            <div class="col-sm-2 row">
+                            <div class="col-sm-2 col-xs-6 row">
                                 <button type="button" class="btn btn-info" id="btn_cari_monitoring">Cari</button>
+                            </div>
+                            <div class="col-sm-2 col-xs-6 row" style="padding: 0px; left:-20px;" id="div_loading" hidden>
+                                <i class="fa fa-spinner fa-spin fa-2x fa-fw margin-bottom"></i>
                             </div>
                         </div>
                         <div class="col-sm-4" style="text-align: right">
@@ -272,6 +275,7 @@
     });
 
     $("#btn_cari_monitoring").click(function(){
+        $("#div_loading").show();
         var deferredData = new jQuery.Deferred();
         $.ajax({
             type: "POST",
@@ -291,6 +295,7 @@
                     $("#" + $parent).attr("action", "<?php echo base_url();echo index_page(); ?>/Monitoring/print_pakan");
                     //alert("aaa");
                 });
+                $("#div_loading").hide();
             }
 
         });
