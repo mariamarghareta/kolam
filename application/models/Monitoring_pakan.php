@@ -151,7 +151,8 @@ class Monitoring_pakan extends CI_Model
             ->join('kolam k', 'k.id = m.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
             ->join('tebar t', 't.kode = m.kode', 'left')
-            ->order_by('k.name asc')
+            ->order_by('SUBSTR(k.name FROM 1 FOR 1)')
+            ->order_by('CAST(SUBSTR(k.name FROM 2) AS UNSIGNED)')
             ->get();
         return $query->result_array();
     }

@@ -11,7 +11,7 @@
 <script src="<?php echo base_url(); ?>assets/js/jquery.ui.touch-punch.min.js"></script>
 <script class="include" type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.scrollTo.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+<!--<script src="--><?php //echo base_url(); ?><!--assets/js/jquery.nicescroll.js" type="text/javascript"></script>-->
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-table.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>/assets/js/common-scripts.js"></script>
 <script src="<?php echo base_url(); ?>/assets/js/custom_table.js"></script>
