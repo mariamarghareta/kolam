@@ -218,19 +218,23 @@ class Tebar_history extends CI_Model
             ->where('grading_id', $grading_id)
             ->get();
         $res = $query->result_array();
-        $query = $this->db->select('tebar_id, count(id) as jumlah')
-            ->from('tebar_history his')
-            ->where('deleted', 0)
-            ->where('tebar_id', $res[0]["tebar_id"])
-            ->where('sequence >', $res[0]["sequence"])
-            ->where('keterangan !=', "Delete Grading")
-            ->where('keterangan !=', "Delete Sampling")
-            ->where('keterangan !=', "Delete Tebar Bibit")
-            ->group_by('tebar_id')
-            ->get();
-        $res = ($query->result_array());
-        if(sizeof($res)>0){
-            return $res[0]["jumlah"];
+        if($res[0]["sequence"] != null){
+            $query = $this->db->select('tebar_id, count(id) as jumlah')
+                ->from('tebar_history his')
+                ->where('deleted', 0)
+                ->where('tebar_id', $res[0]["tebar_id"])
+                ->where('sequence >', $res[0]["sequence"])
+                ->where('keterangan !=', "Delete Grading")
+                ->where('keterangan !=', "Delete Sampling")
+                ->where('keterangan !=', "Delete Tebar Bibit")
+                ->group_by('tebar_id')
+                ->get();
+            $res = ($query->result_array());
+            if(sizeof($res)>0){
+                return $res[0]["jumlah"];
+            } else {
+                return 0;
+            }
         } else {
             return 0;
         }

@@ -65,7 +65,6 @@ class Monitoring extends CI_Controller {
         $this->data["arr_monitoring"] = json_encode($this->Monitoring_pakan->monitoring_all());
         $this->data["arr_kolam_kosong"] = json_encode($this->Kolam->get_all_not_occupied_kolam());
         $this->data["total_pakan"] = $this->Pemberian_pakan->sum_all_pakan()[0];
-        $this->data["date_filter"] = $this->Pemberian_pakan->sum_all_pakan()[0];
         $this->data["date_filter"] = $dt_today->format("Y-m-d");
     }
 

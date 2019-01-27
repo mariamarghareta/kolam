@@ -114,11 +114,16 @@ class Tabelpakan extends CI_Model
 
 
     public function get_pakan($size){
+        if($size == 0){
+            $weight= 0;
+        } else {
+            $weight = 1000/$size;
+        }
         $query = $this->db->select('age, weight, fr, sr')
             ->from('tabel_pakan')
             ->where('deleted', 0)
             ->group_start()
-            ->where('weight <=', 1000/$size)
+            ->where('weight <=', $weight)
             ->or_where('id in (select id from tabel_pakan where deleted = 0 and weight = (select min(weight) from tabel_pakan where deleted = 0))')
             ->group_end()
             ->order_by('weight desc')

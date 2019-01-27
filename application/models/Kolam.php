@@ -187,6 +187,17 @@ class Kolam extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_kolam_by_blok_wo($blok_id, $kolam_id){
+        $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name, kolam.tebar_id')
+            ->from('kolam')
+            ->join('blok', 'blok.id = kolam.blok_id')
+            ->where('kolam.deleted', 0)
+            ->where('blok.id', $blok_id)
+            ->where('kolam.id !=', $kolam_id)
+            ->get();
+        return $query->result_array();
+    }
+
     public function get_occupied_kolam($blok_id){
         $query = $this->db->select('kolam.id, kolam.name, blok.name as blok_name, kolam.tebar_id')
             ->from('kolam')
@@ -280,6 +291,7 @@ class Kolam extends CI_Model
             $query = $this->db->select('id')
                 ->from('pemberian_pakan')
                 ->where('grading_id', $temp->grading_id)
+                ->where('kolam_id', $id)
                 ->where('deleted', 0)
                 ->get();
             $pakan_id = $query->result()[0]->id;
@@ -308,9 +320,10 @@ class Kolam extends CI_Model
     }
 
     public function get_total_pakan_for_grading($kolam_id){
-        $query = $this->db->select('sum(mpakan.jumlah_pakan) as total_pakan')
+        $query = $this->db->select("sum(case when mpakan.waktu_pakan ='PAGI' then pkn.pagi else (case when mpakan.waktu_pakan = 'SORE' then pkn.sore else pkn.malam end) end) as total_pakan")
             ->from('monitoring_pakan mpakan')
             ->join('kolam', 'kolam.id = mpakan.kolam_id and kolam.pemberian_pakan_id = mpakan.pemberian_pakan_id')
+            ->join('pemberian_pakan pkn', 'pkn.id = mpakan.pemberian_pakan_id')
             ->where('mpakan.deleted', 0)
             ->where('kolam.id', $kolam_id)
             ->get();

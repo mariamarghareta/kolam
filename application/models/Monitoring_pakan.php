@@ -146,7 +146,7 @@ class Monitoring_pakan extends CI_Model
 
 
     public function monitoring_all(){
-        $query = $this->db->select('m.kolam_id, m.kode, m.air_pagi, m.air_sore, m.pakan_pagi, m.pakan_sore, m.pakan_malam, b.name as blok_name, k.name as kolam_name, m.pemberian_pakan_id, m.fcr, m.total_ikan, t.id as tebar_id')
+        $query = $this->db->select('m.kolam_id, m.kode, m.air_pagi, m.air_sore, m.pakan_pagi, m.pakan_sore, m.pakan_malam, b.name as blok_name, k.name as kolam_name, m.pemberian_pakan_id, m.fcr, m.total_ikan, t.id as tebar_id, m.sampling, m.angka, m.satuan, m.biomass')
             ->from('v_monitoring_all m')
             ->join('kolam k', 'k.id = m.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')
@@ -193,7 +193,7 @@ class Monitoring_pakan extends CI_Model
     }
 
     public function get_all_monitoring_by_date($dt){
-        $q = "select k.id, k.name as kolam_name, b.name as blok_name, tebar.kode, pkn.total_ikan, pkn.id as pemberian_pakan_id,";
+        $q = "select k.id, k.name as kolam_name, b.name as blok_name, tebar.kode, pkn.total_ikan, pkn.id as pemberian_pakan_id, pkn.sampling, pkn.angka, pkn.satuan, pkn.biomass,";
         $q .= " (case when sampling.id is not null then sampling.fcr else grading.fcr end) as fcr,";
         $q .= " (case when pagi.id is null then 0 else 1 end) as pakan_pagi,";
         $q .= " (case when sore.id is null then 0 else 1 end) as pakan_sore,";

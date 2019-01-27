@@ -19,7 +19,7 @@ class Sampling extends CI_Model
 
     public function show_all($data_count, $offset, $searchword)
     {
-        $query = $this->db->select('sampling.id, tebar.kode, blok.name as blok_name, kolam.name as kolam_name, round(sampling.kenaikan_daging,2) as kenaikan_daging, round(sampling.fcr,2) as fcr, round(sampling.adg,2) as adg, sampling.dt, kar.name as create_user, karw.name as write_user, sampling.create_time, sampling.write_time')
+        $query = $this->db->select('sampling.id, tebar.kode, blok.name as blok_name, kolam.name as kolam_name, round(sampling.kenaikan_daging,2) as kenaikan_daging, round(sampling.fcr,2) as fcr, round(sampling.adg,2) as adg, sampling.dt, kar.name as create_user, karw.name as write_user, sampling.create_time, sampling.write_time, gab.sampling_id as sampling_gabungan')
             ->from('sampling')
             ->join('tebar','tebar.id = sampling.tebar_id', 'left')
             ->join('pemberian_pakan pakan','pakan.sampling_id = sampling.id', 'left')
@@ -28,6 +28,7 @@ class Sampling extends CI_Model
             ->join('tebar_history his','his.sampling_id = sampling.id', 'left')
             ->join('karyawan kar', 'kar.id = sampling.create_uid', 'left')
             ->join('karyawan karw', 'karw.id = sampling.write_uid', 'left')
+            ->join('v_sampling_combine gab', 'gab.sampling_id = sampling.id', 'left')
             ->where('sampling.deleted', 0)
             ->where('his.sequence !=', 1)
             ->where('tebar.deleted', 0)
