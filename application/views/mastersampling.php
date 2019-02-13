@@ -135,12 +135,14 @@
     });
 
     function actionFormatter(value, row) {
-        return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
-            <?php if ($_SESSION['role_id'] == 1) {?>
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>',
-            <?php } ?>
-        ].join('');
+        temp = [];
+        temp.push('<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>');
+        <?php if ($_SESSION['role_id'] == 1) {?>
+            if(row["sampling_gabungan"] == null){
+                temp.push('<a href="<?php echo base_url() . index_page(); ?>/Mastersampling/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>');
+            }
+        <?php } ?>
+        return temp.join('');
     }
 </script>
 

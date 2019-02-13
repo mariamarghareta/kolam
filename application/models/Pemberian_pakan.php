@@ -45,8 +45,8 @@ class Pemberian_pakan extends CI_Model
         return $query->result();
     }
 
-
-    public function insert($ukuran, $fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling_id, $grading_id, $sampling, $size, $biomass, $total_ikan, $angka, $satuan, $create_uid){
+    public function insert($ukuran, $fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling_id, $grading_id, $sampling, $size, $biomass,
+                           $total_ikan, $angka, $satuan, $create_uid){
         $data = array(
             'is_active' => 1,
             'ukuran' => $ukuran,
@@ -72,7 +72,44 @@ class Pemberian_pakan extends CI_Model
             'satuan' => $satuan,
             'write_uid' => $create_uid,
             'write_time' => $this->get_now()
+        );
+        $query = $this->db->insert('pemberian_pakan', $data);
+        return $this->db->insert_id();
+    }
 
+    public function insert_v2($ukuran, $fr, $sr, $dosis_pakan, $total_pakan, $pagi, $sore, $malam, $tebar_id, $kolam_id, $sampling_id, $grading_id, $sampling, $size, $biomass,
+                           $total_ikan, $angka, $satuan, $create_uid, $sampling_akhir, $angka_akhir, $satuan_akhir, $biomass_total, $size_total, $total_ikan_akhir){
+        $data = array(
+            'is_active' => 1,
+            'ukuran' => $ukuran,
+            'fr' => $fr,
+            'sr' => $sr,
+            'dosis_pakan' => $dosis_pakan,
+            'total_pakan' => $total_pakan,
+            'pagi' => $pagi,
+            'sore' => $sore,
+            'malam' => $malam,
+            'tebar_id' => $tebar_id,
+            'kolam_id' => $kolam_id,
+            'sampling_id' => $sampling_id,
+            'grading_id' => $grading_id,
+            'sampling' => $sampling,
+            'size' => $size,
+            'biomass' => $biomass,
+            'total_ikan' => $total_ikan,
+            'create_uid' => $create_uid,
+            'create_time' => $this->get_now(),
+            'dt' => $this->get_now(),
+            'angka' => $angka,
+            'satuan' => $satuan,
+            'write_uid' => $create_uid,
+            'write_time' => $this->get_now(),
+            'sampling_akhir' => $sampling_akhir,
+            'angka_akhir' => $angka_akhir,
+            'satuan_akhir' => $satuan_akhir,
+            'biomass_total' => $biomass_total,
+            'size_total' => $size_total,
+            'total_ikan_akhir' => $total_ikan_akhir
         );
         $query = $this->db->insert('pemberian_pakan', $data);
         return $this->db->insert_id();
@@ -101,7 +138,7 @@ class Pemberian_pakan extends CI_Model
 
 
     public function get_by_grading($id){
-        $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, round(p.biomass,2) as biomass, p.total_ikan, p.ukuran, p.fr, p.sr, round(p.dosis_pakan,2) as dosis_pakan, round(p.total_pakan, 2) as total_pakan, round(p.pagi,2) as pagi, round(p.sore,2) as sore, round(p.malam,2) as malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name')
+        $query = $this->db->select('p.id, p.sampling, p.angka, p.satuan, p.size, round(p.biomass,2) as biomass, p.total_ikan, p.ukuran, p.fr, p.sr, round(p.dosis_pakan,2) as dosis_pakan, round(p.total_pakan, 2) as total_pakan, round(p.pagi,2) as pagi, round(p.sore,2) as sore, round(p.malam,2) as malam, p.tebar_id, p.kolam_id, p.sampling_id, p.grading_id, b.id as blok_id, k.name as kolam_name, b.name as blok_name, sampling_akhir, angka_akhir, satuan_akhir, biomass_total, size_total, total_ikan_akhir')
             ->from('pemberian_pakan p')
             ->join('kolam k', 'k.id = p.kolam_id', 'left')
             ->join('blok b', 'b.id = k.blok_id', 'left')

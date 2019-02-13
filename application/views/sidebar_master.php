@@ -42,8 +42,14 @@
                     <span>Sampling</span>
                 </a>
             </li>
+<!--            <li class="sub-menu">-->
+<!--                <a href="--><?//= base_url();?><!----><?//= index_page();?><!--/Mastergrading" id="menu_grading" >-->
+<!--                    <i class="fa fa-book"></i>-->
+<!--                    <span>Grading</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="sub-menu">
-                <a href="<?= base_url();?><?= index_page();?>/Mastergrading" id="menu_grading" >
+                <a href="<?= base_url();?><?= index_page();?>/Mastergrading_v2" id="menu_grading2" >
                     <i class="fa fa-book"></i>
                     <span>Grading</span>
                 </a>

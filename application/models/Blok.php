@@ -63,6 +63,17 @@ class Blok extends CI_Model
         return $query->result_array();
     }
 
+    public function show_blok_berkolam(){
+        $query = $this->db->select('blok.id, blok.name')
+            ->from('blok')
+            ->join('kolam', 'kolam.blok_id = blok.id', 'left')
+            ->where('blok.deleted', 0)
+            ->where('kolam.deleted', 0)
+            ->distinct()
+            ->get();
+        return $query->result_array();
+    }
+
 
     public function get_count_all()
     {

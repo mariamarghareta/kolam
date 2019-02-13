@@ -38,7 +38,7 @@
             <div class="col-md-12 white-bg margin-up-md">
                 <div class="margin-up-md">
                     <div class="col-sm-8 page-title">Grading</div>
-                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Mastergrading/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
+                    <div class="col-sm-4 right-align"><a href="<?php echo base_url() . index_page(); ?>/Mastergrading_v2/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i><span> TAMBAH DATA</span></a></div>
                 </div>
                 <div id="toolbar">
                     <div class="form-inline pull-right margin-up-down">
@@ -105,7 +105,7 @@
 
                 <input type="hidden" value="<?=$page_count?>" name="page_count" id="page_count"/>
                 <input type="hidden" value="<?=$max_data?>" name="max_data" id="max_data"/>
-                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Mastergrading" name="route" id="route"/>
+                <input type="hidden" value="<?php echo base_url() . index_page(); ?>/Mastergrading_v2" name="route" id="route"/>
 
             </div>
         </section>
@@ -138,12 +138,16 @@
     });
 
     function actionFormatter(value, row) {
-        return [
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastergrading/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>',
-            <?php if ($_SESSION['role_id'] == 1) {?>
-            '<a href="<?php echo base_url() . index_page(); ?>/Mastergrading/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>'
-            <?php } ?>
-        ].join('');
+        temp = [];
+        temp.push('<a href="<?php echo base_url() . index_page(); ?>/Mastergrading_v2/show/' + row['id'] + '" class="btn btn-default waves-effect">Lihat</a>');
+
+        <?php if ($_SESSION['role_id'] == 1) {?>
+        if(row["grading_gabungan"] == null){
+            temp.push('<a href="<?php echo base_url() . index_page(); ?>/Mastergrading_v2/delete/' + row['id'] + '" class="btn btn-danger waves-effect">Hapus</a>');
+        }
+        <?php } ?>
+
+        return temp.join('');
     }
 </script>
 
