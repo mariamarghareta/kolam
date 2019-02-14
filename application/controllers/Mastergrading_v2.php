@@ -142,7 +142,7 @@ class Mastergrading_v2 extends CI_Controller {
         }
         $this->data["state"] = "show";
         $this->load_get_data(0);
-        $this->load->view('grading_form', $this->data);
+        $this->load->view('grading_form_v2', $this->data);
     }
 
     public function data_show(){

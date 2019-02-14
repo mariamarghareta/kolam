@@ -10,6 +10,28 @@
     <title>Grading</title>
 
     <?php include 'header.php' ?>
+    <style type="text/css">
+        @media screen and (min-width: 600px) {
+            .blank-row{
+                min-height: 78px;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            #div_tujuan{
+                margin-top: 40px;
+                border-top:3px solid lightgray;
+                padding-top: 30px;
+                border-right: none !important;
+            }
+            .m-margin-top{
+                margin-top: 20px;
+            }
+            #div_kolam_asal{
+                border-right: none !important;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
@@ -34,22 +56,23 @@
     *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
+        <?php
+        $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
+        if ($state == "update"){
+            echo form_open('Mastergrading_v2/update_data', $attributes);
+        } else if ($state == "create"){
+            echo form_open('Mastergrading_v2/add_new_data', $attributes);
+        } else if ($state == "delete"){
+            echo form_open('Mastergrading_v2/delete_data', $attributes);
+        }
+        ?>
         <section class="wrapper site-min-height">
-            <div class="col-md-12 margin-up-md">
+            <?php if ($state != "show") { ?>
+            <div class="col-md-8 col-xs-12 margin-up-md">
                 <div class="w3-container w3-green page-title w3-center w3-padding-16">
                     Grading
                 </div>
 
-                <?php
-                $attributes = array('class' => 'form-horizontal', 'id' => 'form_blok');
-                if ($state == "update"){
-                    echo form_open('Mastergrading_v2/update_data', $attributes);
-                } else if ($state == "create"){
-                    echo form_open('Mastergrading_v2/add_new_data', $attributes);
-                } else if ($state == "delete"){
-                    echo form_open('Mastergrading_v2/delete_data', $attributes);
-                }
-                ?>
                 <input type="hidden" name="tid" id="tid" value="<?php echo $id; ?>">
                 <input type="hidden" name="kolam_id" id="kolam_id" value="<?php echo $kolam_id; ?>">
                 <input type="hidden" name="sampling_id" id="sampling_id" value="<?php echo $sampling_id; ?>">
@@ -64,13 +87,12 @@
                         <?php if ($state == "delete"){?>
                             <div style="margin-bottom: 20px; font-weight:bold;">Apakah Anda yakin menghapus data ini?</div>
                         <?php } ?>
-                        <div class="col-sm-8" style="padding-right:20px;border-right: 1px solid lightgray;">
+                        <div class="col-sm-6 col-xs-12" id="div_kolam_asal" style="padding-right:20px;border-right: 1px solid lightgray;">
                             <div class="row">
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Blok Asal</label><label style="color: red; padding-left: 5px;"> *</label></div>
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Blok Tujuan</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Blok Asal</label><label style="color: red; padding-left: 5px;"> *</label></div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 col-xs-6">
+                                <div class="col-sm-12 col-xs-12">
                                     <div id="div_blok" class="">
                                         <select id="tblok" name="tblok" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
                                             <?php foreach($arr_blok as $row){
@@ -82,26 +104,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div id="div_blok" class="">
-                                        <select id="tblok_tujuan" name="tblok_tujuan" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
-                                            <option value="-">Tidak dipindah</option>
-                                            <?php foreach($arr_blok_tujuan as $row){
-                                                if($row['id'] == $selected_blok_tujuan){ ?>
-                                                    <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
-                                                <?php } else { ?>
-                                                    <option value="<?=$row['id']?>"><?=$row['name']?></option>
-                                                <?php }} ?>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row" style="margin-top: 20px;">
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Kolam Asal</label><label style="color: red; padding-left: 5px;"> *</label></div>
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Kolam Tujuan</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Kolam Asal</label><label style="color: red; padding-left: 5px;"> *</label></div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 col-xs-6">
+                                <div class="col-sm-12 col-xs-12">
                                     <div id="div_blok" class="">
                                         <select id="tkolam" name="tkolam" class="form-control" style="width:220px;">
                                             <?php foreach($arr_kolam as $row){
@@ -113,25 +121,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div id="div_blok" class="">
-                                        <select id="tkolam_tujuan" name="tkolam_tujuan" class="form-control" style="width:220px;">
-                                            <?php foreach($arr_kolam_tujuan as $row){
-                                                if($row['id'] == $selected_kolam_tujuan){ ?>
-                                                    <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
-                                                <?php } else { ?>
-                                                    <option value="<?=$row['id']?>"><?=$row['name']?></option>
-                                                <?php }} ?>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row" style="margin-top: 20px;">
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Sampling</label><label style="color: red; padding-left: 5px;"> *</label></div>
-                                <div class="col-sm-6 col-xs-6"><label style="font-weight: bold">Sampling Akhir</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Sampling</label><label style="color: red; padding-left: 5px;"> *</label></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12 col-xs-12">
                                     <div class="col-xs-7 col-md-8 col-sm-11 row">
                                         <?php echo form_input(array('name'=>'sampling', 'id'=>'sampling', 'class'=>'w3-input'), $sampling);?>
                                         <?php echo form_error('sampling'); ?>
@@ -149,7 +144,77 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6" id="div_sampling_tujuan">
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-md-12">
+                                    <label style="font-weight: bold">Ukuran</label><label style="color: red; padding-left: 5px;"> *</label>
+                                    <?php echo form_input(array('name'=>'ukuran', 'id'=>'ukuran', 'class'=>'w3-input'), $ukuran);?>
+                                    <?php echo form_error('ukuran'); ?>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 25px;">
+                                <div class="col-sm-12">
+                                    <label style="font-weight: bold">Biomass (kg)</label><label style="color: red; padding-left: 5px;"> *</label>
+                                    <?php echo form_input(array('name'=>'biomass', 'id'=>'biomass', 'class'=>'w3-input'), $biomass);?>
+                                    <?php echo form_error('biomass'); ?>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 25px;">
+                                <div class="col-sm-12">
+                                    <label>Size (ekor/kg)</label>
+                                    <?php echo form_input(array('name'=>'size', 'id'=>'size', 'class'=>'w3-input', 'readonly' => 'readonly'), $size);?>
+                                    <?php echo form_error('size'); ?>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 25px;">
+                                <div class="col-sm-12">
+                                    <label>Jmlh. Ikan</label>
+                                    <?php echo form_input(array('name'=>'total_ikan', 'id'=>'total_ikan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_ikan);?>
+                                    <?php echo form_error('total_ikan'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" id="div_tujuan">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Blok Tujuan</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div id="div_blok" class="">
+                                        <select id="tblok_tujuan" name="tblok_tujuan" <?php if ($state != "delete"){ ?>class="selectpicker"<?php } else { ?> class="form-control" style="width:220px;" <?php } ?> data-live-search="true">
+                                            <option value="-">Tidak dipindah</option>
+                                            <?php foreach($arr_blok_tujuan as $row){
+                                                if($row['id'] == $selected_blok_tujuan){ ?>
+                                                    <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
+                                                <?php } else { ?>
+                                                    <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                                                <?php }} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Kolam Tujuan</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div id="div_blok" class="">
+                                        <select id="tkolam_tujuan" name="tkolam_tujuan" class="form-control" style="width:220px;">
+                                            <?php foreach($arr_kolam_tujuan as $row){
+                                                if($row['id'] == $selected_kolam_tujuan){ ?>
+                                                    <option value="<?=$row['id']?>" selected><?=$row['name']?></option>
+                                                <?php } else { ?>
+                                                    <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                                                <?php }} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-sm-6 col-xs-12"><label style="font-weight: bold">Sampling Akhir</label><label style="color: red; padding-left: 5px;"> *</label></div>
+                            </div>
+                            <div class="row blank-row">
+                                <div class="col-md-12 col-xs-12" id="div_sampling_tujuan">
                                     <div class="col-xs-7 col-md-8 col-sm-11 row">
                                         <?php echo form_input(array('name'=>'sampling_akhir', 'id'=>'sampling_akhir', 'class'=>'w3-input'), $sampling_akhir);?>
                                         <?php echo form_error('sampling'); ?>
@@ -168,120 +233,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label style="font-weight: bold">Ukuran</label><label style="color: red; padding-left: 5px;"> *</label>
-                                    <?php echo form_input(array('name'=>'ukuran', 'id'=>'ukuran', 'class'=>'w3-input'), $ukuran);?>
-                                    <?php echo form_error('ukuran'); ?>
+                            <div class="row blank-row">
+                                <div class="col-md-12">
+
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 25px;">
-                                <div class="col-sm-6">
-                                    <label style="font-weight: bold">Biomass (kg)</label><label style="color: red; padding-left: 5px;"> *</label>
-                                    <?php echo form_input(array('name'=>'biomass', 'id'=>'biomass', 'class'=>'w3-input'), $biomass);?>
-                                    <?php echo form_error('biomass'); ?>
-                                </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12 col-xs-12">
                                     <label>Biomass Total</label>
                                     <?php echo form_input(array('name'=>'biomass_total', 'id'=>'biomass_total', 'class'=>'w3-input', 'readonly' => 'readonly'), $biomass_total);?>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 25px;">
-                                <div class="col-sm-6">
-                                    <label>Size (ekor/kg)</label>
-                                    <?php echo form_input(array('name'=>'size', 'id'=>'size', 'class'=>'w3-input', 'readonly' => 'readonly'), $size);?>
-                                    <?php echo form_error('size'); ?>
-                                </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label>Size Total(ekor/kg)</label>
                                     <?php echo form_input(array('name'=>'size_total', 'id'=>'size_total', 'class'=>'w3-input', 'readonly' => 'readonly'), $size_total);?>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 25px;">
-                                <div class="col-sm-6">
-                                    <label>Jmlh. Ikan</label>
-                                    <?php echo form_input(array('name'=>'total_ikan', 'id'=>'total_ikan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_ikan);?>
-                                    <?php echo form_error('total_ikan'); ?>
-                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6 col-xs-12">
                                     <label>Jmlh. Kolam Tujuan</label>
                                     <?php echo form_input(array('name'=>'total_ikan_tujuan', 'id'=>'total_ikan_tujuan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_ikan_tujuan);?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6 col-xs-12 m-margin-top">
                                     <label>Jmlh. Total Ikan</label>
                                     <?php echo form_input(array('name'=>'total_ikan_akhir', 'id'=>'total_ikan_akhir', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_ikan_akhir);?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div>
-                                <label><h4>Detail Perhitungan Pakan</h4></label>
-                            </div>
-                            <label>FR</label>
-                            <?php echo form_input(array('name'=>'fr', 'id'=>'fr', 'class'=>'w3-input', 'readonly' => 'readonly'), $fr);?>
-                            <?php echo form_error('fr'); ?>
-                            <br>
-                            <label>SR</label>
-                            <?php echo form_input(array('name'=>'sr', 'id'=>'sr', 'class'=>'w3-input', 'readonly' => 'readonly'), $sr);?>
-                            <?php echo form_error('sr'); ?>
-                            <br>
-                            <label>Dosis Pakan (kg/hari)</label>
-                            <?php echo form_input(array('name'=>'dosis_pakan', 'id'=>'dosis_pakan', 'class'=>'w3-input', 'readonly' => 'readonly'), $dosis_pakan);?>
-                            <?php echo form_error('dosis_pakan'); ?>
-                            <br>
-                            <label>Total Pakan 7 Hari</label>
-                            <?php echo form_input(array('name'=>'total_pakan', 'id'=>'total_pakan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_pakan);?>
-                            <?php echo form_error('total_pakan'); ?>
-                            <br>
-                            <label>Pagi</label>
-                            <div class="row">
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'pagi', 'id'=>'pagi', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
-                                    <?php echo form_error('pagi'); ?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    kg
-                                </div>
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'pagi_gr', 'id'=>'pagi_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    gr
-                                </div>
-                            </div>
-
-                            <br>
-                            <label>Sore (kg)</label>
-                            <div class="row">
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'sore', 'id'=>'sore', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
-                                    <?php echo form_error('sore'); ?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    kg
-                                </div>
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'sore_gr', 'id'=>'sore_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    gr
-                                </div>
-                            </div>
-                            <br>
-                            <label>Malam (kg)</label>
-                            <div class="row">
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'malam', 'id'=>'malam', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
-                                    <?php echo form_error('malam'); ?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    kg
-                                </div>
-                                <div class="col-xs-10 col-md-5 col-sm-10">
-                                    <?php echo form_input(array('name'=>'malam_gr', 'id'=>'malam_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
-                                </div>
-                                <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
-                                    gr
                                 </div>
                             </div>
                         </div>
@@ -292,14 +268,99 @@
                     <div id="msg" class="margin-up-sm row">
                         <?=$msg?>
                     </div>
-                    <div class="col-sm-12 page-title" style="margin:25px 0px;">Data Item Grading</div>
+                </div>
+            </div>
+            <?php } ?>
+            <?php if ($state != "show") { ?>
+            <div class="col-sm-4 col-xs-12 margin-up-md">
+                <div class="w3-container w3-blue page-title w3-center w3-padding-16">
+                    Detail Perhitungan Pakan
+                </div>
+                <div class="w3-container w3-white w3-padding-32">
+                    <div class="col-xs-12 col-sm-12">
+                        <label>FR</label>
+                        <?php echo form_input(array('name'=>'fr', 'id'=>'fr', 'class'=>'w3-input', 'readonly' => 'readonly'), $fr);?>
+                        <?php echo form_error('fr'); ?>
+                        <br>
+                        <label>SR</label>
+                        <?php echo form_input(array('name'=>'sr', 'id'=>'sr', 'class'=>'w3-input', 'readonly' => 'readonly'), $sr);?>
+                        <?php echo form_error('sr'); ?>
+                        <br>
+                        <label>Dosis Pakan (kg/hari)</label>
+                        <?php echo form_input(array('name'=>'dosis_pakan', 'id'=>'dosis_pakan', 'class'=>'w3-input', 'readonly' => 'readonly'), $dosis_pakan);?>
+                        <?php echo form_error('dosis_pakan'); ?>
+                        <br>
+                        <label>Total Pakan 7 Hari</label>
+                        <?php echo form_input(array('name'=>'total_pakan', 'id'=>'total_pakan', 'class'=>'w3-input', 'readonly' => 'readonly'), $total_pakan);?>
+                        <?php echo form_error('total_pakan'); ?>
+                        <br>
+                        <label>Pagi</label>
+                        <div class="row">
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'pagi', 'id'=>'pagi', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
+                                <?php echo form_error('pagi'); ?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                kg
+                            </div>
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'pagi_gr', 'id'=>'pagi_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $pagi);?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                gr
+                            </div>
+                        </div>
+
+                        <br>
+                        <label>Sore (kg)</label>
+                        <div class="row">
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'sore', 'id'=>'sore', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
+                                <?php echo form_error('sore'); ?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                kg
+                            </div>
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'sore_gr', 'id'=>'sore_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $sore);?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                gr
+                            </div>
+                        </div>
+                        <br>
+                        <label>Malam (kg)</label>
+                        <div class="row">
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'malam', 'id'=>'malam', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
+                                <?php echo form_error('malam'); ?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                kg
+                            </div>
+                            <div class="col-xs-10 col-md-5 col-sm-10">
+                                <?php echo form_input(array('name'=>'malam_gr', 'id'=>'malam_gr', 'class'=>'w3-input', 'readonly' => 'readonly'), $malam);?>
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2" style="padding-top:8px;">
+                                gr
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+            <div class="col-sm-12 col-xs-12 margin-up-md">
+                <div class="w3-container w3-green page-title w3-center w3-padding-16">
+                    Data Item Grading
+                </div>
+                <div class="w3-container w3-white w3-padding-32">
                     <div class="col-sm-12" id="asal_kolam_txt" name="asal_kolam_txt" style="font-weight: bold; font-size: 14pt;"></div>
                     <div class="col-sm-12">
                         <table
-                            id="table"
-                            data-toggle="true"
-                            data-show-columns="false"
-                            data-height="350">
+                                id="table"
+                                data-toggle="true"
+                                data-show-columns="false"
+                                data-height="350">
                             <thead>
                             <tr>
                                 <th data-field="tujuan_kolam" data-sortable="true" data-formatter="tujuanKolamFormat">Tujuan Kolam</th>
@@ -319,9 +380,9 @@
                                 <th data-field="sore" data-sortable="true">Sore</th>
                                 <th data-field="malam" data-sortable="true">Malam</th>
                                 <?php if ($state == "create"){?>
-                                <th data-field="action"
-                                    data-align="center"
-                                    data-formatter="actionFormatter">Aksi</th>
+                                    <th data-field="action"
+                                        data-align="center"
+                                        data-formatter="actionFormatter">Aksi</th>
                                 <?php } ?>
                             </tr>
                             </thead>
@@ -338,7 +399,7 @@
                             <label>SR (Survival Rate)</label>
                             <?php echo form_input(array('name'=>'sr_akhir', 'id'=>'sr_akhir', 'class'=>'w3-input', 'readonly' => 'readonly'), $sr_akhir);?>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 m-margin-top">
                             <label>Pertumbuhan Daging</label>
                             <?php echo form_input(array('name'=>'pertumbuhan_daging', 'id'=>'pertumbuhan_daging', 'class'=>'w3-input', 'readonly' => 'readonly'), $pertumbuhan_daging);?>
                             <br>
@@ -384,12 +445,11 @@
                         </div>
                     <?php }?>
                 </div>
-                <?php
-                echo form_close();
-                ?>
-
             </div>
         </section>
+        <?php
+        echo form_close();
+        ?>
     </section>
 
     <!--main content end-->
@@ -477,7 +537,7 @@
         $("#asal_kolam_txt").html(content);
     }
 
-    $("#tangka").keyup(function(){
+    $("#tangka, #tangka_akhir").keyup(function(){
         total_size();
         calculate_sampling();
 
@@ -837,7 +897,7 @@
         $("#total_ikan").val("0");
 
         $("#sampling_akhir").val("0");
-        $("#tangka_akhir").val("0");
+        $("#tangka_akhir").val("1");
         $("#biomass_total").val("0");
         $("#size_total").val("0");
         total_size();
